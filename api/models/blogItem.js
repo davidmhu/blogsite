@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var blogItemSchema=new mongoose.Schema({
-	userId:{
+	userEmail:{
         type:String,
         required:true
     },
@@ -10,17 +10,15 @@ var blogItemSchema=new mongoose.Schema({
     content:String,
     readCnt:Number,
     review:[String],
-    email:{
-		type:String,
-		required:true,
-        unique:true
-	},
     createdOn: Date,
     modifiedOn:{
     	type:Date,
     	"default":Date.now
     },
-    allowReview:Boolean,
+    allowReview:{
+        type:Boolean,
+        "default":true
+    },
     pics:[String],
     category:[String]
 });

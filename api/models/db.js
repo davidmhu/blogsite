@@ -46,3 +46,4 @@ process.on('SIGTERM', function() {
 });
 
 require('./user');
+require('./blogItem');

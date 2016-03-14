@@ -10,15 +10,19 @@ var userSchema=new mongoose.Schema({
 		type:String,
 		required:true
 	},
-	createdOn: {
-        type: Date,
-        "default": Date.now
+	createdOn: Date,
+    modifiedOn:{
+    	type:Date,
+    	"default":Date.now
     },
     password:{
     	type:String,
     	required:true,
     },
-    role:[String]
+    role:[String],
+    portrait:String,
+    gender:Number,//0 F,1 M,2 unknown
+    birthday:Date
 });
 
 mongoose.model('User', userSchema);

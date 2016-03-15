@@ -50,11 +50,16 @@ module.exports.blogList = function(req,res){
 /* /api/blog/ */
 module.exports.blogCreate = function(req, res) {
   console.log(req.body);
+
+  var createDate=new Date();
+  var category=[];category.push('travel');category.push('tech');
   BlogItem.create({
   	userEmail:req.body.userEmail,
   	userName:req.body.userName,
   	title:req.body.title,
-    content:req.body.content
+    content:req.body.content,
+    createdOn:createDate,
+    category:category
   }, function(err, blog) {
     if (err) {
       console.log(err);

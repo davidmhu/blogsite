@@ -5,7 +5,7 @@ var ctrlUser=require('../controllers/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'sExpress' });
+  res.render('index', { title: 'sExpress api' });
 });
 
 router.get('/user/:email',ctrlUser.userReadOne);

@@ -29,8 +29,15 @@ module.exports.blogByAuthor=function(req,res){
 }
 
 module.exports.blogList = function(req,res){
-  console.log('blogList');
-  BlogItem.find()
+  var queryCond={};
+  if(req.query.userEmail){
+    console.log(req.query.userEmail);
+    queryCond={userEmail:req.query.userEmail}  
+  }
+  
+else
+  console.log('no query');
+  BlogItem.find(queryCond)
     .exec(function(err,blogs){
         if (!blogs) {
           sendJSONresponse(res, 404, {

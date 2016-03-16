@@ -38,10 +38,11 @@ module.exports.blogList = function(req, res){
   var requestOptions, path;
   path = "/api/blog/" ;
   requestOptions = {
-    url : apiOptions.server + path,
+    url : apiOptions.server + path ,
     method : "GET",
     json : {}
   };
+  console.log(req.query.querystring);
   request(
     requestOptions,
     function(err, response, body) {

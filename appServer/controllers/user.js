@@ -7,8 +7,8 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
 
-var _showError = function (req, res, status) {
-  var title, content;
+var _showError = function (req, res, status,content) {
+  var title;
   if (status === 404) {
     res.render('404', {
       message: "Page not found",
@@ -18,12 +18,11 @@ var _showError = function (req, res, status) {
     title = "500, internal server error";
     content = "How embarrassing. There's a problem with our server.";
   } else {
-    title = status + ", something's gone wrong";
-   /* if (!res.content)   
-      content = "Something, somewhere, has gone just a little bit wrong.";
-    else*/
-      //content=res.content.message;
+    title = status + ", something's gone wrong";console.log(content);
+    if (!content) content = "Something, somewhere, has gone just a little bit wrong.";
+    
   }
+
   res.status(status);
   res.render('generic-text', {
     title : title,
@@ -57,7 +56,7 @@ module.exports.register = function(req, res){
       if (response.statusCode === 201) {        
         res.redirect('/blog');
       } else {
-        _showError(req, res, response.statusCode);
+        _showError(req, res, response.statusCode,data.message);
       }
     }
   );

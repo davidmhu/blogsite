@@ -51,18 +51,14 @@ module.exports.userList=function(req,res){
 /* POST a new user */
 /* /api/user/ */
 module.exports.userCreate = function(req, res) {
-  //console.log(req.body);
+  console.log(req.body);
 
-  var year=parseInt(req.body.year);
-  var month=parseInt(req.body.month);
-  var day=parseInt(req.body.day);
-  if (!year||!month||!day) {
+  
+  //if (!year||!month||!day) {
     sendJSONresponse(res, 400, {"message": "wrong birthday format"});
     return;
-  }
-  else {
-    var birthday=new Date(year,month-1,day);
-  }
+    //var birthday=new Date(year,month-1,day);
+  
   var createDate=new Date();
   var role=[];role.push('author');
   User.create({

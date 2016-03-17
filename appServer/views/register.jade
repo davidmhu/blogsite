@@ -5,20 +5,38 @@ block content
       .col-md-6.col-sm-12
         p.lead
           | Already a member? Please 
-          a(href='/#login?page={{ vm.returnPage }}') log in
+          a(href='/login') log in
           |  instead.
-        form(method = 'post',action = '/users/register')
-          .alert.alert-danger(role='alert') 
+        form.form-horizontal(method = 'post',action = '/users/register')
+          .alert.alert-danger.sr-only(role='alert') 
           .form-group
-            label(for='name') Full name
-            input#name.form-control(type='text', name='name',placeholder='Enter your name')
+            label.control-label.col-sm-2(for='name') Full name
+            .col-sm-10
+              input#name.form-control(type='text', name='name',placeholder='Enter your name')
           .form-group
-            label(for='email') Email address
-            input#email.form-control(type='email',name='email', placeholder='Enter email')
+            label.control-label.col-sm-2(for='email') Email address
+            .col-sm-10
+              input#email.form-control(type='email',name='email', placeholder='Enter email')
           .form-group
-            label(for='password') Password
-            input#password.form-control(type='password', name='password',placeholder='Password')
+            label.control-label.col-sm-2(for='password') Password
+            .col-sm-10
+              input#password.form-control(type='password', name='password',placeholder='Password')
           .form-group
-            label(for='gender') Gender
-            input#gender.form-control(type='text', name='gender',placeholder='0 for F,1 for M')
-          button.btn.btn-default(type='submit') Register!
+            label.control-label.col-sm-2(for='gender') Gender
+            .col-sm-10
+              label.radio-inline
+                input#gender1(type='radio', name='gender',value=1, checked)
+                |  Male
+              label.radio-inline
+                input#gender2(type='radio', name='gender',value='0')
+                |  Female
+              label.radio-inline
+                input#gender3(type='radio', name='gender',value='0')
+                |  Other
+          .form-group  
+            label.control-label.col-sm-2(for='birthday') Birthday
+            .col-sm-10
+              input#birthday.form-control(type='date',name='birthday',defaultValue='2015/12/11')
+          .form-group
+            .col-sm-offset-2.col-sm-10
+              button.btn.btn-default(type='submit') Register!

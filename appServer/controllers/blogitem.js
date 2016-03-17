@@ -35,19 +35,29 @@ var renderHomepage = function(req, res, responseBody){
 };
 
 module.exports.blogList = function(req, res){
-  var requestOptions, path;
+  var requestOptions, path,queryData;
+  queryData={};
+  if(req.query.userEmail){
+    
+    queryData.userEmail=req.query.userEmail; 
+  }
+  if(req.query.title){
+    
+    queryData.title=req.query.title; 
+  }
+  console.log(queryData);
   path = "/api/blog/" ;
   requestOptions = {
     url : apiOptions.server + path ,
     method : "GET",
-    json : {}
+    json : queryData
   };
-  console.log(req.query.querystring);
+  
   request(
     requestOptions,
     function(err, response, body) {
       var data = body;
-      if (response.statusCode === 200) {console.log(data);        
+      if (response.statusCode === 200) {        
         renderHomepage(req,res,data);
       } else {
         _showError(req, res, response.statusCode);

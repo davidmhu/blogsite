@@ -38,11 +38,8 @@ module.exports.register = function(req, res){
     email:req.body.email,
     password:req.body.password,
     gender:parseInt(req.body.gender, 10),
-    year: req.body.year,
-    month:req.body.month,
-    day:req.body.day
+    birthday:req.body.birthday
   };
-
   path = "/api/user" ;
   requestOptions = {
     url : apiOptions.server + path,
@@ -54,7 +51,7 @@ module.exports.register = function(req, res){
     function(err, response, body) {
       var data = body;
       if (response.statusCode === 201) {        
-        res.redirect('/blog');
+        res.redirect('/');//need to modify
       } else {
         _showError(req, res, response.statusCode,data.message);
       }

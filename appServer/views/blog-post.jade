@@ -10,17 +10,13 @@ block content
         form.form-horizontal(method = 'post',action = '/register')
           .alert.alert-danger.sr-only(role='alert') 
           .form-group
-            label.control-label.col-sm-2(for='name') Full name
+            label.control-label.col-sm-2(for='title') Title
             .col-sm-10
-              input#name.form-control(type='text', name='name',required,placeholder='Enter your name')
+              input#title.form-control(type='text', name='title',required)
           .form-group
-            label.control-label.col-sm-2(for='email') Email address
+            label.control-label.col-sm-2(for='content') Content
             .col-sm-10
-              input#email.form-control(type='email',name='email', required,placeholder='Enter email')
-          .form-group
-            label.control-label.col-sm-2(for='password') Password
-            .col-sm-10
-              input#password.form-control(type='password', name='password',placeholder='Password')
+              textarea.form-control(rows='3',name='content')
           .form-group
             label.control-label.col-sm-2(for='gender') Gender
             .col-sm-10
@@ -39,4 +35,4 @@ block content
               input#birthday.form-control(type='date',name='birthday',defaultValue='2015/12/11')
           .form-group
             .col-sm-offset-2.col-sm-10
-              button.btn.btn-default(type='submit') Register!
+              button.btn.btn-default(type='submit') Post!

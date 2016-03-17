@@ -29,14 +29,21 @@ module.exports.blogByAuthor=function(req,res){
 }
 
 module.exports.blogList = function(req,res){
-  var queryCond={};
-  if(req.query.userEmail){
-    console.log(req.query.userEmail);
-    queryCond={userEmail:req.query.userEmail}  
+  var queryCond={};console.log(req.body.userEmail);
+  if(req.body.userEmail){
+    
+    queryCond.userEmail=req.body.userEmail; 
   }
-  
-else
-  console.log('no query');
+  if(req.body.title){
+    
+    queryCond.title=req.body.title; 
+  }
+
+  if(!queryCond)  
+    console.log('no query condition');
+  else
+    console.log(queryCond);
+
   BlogItem.find(queryCond)
     .exec(function(err,blogs){
         if (!blogs) {

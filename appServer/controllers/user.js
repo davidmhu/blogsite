@@ -19,7 +19,10 @@ var _showError = function (req, res, status) {
     content = "How embarrassing. There's a problem with our server.";
   } else {
     title = status + ", something's gone wrong";
-    content = "Something, somewhere, has gone just a little bit wrong.";
+   /* if (!res.content)   
+      content = "Something, somewhere, has gone just a little bit wrong.";
+    else*/
+      //content=res.content.message;
   }
   res.status(status);
   res.render('generic-text', {

@@ -1,6 +1,6 @@
 var request = require('request');
 var apiOptions = {
-  server : "http://localhost:3100"//+process.env.PORT ;
+  server : "http://localhost:"+process.env.PORT
 };
 console.log(apiOptions.server);
 if (process.env.NODE_ENV === 'production') {

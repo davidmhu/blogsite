@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/blog',ctrlBlogitem.blogList);
+router.get('/blog/:blogid',ctrlBlogitem.blogDetail);
 
 /* GET user's register. */
 router.get('/register',function(req, res){

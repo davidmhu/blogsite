@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .row
+    .col-xs-12.col-sm-8
+      .row.list-group
+        .col-xs-12.list-group-item
+          h2= blog.title
+            small &nbsp;
+            span.badge.pull-right.badge-default= blog.modifiedOn
+          p.lead= blog.content
+          p
+            a(href="/blog?userEmail="+blog.userEmail)= blog.userName
+          p
+            each category in blog.category
+              span.label.label-warning= category
+                | &nbsp;
+                    
+    .col-xs-12.col-sm-4
+      p.lead= sidebar

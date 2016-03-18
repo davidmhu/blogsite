@@ -12,7 +12,7 @@ router.get('/user/:email',ctrlUser.userReadOne);
 router.get('/user',ctrlUser.userList);
 router.post('/user',ctrlUser.userCreate);
 
-router.get('/blog/:email',ctrlBlogitem.blogByAuthor);
+router.get('/blog/:blogid',ctrlBlogitem.blogDetail);
 router.get('/blog',ctrlBlogitem.blogList);
 router.post('/blog',ctrlBlogitem.blogCreate);
 

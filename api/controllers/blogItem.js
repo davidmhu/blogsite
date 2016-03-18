@@ -8,10 +8,9 @@ var sendJSONresponse = function(res, status, content) {
 
 
 /* GET a blog */
-/* /api/blog?email=xxx@xx.com */
-module.exports.blogByAuthor=function(req,res){
-  console.log(req.query.email);
-  BlogItem.findOne({email:req.query.email})
+/* /api/blog/123*/
+module.exports.blogDetail=function(req,res){
+  BlogItem.findById(req.params.blogid)
       .exec(function(err,blog){
         if (!blog) {
           sendJSONresponse(res, 404, {
@@ -29,14 +28,14 @@ module.exports.blogByAuthor=function(req,res){
 }
 
 module.exports.blogList = function(req,res){
-  var queryCond={};console.log(req.body.userEmail);
-  if(req.body.userEmail){
+  var queryCond={};
+  if(req.query.userEmail){
     
-    queryCond.userEmail=req.body.userEmail; 
+    queryCond.userEmail=req.query.userEmail; 
   }
-  if(req.body.title){
+  if(req.query.title){
     
-    queryCond.title=req.body.title; 
+    queryCond.title=req.query.title; 
   }
 
   if(!queryCond)  

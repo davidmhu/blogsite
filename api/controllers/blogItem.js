@@ -22,7 +22,7 @@ module.exports.blogDetail=function(req,res){
           sendJSONresponse(res, 404, err);
           return;
         }
-        console.log(blog);
+        //console.log(blog);
         sendJSONresponse(res, 200, blog);
       });
 }
@@ -30,11 +30,9 @@ module.exports.blogDetail=function(req,res){
 module.exports.blogList = function(req,res){
   var queryCond={};
   if(req.query.userEmail){
-    
     queryCond.userEmail=req.query.userEmail; 
   }
   if(req.query.title){
-    
     queryCond.title=req.query.title; 
   }
 
@@ -44,6 +42,7 @@ module.exports.blogList = function(req,res){
     console.log(queryCond);
 
   BlogItem.find(queryCond)
+    .sort('-modifiedOn')
     .exec(function(err,blogs){
         if (!blogs) {
           sendJSONresponse(res, 404, {
@@ -62,16 +61,14 @@ module.exports.blogList = function(req,res){
 /* POST a new blog */
 /* /api/blog/ */
 module.exports.blogCreate = function(req, res) {
-  console.log(req.body);
-
   var createDate=new Date();
-  var category=[];category.push('travel');category.push('tech');
+  var category=[];category.push('food');category.push('book');
   BlogItem.create({
   	userEmail:req.body.userEmail,
   	userName:req.body.userName,
   	title:req.body.title,
     content:req.body.content,
-    createdOn:createDate,
+    modifiedOn:createDate,
     category:category
   }, function(err, blog) {
     if (err) {
@@ -81,6 +78,55 @@ module.exports.blogCreate = function(req, res) {
       console.log(blog);
       sendJSONresponse(res, 201, blog);
     }
-  });
-  
+  });  
+};
+
+/*PUT a existed blog
+api/blog/:blogid*/
+module.exports.blogEdit = function(req, res) {
+  BlogItem.findById(req.params.blogid)
+    .exec(
+      function(err,blog){
+        blog.title=req.body.title;
+        blog.content=req.body.content;
+        blog.allowReview=req.body.allowReview;
+        blog.modifiedOn=new Date();
+        if(req.body.category){
+          var category=req.body.category.split('|');
+          if(category.length) blog.category=category;
+        } 
+        blog.save(function(err,blog){
+          if (err) {
+            console.log(err);
+            sendJSONresponse(res, 404, err);
+          } else {
+            //console.log(blog);
+            sendJSONresponse(res, 200, blog);
+          }
+        })
+      }
+    );
   };
+
+/*DELETE a existed blog
+api/blog/:blogid*/
+module.exports.blogDelete = function(req,res){
+  console.log('in blog delete');
+  var blogid=req.params.blogid;
+  if (blogid) {
+    BlogItem.findByIdAndRemove(blogid)
+    .exec(function(err,blog){
+      if (err) {
+        console.log(err);
+        sendJSONresponse(res, 404, err);
+      } else {
+        //console.log(blog);
+        sendJSONresponse(res, 204, blog);
+      }
+    });
+  } else {
+     sendJSONresponse(res, 204, {"message":"no blog id"});
+  }
+  
+}
+

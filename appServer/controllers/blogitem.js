@@ -2,7 +2,6 @@ var request = require('request');
 var apiOptions = {
   server : "http://localhost:"+process.env.PORT 
 };
-console.log(apiOptions.server);
 if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
@@ -80,11 +79,35 @@ var renderDetailpage = function(req, res, responseBody){
 module.exports.blogDetail = function(req,res){
   var requestOptions, path;
   path = "/api/blog/"+req.params.blogid ;
-  console.log(path);
   requestOptions = {
     url : apiOptions.server + path ,
     method : "GET",
     json : {}
+  };
+  
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {        
+        renderDetailpage(req,res,data);
+      } else {
+        _showError(req, res, response.statusCode);
+      }
+    }
+  );
+}
+
+module.exports.blogCreate = function(req,res) {
+  var requestOptions,path,postData;
+  path=path = "/api/blog/";
+  if (!req.body.userEmail||!req.body.userName||!req.body.title) {
+
+  }
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "POST",
+    json : postData
   };
   
   request(

@@ -10,11 +10,11 @@ var blogItemSchema=new mongoose.Schema({
     content:String,
     readCnt:Number,
     review:[String],
-    createdOn: Date,
-    modifiedOn:{
-    	type:Date,
-    	"default":Date.now
+    createdOn: {
+        type:Date,
+        "default":Date.now
     },
+    modifiedOn:Date,
     allowReview:{
         type:Boolean,
         "default":true

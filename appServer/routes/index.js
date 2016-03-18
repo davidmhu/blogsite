@@ -10,6 +10,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/blog',ctrlBlogitem.blogList);
 router.get('/blog/:blogid',ctrlBlogitem.blogDetail);
+router.post('/blog',ctrlBlogitem.blogCreate);
+/*router.put('/blog/:blogid',ctrlBlogitem.blogEdit);
+router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);*/
 
 /* GET user's register. */
 router.get('/register',function(req, res){

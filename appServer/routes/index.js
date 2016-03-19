@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var ctrlBlogitem=require('../controllers/blogItem');
-var ctrlUsers=require('../controllers/user')
+var ctrlUsers=require('../controllers/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,10 +9,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/blog',ctrlBlogitem.blogList);
-router.get('/blog/:blogid',ctrlBlogitem.blogDetail);
+router.get('/blog/show/:blogid',ctrlBlogitem.blogDetail);
+router.get('/blog/new',ctrlBlogitem.blogNew);
 router.post('/blog',ctrlBlogitem.blogCreate);
-/*router.put('/blog/:blogid',ctrlBlogitem.blogEdit);
-router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);*/
+router.get('/blog/edit/:blogid',ctrlBlogitem.blogShowEdit);
+router.put('/blog/:blogid',ctrlBlogitem.blogEdit);
+router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);
 
 /* GET user's register. */
 router.get('/register',function(req, res){

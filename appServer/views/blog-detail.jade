@@ -12,9 +12,14 @@ block content
           p
             a(href="/blog?userEmail="+blog.userEmail)= blog.userName
           p
-            each category in blog.category
-              span.label.label-warning= category
-                | &nbsp;
-                    
+            if blog.category
+              each category in blog.category
+                span.label.label-warning= category
+                  | &nbsp;
+            span.pull-right(style="margin-left: 5px !important;")
+              a(href= '/blog/delete/'+blog._id) Delete 
+            span.pull-right
+              a(href= '/blog/edit/'+blog._id) Edit
+                
     .col-xs-12.col-sm-4
       p.lead= sidebar

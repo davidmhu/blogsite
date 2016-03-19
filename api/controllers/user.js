@@ -25,7 +25,7 @@ module.exports.userReadOne=function(req,res){
         console.log(user);
         sendJSONresponse(res, 200, user);
       });
-}
+};
 
 /* GET a user */
 /* /api/user?email=xxx@xx.com */
@@ -46,7 +46,7 @@ module.exports.userList=function(req,res){
         console.log(user);
         sendJSONresponse(res, 200, user);
       });
-}
+};
 
 /* POST a new user */
 /* /api/user/ */

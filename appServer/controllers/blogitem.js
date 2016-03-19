@@ -1,3 +1,5 @@
+//'use strict';
+
 var request = require('request');
 var apiOptions = {
   server : "http://localhost:"+process.env.PORT 
@@ -6,25 +8,21 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
 
-var _showError = function (req, res, status) {
-  var title, content;
-  if (status === 404) {
-    res.render('404', {
-      message: "Page not found",
-      error:"Cannot find blogs"
-    });
-  } else if (status === 500) {
-    title = "500, internal server error";
-    content = "How embarrassing. There's a problem with our server.";
+
+var _showError = function (req, res, err) {
+  if (!err.status) err.status=500;
+  if (err.status === 404) {
+      err.title="ErrorCode:404, Page not found";
+  } else if(err.status === 500) {
+      err.title = "ErrorCode:500, internal server error";
   } else {
-    title = status + ", something's gone wrong";
-    content = "Something, somewhere, has gone just a little bit wrong.";
+      err.title = "ErrorCode:"+err.status + ", something's gone wrong";
   }
-  res.status(status);
-  res.render('generic-text', {
-    title : title,
-    content : content
-  });
+  if (!err.message) err.message='unknow Error';
+  err.prevUrl='';
+  console.log(err);
+  res.status(err.status);
+  res.render('generic-text', {err:err});
 };
 
 var renderHomepage = function(req, res, responseBody){ 
@@ -34,16 +32,16 @@ var renderHomepage = function(req, res, responseBody){
 };
 
 module.exports.blogList = function(req, res){
-  var requestOptions, path,subQueryPath;
-  subQueryPath=''
-  path = "/api/blog/" ;
+  var requestOptions, 
+    subQueryPath='',
+    path = "/api/blog/" ;
   
   if(req.query.userEmail){
-    subQueryPath+='?userEmail='+req.query.userEmail+'&'
+    subQueryPath+='?userEmail='+req.query.userEmail+'&';
     //queryData.userEmail=req.query.userEmail; 
   }
   if(req.query.title){
-    subQueryPath+='?title='+req.query.title+'&'
+    subQueryPath+='?title='+req.query.title+'&';
     //queryData.title=req.query.title; 
   }
   if (subQueryPath){
@@ -64,7 +62,14 @@ module.exports.blogList = function(req, res){
       if (response.statusCode === 200) {        
         renderHomepage(req,res,data);
       } else {
-        _showError(req, res, response.statusCode);
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search blog list in db failed';
+        _showError(req, res, returnErr);
       }
     }
   );
@@ -92,18 +97,53 @@ module.exports.blogDetail = function(req,res){
       if (response.statusCode === 200) {        
         renderDetailpage(req,res,data);
       } else {
-        _showError(req, res, response.statusCode);
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search a blog in db failed';
+        _showError(req, res, returnErr);
       }
     }
   );
-}
+};
 
+/* get create page
+/blog/new */
+module.exports.blogNew = function(req,res) {
+  console.log('in blog new');
+  res.render('blog-edit', { 
+    method: 'post',
+    userEmail:'david@blogsite.com',
+    userName:'david' 
+  });
+};
+
+/* post a blog
+/blog */
 module.exports.blogCreate = function(req,res) {
-  var requestOptions,path,postData;
-  path=path = "/api/blog/";
+  var requestOptions,path,postData,category=[];
+  path = "/api/blog/";
   if (!req.body.userEmail||!req.body.userName||!req.body.title) {
-
+    var returnErr={};
+    returnErr.status=400;
+    returnErr.message="user's Email,user's Name,title are all required";
+    _showError(req, res, returnErr);
+    return;
   }
+  postData={
+    userEmail:req.body.userEmail,
+    userName:req.body.userName, 
+    title:req.body.title,
+    content:req.body.content
+  };
+  if (req.body.category && req.body.category.length) {
+    category=req.body.category.join('|');
+    postData.category=category;
+  }
+  
   requestOptions = {
     url : apiOptions.server + path ,
     method : "POST",
@@ -114,11 +154,37 @@ module.exports.blogCreate = function(req,res) {
     requestOptions,
     function(err, response, body) {
       var data = body;
-      if (response.statusCode === 200) {        
+      if (response.statusCode === 201) {        
         renderDetailpage(req,res,data);
-      } else {
-        _showError(req, res, response.statusCode);
+      } else {console.log(response.statusCode);
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='create a blog in db failed';
+        _showError(req, res, returnErr);
       }
     }
   );
-}
+};
+
+/* get edit page
+'/blog/edit/:blogid' */
+module.exports.blogShowEdit = function(req,res) {
+
+};
+
+/* post edit page
+'/blog/:blogid' */
+module.exports.blogEdit = function(req,res) {
+
+};
+
+/* delete page
+'/blog/:blogid' */
+module.exports.blogDelete = function(req,res) {
+
+};
+

@@ -25,7 +25,7 @@ module.exports.blogDetail=function(req,res){
         //console.log(blog);
         sendJSONresponse(res, 200, blog);
       });
-}
+};
 
 module.exports.blogList = function(req,res){
   var queryCond={};
@@ -56,13 +56,16 @@ module.exports.blogList = function(req,res){
         }
         console.log('bloglist is successfully retrieved');
         sendJSONresponse(res, 200, blogs);
-    })
-}
+    });
+};
 /* POST a new blog */
 /* /api/blog/ */
 module.exports.blogCreate = function(req, res) {
-  var createDate=new Date();
-  var category=[];category.push('food');category.push('book');
+  var category,createDate=new Date();
+  if(req.body.category){
+      category=req.body.category.split('|');
+      console.log(category);
+    } 
   BlogItem.create({
   	userEmail:req.body.userEmail,
   	userName:req.body.userName,
@@ -103,13 +106,13 @@ module.exports.blogEdit = function(req, res) {
             //console.log(blog);
             sendJSONresponse(res, 200, blog);
           }
-        })
+        });
       }
     );
   };
 
-/*DELETE a existed blog
-api/blog/:blogid*/
+/* DELETE a existed blog
+api/blog/:blogid */
 module.exports.blogDelete = function(req,res){
   console.log('in blog delete');
   var blogid=req.params.blogid;
@@ -128,5 +131,5 @@ module.exports.blogDelete = function(req,res){
      sendJSONresponse(res, 204, {"message":"no blog id"});
   }
   
-}
+};
 

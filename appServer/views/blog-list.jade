@@ -7,16 +7,17 @@ block content
         each blog in blogs
           .col-xs-12.list-group-item
             h4
-              a(href="/blog/"+blog._id)= blog.title
+              a(href="/blog/show/"+blog._id)= blog.title
               small &nbsp;
               span.badge.pull-right.badge-default= blog.modifiedOn
             p.lead= blog.content
             p
               a(href="/blog?userEmail="+blog.userEmail)= blog.userName
             p
-              each category in blog.category
-                span.label.label-warning= category
-                  | &nbsp;
+              if blog.category
+                each category in blog.category
+                  span.label.label-warning= category
+                    | &nbsp;
                     
     .col-xs-12.col-sm-4
       p.lead= sidebar

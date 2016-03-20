@@ -86,10 +86,22 @@ module.exports.blogCreate = function(req, res) {
 
 /*PUT a existed blog
 api/blog/:blogid*/
-module.exports.blogEdit = function(req, res) {
+module.exports.blogEdit = function(req, res) {console.log('in api blog edit');
+  if (!req.params.blogid) {
+    sendJsonResponse(res, 404, {
+      "message": "Not found, blogid is required"
+    });
+    return;
+  }
   BlogItem.findById(req.params.blogid)
     .exec(
       function(err,blog){
+        if (err) {
+          sendJsonResponse(res, 404, {
+            "message": "this blog is not existed"
+          });
+          return;
+        }
         blog.title=req.body.title;
         blog.content=req.body.content;
         blog.allowReview=req.body.allowReview;
@@ -101,7 +113,7 @@ module.exports.blogEdit = function(req, res) {
         blog.save(function(err,blog){
           if (err) {
             console.log(err);
-            sendJSONresponse(res, 404, err);
+            sendJSONresponse(res, 404, {"message":"update this blog is failed by db"});
           } else {
             //console.log(blog);
             sendJSONresponse(res, 200, blog);

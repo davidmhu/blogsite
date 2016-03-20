@@ -114,10 +114,16 @@ module.exports.blogDetail = function(req,res){
 /blog/new */
 module.exports.blogNew = function(req,res) {
   console.log('in blog new');
-  res.render('blog-edit', { 
-    method: 'post',
+  var blog={// need to modify
     userEmail:'david@blogsite.com',
-    userName:'david' 
+    userName:'david',
+    title:'',
+    allCategory:['Travel','Tech','Food','Music','Film'], //need to modify
+    category:[]
+  }
+  res.render('blog-edit', { 
+    method: 'POST',
+    blog:blog
   });
 };
 
@@ -173,13 +179,95 @@ module.exports.blogCreate = function(req,res) {
 /* get edit page
 '/blog/edit/:blogid' */
 module.exports.blogShowEdit = function(req,res) {
-
+  var requestOptions, path,returnErr={};
+  if (!req.params.blogid) {
+    returnErr.status=500;
+    returnErr.message= "Not found, blogid is required"
+    _showError(req, res, returnErr);
+    return;
+  }
+  path = "/api/blog/"+req.params.blogid ;
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "GET",
+    json : {}
+  };
+  
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {        
+        data.allCategory=['Travel','Tech','Food','Music','Film'] //need to modify
+        res.render('blog-edit',{method:'post',blog:data});
+      } else {
+        
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search a blog in db failed';
+        _showError(req, res, returnErr);
+      }
+    }
+  );
 };
 
-/* post edit page
+/* put blog edit 
 '/blog/:blogid' */
-module.exports.blogEdit = function(req,res) {
+module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
+  var requestOptions,path,postData,category=[],returnErr={};
+  if (!req.params.blogid) {
+    returnErr.status=500;
+    returnErr.message= "Not found, blogid is required"
+    _showError(req, res, returnErr);
+    return;
+  }
+  path = "/api/blog/"+req.params.blogid;
+  console.log(path);
+  if (!req.body.userEmail||!req.body.userName||!req.body.title) {
+    returnErr.status=400;
+    returnErr.message="user's Email,user's Name,title are all required";
+    _showError(req, res, returnErr);
+    return;
+  }
 
+  postData={
+    userEmail:req.body.userEmail,
+    userName:req.body.userName, 
+    title:req.body.title,
+    content:req.body.content
+  };
+  if (req.body.category && req.body.category.length) {
+    category=req.body.category.join('|');
+    postData.category=category;
+  }
+  
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "PUT",
+    json : postData
+  };
+  
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {        
+        renderDetailpage(req,res,data);
+      } else {//console.log(response.statusCode);
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='update a blog in db failed';
+        _showError(req, res, returnErr);
+      }
+    }
+  );
 };
 
 /* delete page

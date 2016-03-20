@@ -13,7 +13,7 @@ router.get('/blog/show/:blogid',ctrlBlogitem.blogDetail);
 router.get('/blog/new',ctrlBlogitem.blogNew);
 router.post('/blog',ctrlBlogitem.blogCreate);
 router.get('/blog/edit/:blogid',ctrlBlogitem.blogShowEdit);
-router.put('/blog/:blogid',ctrlBlogitem.blogEdit);
+router.post('/blog/:blogid',ctrlBlogitem.blogEdit);
 router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);
 
 /* GET user's register. */

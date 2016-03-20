@@ -7,33 +7,39 @@ block content
           | Already a member? Please 
           a(href='/login') log in
           |  instead.
-        form.form-horizontal(method= method,action = '/blog')
+        -var actionStr='/blog/';
+        if blog._id
+          - actionStr+=blog._id;
+        form.form-horizontal(method= method,action = actionStr)
           .alert.alert-danger.sr-only(role='alert') 
           .form-group
             label.control-label.col-sm-2(for='title') Title
             .col-sm-10
-              input#userEmail(type='hidden', name='userEmail',value= userEmail)
-              input#userName(type='hidden', name='userName',value= userName)
-              input#title.form-control(type='text', name='title',required)
+              input#userEmail(type='hidden', name='userEmail',value= blog.userEmail)
+              input#userName(type='hidden', name='userName',value= blog.userName)
+              input#title.form-control(type='text', name='title',value= blog.title required)
           .form-group
             label.control-label.col-sm-2(for='content') Content
             .col-sm-10
-              textarea.form-control(rows='3',name='content')
+              textarea.form-control(rows='3',name='content')= blog.content
           .form-group
             label.control-label.col-sm-2(for='category') Category
             .col-sm-10
-              label.checkbox-inline
-                input#gender1(type='checkbox', name='category',value='Travel')
-                |  Travel
-              label.checkbox-inline
-                input#gender2(type='checkbox', name='category',value='Tech')
-                |  Tech
-              label.checkbox-inline
-                input#gender3(type='checkbox', name='category',value='Book')
-                |  Book
-              label.checkbox-inline
-                input#gender3(type='checkbox', name='category',value='Food')
-                |  Food
+              -var allCateStr=blog.allCategory.toString();
+              each item in blog.category
+                if (allCateStr.indexOf(item)<0)
+                  label.checkbox-inline
+                    input#gender1(type='checkbox', name='category',value= item,checked='checked')
+                    | #{item}
+              -var myCateStr=blog.category.toString();
+              each item in blog.allCategory
+                label.checkbox-inline
+                  if (myCateStr.indexOf(item)>=0)
+                    input#gender1(type='checkbox', name='category',value= item,checked='checked')
+                    | #{item}
+                  else
+                    input#gender1(type='checkbox', name='category',value= item)
+                    | #{item}
           .form-group
             .col-sm-offset-2.col-sm-10
               button.btn.btn-default(type='submit') Post!

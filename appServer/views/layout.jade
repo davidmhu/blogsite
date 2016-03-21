@@ -3,8 +3,10 @@ html(ng-app='blogsiteApp')
   head
     meta(name='viewport',content='width=device-width,initial-scale=1.0')
     title= title
-    link(rel='stylesheet',href='/css/bootstrap.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet',href='/css/vendor/bootstrap.css')
+    link(rel='stylesheet', href='/css/main.css')
+    if showTests
+      link(rel='stylesheet',href='/css/vendor/mocha.css')
   body
     .navbar.navbar-default.navbar-fixed-top
       .container
@@ -17,7 +19,8 @@ html(ng-app='blogsiteApp')
         #navbar-main.navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(href='/about/') About
+              a(href='/about/') About11
+
           ul.nav.navbar-nav.navbar-right
             li
               a(href='/login') Login
@@ -36,4 +39,16 @@ html(ng-app='blogsiteApp')
       
     script(src='/js/vendor/jquery-1.11.2.min.js')
     script(src='/js/vendor/bootstrap.min.js')
+    if showTests
+      #mocha
+      script(src='/js/vendor/mocha.js')
+      script(src='/js/vendor/chai.js')
+      script.
+        mocha.ui('tdd');
+        var assert=chai.assert;
+      script(src='/qa/tests-global.js')
+      if pageTestScript
+        script(src= pageTestScript)
+      script.
+        mocha.run();
 

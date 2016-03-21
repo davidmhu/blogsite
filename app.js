@@ -26,6 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//set tests environment
+app.use(function(req, res, next){
+  res.locals.showTests = process.env.NODE_ENV !== 'production' &&
+  req.query.test === '1';
+  next();
+});
+
+// routes
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api',apiRoutes);

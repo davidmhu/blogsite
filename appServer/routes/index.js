@@ -14,7 +14,7 @@ router.get('/blog/new',ctrlBlogitem.blogNew);
 router.post('/blog',ctrlBlogitem.blogCreate);
 router.get('/blog/edit/:blogid',ctrlBlogitem.blogShowEdit);
 router.post('/blog/:blogid',ctrlBlogitem.blogEdit);
-router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);
+//router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);
 
 /* GET user's register. */
 router.get('/register',function(req, res){

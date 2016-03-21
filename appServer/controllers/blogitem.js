@@ -31,7 +31,8 @@ var renderHomepage = function(req, res, responseBody){
       responseBody[i].content=responseBody[i].content.substring(0,200)+'  ...more';
   }
   res.render('blog-list', { 
-		blogs: responseBody 
+		blogs: responseBody,
+    title:'Blogsite- blog list' 
 	});
 };
 
@@ -81,7 +82,8 @@ module.exports.blogList = function(req, res){
 
 var renderDetailpage = function(req, res, responseBody){ 
   res.render('blog-detail', { 
-    blog: responseBody 
+    blog: responseBody,
+    title:'Blogsite- blog Detail' 
   });
 };
 
@@ -127,7 +129,8 @@ module.exports.blogNew = function(req,res) {
   }
   res.render('blog-edit', { 
     method: 'POST',
-    blog:blog
+    blog:blog,
+    title:'Blogsite- blog create'
   });
 };
 
@@ -203,7 +206,8 @@ module.exports.blogShowEdit = function(req,res) {
       var data = body;
       if (response.statusCode === 200) {        
         data.allCategory=['Travel','Tech','Food','Music','Film'] //need to modify
-        res.render('blog-edit',{method:'post',blog:data});
+        res.render('blog-edit',{method:'post',blog:data,
+            title:'Blogsite- blog edit'});
       } else {
         
         if (response.statusCode) {

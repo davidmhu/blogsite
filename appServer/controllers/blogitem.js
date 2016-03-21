@@ -126,7 +126,7 @@ module.exports.blogNew = function(req,res) {
     title:'',
     allCategory:['Travel','Tech','Food','Music','Film'], //need to modify
     category:[]
-  }
+  };
   res.render('blog-edit', { 
     method: 'POST',
     blog:blog,
@@ -189,7 +189,7 @@ module.exports.blogShowEdit = function(req,res) {
   var requestOptions, path,returnErr={};
   if (!req.params.blogid) {
     returnErr.status=500;
-    returnErr.message= "Not found, blogid is required"
+    returnErr.message= "Not found, blogid is required";
     _showError(req, res, returnErr);
     return;
   }
@@ -205,7 +205,7 @@ module.exports.blogShowEdit = function(req,res) {
     function(err, response, body) {
       var data = body;
       if (response.statusCode === 200) {        
-        data.allCategory=['Travel','Tech','Food','Music','Film'] //need to modify
+        data.allCategory=['Travel','Tech','Food','Music','Film']; //need to modify
         res.render('blog-edit',{method:'post',blog:data,
             title:'Blogsite- blog edit'});
       } else {
@@ -228,7 +228,7 @@ module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
   var requestOptions,path,postData,category=[],returnErr={};
   if (!req.params.blogid) {
     returnErr.status=500;
-    returnErr.message= "Not found, blogid is required"
+    returnErr.message= "Not found, blogid is required";
     _showError(req, res, returnErr);
     return;
   }

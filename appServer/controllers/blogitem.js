@@ -26,7 +26,11 @@ var _showError = function (req, res, err) {
 };
 
 var renderHomepage = function(req, res, responseBody){ 
-	res.render('blog-list', { 
+  for ( var i=0;i<responseBody.length;i++) {
+    if(responseBody[i].content && responseBody[i].content.length>201) 
+      responseBody[i].content=responseBody[i].content.substring(0,200)+'  ...more';
+  }
+  res.render('blog-list', { 
 		blogs: responseBody 
 	});
 };

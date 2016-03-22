@@ -8,26 +8,41 @@ describe('create new blog page', function() {
 
   const browser = new Browser();
 
-  describe('submits form', function() {
+  describe('show blank blog page', function() {
 
     before(function(done) {
       browser.visit('/blog/new', done);
     });
 
     it('should see welcome page', function() {
-      browser.assert.text('title', 'Blogsite- blog edit');
+      browser.assert.text('title', 'Blogsite- blog create');
+    });
+
+    it('should see post button', function() {
+      browser.assert.element('#btn-post');
+    });    
+
+  });
+
+  describe('submits form', function() {
+
+    var d = new Date();
+    var title='title on '+d.toLocaleString();
+    var content='content on '+d.toLocaleString();
+
+    before(function(done) {
+      browser.visit('/blog/new', done);
     });
 
     before(function(done) {
       browser
-        .fill('userEmail',    'david@underworld.dead')
-        .fill('userName', 'david')
-        .fill('title', 'from zombie title')
-        .fill('content','from zombie content')
-        .check('Tech')
+        .fill('userEmail',    'alan4@sina.com')
+        .fill('userName', 'alan4')
+        .fill('title', title)
+        .fill('content',content)
+        .check('Travel')
         .check('Film')        
         .pressButton('Post!', done);
-
     });
 
     it('should be successful', function() {
@@ -37,5 +52,13 @@ describe('create new blog page', function() {
     it('should see welcome page', function() {
       browser.assert.text('title', 'Blogsite- blog Detail');
     });
+
+    it('should see the new blog', function(){
+      browser.assert.text('p.lead',content);
+    })
+  });
+
+  after(function() {
+    browser.destroy();
   });
 });

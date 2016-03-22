@@ -30,4 +30,14 @@ gulp.task('qa-test', function() {
     }));
 });
 
+gulp.task('mocha-zombie', function() {
+  return gulp.src('./public/qa/tests-zombie.js', { read: false })
+    .pipe(mocha({
+      reporter: 'spec',
+      ui:'bdd'
+
+      }
+    ));
+});
+
 gulp.task('default',['lint']);

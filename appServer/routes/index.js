@@ -18,7 +18,7 @@ router.post('/blog/:blogid',ctrlBlogitem.blogEdit);
 
 /* GET user's register. */
 router.get('/register',function(req, res){
-	res.render('register');
+	res.render('register',{title:'Blogsite- register'});
 });
 router.post('/register', ctrlUsers.register);
 

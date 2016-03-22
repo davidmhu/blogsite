@@ -5,7 +5,7 @@ var jshint = require('gulp-jshint');
 
 
 gulp.task('lint', function() {
-  return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js'])
+  return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js'],'./public/qa/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
@@ -30,12 +30,20 @@ gulp.task('qa-test', function() {
     }));
 });
 
-gulp.task('mocha-zombie', function() {
-  return gulp.src('./public/qa/tests-zombie.js', { read: false })
+gulp.task('mocha-zombie-user', function() {
+  return gulp.src('./public/qa/tests-zombie-user.js', { read: false })
     .pipe(mocha({
       reporter: 'spec',
       ui:'bdd'
+      }
+    ));
+});
 
+gulp.task('mocha-zombie-blog', function() {
+  return gulp.src('./public/qa/tests-zombie-blog.js', { read: false })
+    .pipe(mocha({
+      reporter: 'spec',
+      ui:'bdd'
       }
     ));
 });

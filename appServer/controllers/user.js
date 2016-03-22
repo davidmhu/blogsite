@@ -30,6 +30,8 @@ var _showError = function (req, res, status,content) {
   });
 };
 
+/* create a user
+/user */
 module.exports.register = function(req, res){
   var requestOptions, path,postdata;
   //need to add validation here

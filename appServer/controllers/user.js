@@ -7,27 +7,20 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
 
-var _showError = function (req, res, status,content) {
-  var title;
-  if (status === 404) {
-    res.render('404', {
-      message: "Page not found",
-      error:"Cannot find blogs"
-    });
-  } else if (status === 500) {
-    title = "500, internal server error";
-    content = "How embarrassing. There's a problem with our server.";
+var _showError = function (req, res, err) {
+  if (!err.status) err.status=500;
+  if (err.status === 404) {
+      err.title="ErrorCode:404, Page not found";
+  } else if(err.status === 500) {
+      err.title = "ErrorCode:500, internal server error";
   } else {
-    title = status + ", something's gone wrong";console.log(content);
-    if (!content) content = "Something, somewhere, has gone just a little bit wrong.";
-    
+      err.title = "ErrorCode:"+err.status + ", something's gone wrong";
   }
-
-  res.status(status);
-  res.render('generic-text', {
-    title : title,
-    content : content
-  });
+  if (!err.message) err.message='unknow Error';
+  err.prevUrl='';
+  console.log(err);
+  res.status(err.status);
+  res.render('generic-text', {err:err});
 };
 
 /* create a user
@@ -60,3 +53,44 @@ module.exports.register = function(req, res){
     }
   );
 };
+
+/* get a user 56f0e8be3381a5600f9cc187
+/user/show/:email */
+module.exports.userDetail = function(req,res){
+  var email=req.params.email,
+      returnErr={},requestOptions, path;;
+  if (!email){
+    returnErr.status=404;
+    returnErr.message='not valid user email';
+    _showError(req, res, returnErr);
+    return;
+  }
+  
+  path = "/api/user/"+req.params.email ;
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "GET",
+    json : {}
+  };
+  
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {        
+        res.render('user-detail',{user:data,title:'user information'});
+      } else {
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search a user information in db failed';
+        _showError(req, res, returnErr);
+      }
+    }
+  );
+
+  
+}

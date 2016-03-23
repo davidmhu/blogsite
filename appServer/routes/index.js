@@ -21,5 +21,5 @@ router.get('/register',function(req, res){
 	res.render('register',{title:'Blogsite- register'});
 });
 router.post('/register', ctrlUsers.register);
-
+router.get('/user/show/:email',ctrlUsers.userDetail);
 module.exports = router;

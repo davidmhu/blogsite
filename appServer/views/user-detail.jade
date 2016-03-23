@@ -8,10 +8,19 @@ block content
           table.table.table-bordered.table-striped
             tbody
               tr
-                th user's name
-                td username
+                th Account name
+                td= user.email
               tr
-                th user's email
-                td useremail
+                th Full name
+                td= user.name
+              tr
+                th Gender
+                - var gender=['Female','Male','Other'];
+                td= gender[user.gender]
+              tr
+                th birthday
+                - var strBirth='';
+                - if (user.birthday) strBirth=user.birthday.toLocaleString().substr(0,10)
+                td= strBirth
 
-        button.btn.btn-default(type='submit') Register!
+        button.btn.btn-default(type='submit') Edit

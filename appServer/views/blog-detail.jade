@@ -7,7 +7,7 @@ block content
         .col-xs-12.list-group-item
           h2= blog.title
             small &nbsp;
-            span.badge.pull-right.badge-default= blog.modifiedOn
+            span.badge.pull-right.badge-default= blog.modifiedOn.toLocaleString().substr(0,19)
           p.lead= blog.content
           p
             a(href="/blog?userEmail="+blog.userEmail)= blog.userName

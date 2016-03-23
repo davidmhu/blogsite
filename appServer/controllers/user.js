@@ -23,7 +23,7 @@ var _showError = function (req, res, err) {
   res.render('generic-text', {err:err});
 };
 
-/* create a user
+/*post create a user
 /user */
 module.exports.register = function(req, res){
   var requestOptions, path,postdata;
@@ -46,7 +46,7 @@ module.exports.register = function(req, res){
     function(err, response, body) {
       var data = body;
       if (response.statusCode === 201) {        
-        res.redirect('/');//need to modify
+        res.render('user-detail',{user:data});//need to be modifed to go to previous viewing page
       } else {
         _showError(req, res, response.statusCode,data.message);
       }
@@ -58,7 +58,7 @@ module.exports.register = function(req, res){
 /user/show/:email */
 module.exports.userDetail = function(req,res){
   var email=req.params.email,
-      returnErr={},requestOptions, path;;
+      returnErr={},requestOptions, path;
   if (!email){
     returnErr.status=404;
     returnErr.message='not valid user email';
@@ -93,4 +93,4 @@ module.exports.userDetail = function(req,res){
   );
 
   
-}
+};

@@ -4,10 +4,12 @@ var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
 
 
-gulp.task('lint', function() {
-  return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js'],'./public/qa/**/*.js')
+gulp.task('lint', function(cb) {
+  return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js','./public/qa/tests*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+
+    cb(err);
 });
 gulp.task('mocha', function() {
     return gulp.src(['test/*.js'], { read: false })
@@ -30,7 +32,7 @@ gulp.task('qa-test', function() {
     }));
 });
 
-gulp.task('mocha-zombie-user', function() {
+gulp.task('mocha-zombie-user',['lint'], function() {
   return gulp.src('./public/qa/tests-zombie-user.js', { read: false })
     .pipe(mocha({
       reporter: 'spec',
@@ -39,7 +41,7 @@ gulp.task('mocha-zombie-user', function() {
     ));
 });
 
-gulp.task('mocha-zombie-blog', function() {
+gulp.task('mocha-zombie-blog',['lint'], function() {
   return gulp.src('./public/qa/tests-zombie-blog.js', { read: false })
     .pipe(mocha({
       reporter: 'spec',
@@ -48,4 +50,4 @@ gulp.task('mocha-zombie-blog', function() {
     ));
 });
 
-gulp.task('default',['lint']);
+gulp.task('default',['mocha-zombie-user','mocha-zombie-blog']);

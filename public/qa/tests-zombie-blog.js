@@ -1,4 +1,4 @@
-const Browser = require('zombie');
+var Browser = require('zombie');
 
 // We're going to make requests to http://localhost/register
 // Which will be routed to our test server localhost:3000
@@ -6,7 +6,7 @@ Browser.localhost('localhost', 3100);
 
 describe('create new blog page', function() {
 
-  const browser = new Browser();
+  var browser = new Browser();
 
   describe('show blank blog page', function() {
 
@@ -14,7 +14,7 @@ describe('create new blog page', function() {
       browser.visit('/blog/new', done);
     });
 
-    it('should see welcome page', function() {
+    it('should see blog create page', function() {
       browser.assert.text('title', 'Blogsite- blog create');
     });
 
@@ -24,7 +24,7 @@ describe('create new blog page', function() {
 
   });
 
-  describe('submits form', function() {
+  describe('submits form to create a new blog', function() {
 
     var d = new Date();
     var title='title on '+d.toLocaleString();
@@ -45,17 +45,17 @@ describe('create new blog page', function() {
         .pressButton('Post!', done);
     });
 
-    it('should be successful', function() {
+    it('new blog is created successful', function() {
       browser.assert.success();
     });
 
-    it('should see welcome page', function() {
+    it('should see the blog Detail page', function() {
       browser.assert.text('title', 'Blogsite- blog Detail');
     });
 
-    it('should see the new blog', function(){
+    it('should see the new blog\'s content', function(){
       browser.assert.text('p.lead',content);
-    })
+    });
   });
 
   after(function() {

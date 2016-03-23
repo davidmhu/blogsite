@@ -5,7 +5,7 @@ var ctrlUsers=require('../controllers/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('user-detail', { title: 'Express' });
 });
 
 router.get('/blog',ctrlBlogitem.blogList);

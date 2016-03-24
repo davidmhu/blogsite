@@ -64,7 +64,7 @@ module.exports.blogCreate = function(req, res) {
   var category,createDate=new Date();
   if(req.body.category){
       category=req.body.category.split('|');
-      console.log(category);
+      //console.log(category);
     } 
   BlogItem.create({
   	userEmail:req.body.userEmail,
@@ -78,7 +78,7 @@ module.exports.blogCreate = function(req, res) {
       console.log(err);
       sendJSONresponse(res, 400, err);
     } else {
-      console.log(blog);
+      //console.log(blog);
       sendJSONresponse(res, 201, blog);
     }
   });  

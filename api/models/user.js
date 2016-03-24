@@ -22,7 +22,11 @@ var userSchema=new mongoose.Schema({
     role:[String],
     portrait:String,
     gender:Number,//0 F,1 M,2 unknown
-    birthday:Date
+    birthday:Date,
+    grade:{
+        type:Number,
+        "default":0,
+    }
 });
 
 mongoose.model('User', userSchema);

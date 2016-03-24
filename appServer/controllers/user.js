@@ -1,8 +1,9 @@
+
 var request = require('request');
 var apiOptions = {
   server : "http://localhost:"+process.env.PORT
 };
-console.log(apiOptions.server);
+//console.log(apiOptions.server);
 if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
@@ -54,7 +55,7 @@ module.exports.register = function(req, res){
   );
 };
 
-/* get a user 56f0e8be3381a5600f9cc187
+/* get a user 
 /user/show/:email */
 module.exports.userDetail = function(req,res){
   var email=req.params.email,
@@ -69,7 +70,7 @@ module.exports.userDetail = function(req,res){
   path = "/api/user/"+req.params.email ;
   requestOptions = {
     url : apiOptions.server + path ,
-    method : "GET",
+    method : "get",
     json : {}
   };
   
@@ -91,6 +92,30 @@ module.exports.userDetail = function(req,res){
       }
     }
   );
+};
 
-  
+/* get a user edit page 
+/user/edit/:email */
+module.exports.userShowEdit = function( req , res ){
+
+};
+
+/* update a user 
+/user/:email */
+module.exports.userEdit = function( req , res ){
+  var email=req.params.email,
+      returnErr={},requestOptions, path;
+  if (!email){
+    returnErr.status=404;
+    returnErr.message='not valid user email';
+    _showError(req, res, returnErr);
+    return;
+  }
+
+  var user={
+    email:email,
+    name:'zombie123',
+    gender:0
+  };
+  res.render('user-edit',{user:user,title:'user-edit'});
 };

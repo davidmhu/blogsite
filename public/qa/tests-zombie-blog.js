@@ -7,6 +7,7 @@ Browser.localhost('localhost', 3100);
 describe('create new blog page', function() {
 
   var browser = new Browser();
+  var blogid ;
 
   describe('show blank blog page', function() {
 
@@ -47,6 +48,7 @@ describe('create new blog page', function() {
 
     it('new blog is created successful', function() {
       browser.assert.success();
+      
     });
 
     it('should see the blog Detail page', function() {

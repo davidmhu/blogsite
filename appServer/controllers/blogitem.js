@@ -119,7 +119,6 @@ module.exports.blogDetail = function(req,res){
 /* get create page
 /blog/new */
 module.exports.blogNew = function(req,res) {
-  console.log('in blog new');
   var blog={// need to modify
     userEmail:'david@blogsite.com',
     userName:'david',
@@ -184,7 +183,7 @@ module.exports.blogCreate = function(req,res) {
 };
 
 /* get edit page
-'/blog/edit/:blogid' */
+'/blog/:blogid' */
 module.exports.blogShowEdit = function(req,res) {
   var requestOptions, path,returnErr={};
   if (!req.params.blogid) {
@@ -223,7 +222,7 @@ module.exports.blogShowEdit = function(req,res) {
 };
 
 /* put blog edit 
-'/blog/:blogid' */
+'/blog/edit/:blogid' */
 module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
   var requestOptions,path,postData,category=[],returnErr={};
   if (!req.params.blogid) {

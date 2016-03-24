@@ -22,7 +22,7 @@ module.exports.userReadOne=function(req,res){
           sendJSONresponse(res, 404, err);
           return;
         }
-        console.log(user);
+        //console.log(user);
         sendJSONresponse(res, 200, user);
       });
 };
@@ -30,7 +30,6 @@ module.exports.userReadOne=function(req,res){
 /* GET a user */
 /* /api/user?email=xxx@xx.com */
 module.exports.userList=function(req,res){
-  console.log(req.query.email);
   User.findOne({email:req.query.email})
       .exec(function(err,user){
         if (!user) {

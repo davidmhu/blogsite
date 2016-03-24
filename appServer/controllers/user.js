@@ -97,13 +97,8 @@ module.exports.userDetail = function(req,res){
 /* get a user edit page 
 /user/edit/:email */
 module.exports.userShowEdit = function( req , res ){
-
-};
-
-/* update a user 
-/user/:email */
-module.exports.userEdit = function( req , res ){
-  var email=req.params.email,
+  
+  var email=req.params.email,postdata={},
       returnErr={},requestOptions, path;
   if (!email){
     returnErr.status=404;
@@ -112,10 +107,74 @@ module.exports.userEdit = function( req , res ){
     return;
   }
 
-  var user={
-    email:email,
-    name:'zombie123',
-    gender:0
+  path = "/api/user/"+req.params.email ;
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "get",
+    json : {}
   };
-  res.render('user-edit',{user:user,title:'user-edit'});
+
+
+
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {       
+        res.render('user-edit',{user:data,title:'user-edit'});
+      } else {
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search a user information in db failed';
+        _showError(req, res, returnErr);
+      }
+    }
+  );
+  
+};
+
+/* update a user 
+/user/:email */
+module.exports.userEdit = function( req , res ){
+  var email=req.params.email,postdata={},
+      returnErr={},requestOptions, path;
+  if (!email){
+    returnErr.status=404;
+    returnErr.message='not valid user email';
+    _showError(req, res, returnErr);
+    return;
+  }
+  postdata = req.body;
+  
+  path = "/api/user/"+req.params.email ;
+  requestOptions = {
+    url : apiOptions.server + path ,
+    method : "put",
+    json : postdata
+  };
+  
+  request(
+    requestOptions,
+    function(err, response, body) {
+      var data = body;
+      if (response.statusCode === 200) {        
+        res.render('user-detail',{user:data,title:'user information'});
+      } else {
+        var returnErr={};
+        if (response.statusCode) {
+          returnErr.status=response.statusCode;
+         } else {
+          returnErr.status=500;
+         }
+         returnErr.message='search a user information in db failed';
+        _showError(req, res, returnErr);
+      }
+    }
+  );
+  
+  
 };

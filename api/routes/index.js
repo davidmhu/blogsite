@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 router.get('/user/:email',ctrlUser.userReadOne);
 router.get('/user',ctrlUser.userList);
 router.post('/user',ctrlUser.userCreate);
+router.put('/user/:email',ctrlUser.userEdit);
 
 router.get('/blog/:blogid',ctrlBlogitem.blogDetail);
 router.get('/blog',ctrlBlogitem.blogList);

@@ -4,9 +4,7 @@ block content
   .row
       .col-md-6.col-sm-12
         p.lead
-          | Already a member? Please 
-          a(href='/login') log in
-          |  instead.
+          | Edit your infomation
         -var actionStr='/user/edit/'+user.email;
         form.form-horizontal(method = 'post',action = actionStr)
           .alert.alert-danger.sr-only(role='alert') 
@@ -25,15 +23,15 @@ block content
                 |  Male
               label.radio-inline
                 if user.gender==0 
-                  input#gender2(type='radio', name='gender',value='0' , checked)
+                  input#gender0(type='radio', name='gender',value='0' , checked)
                 else
-                  input#gender2(type='radio', name='gender',value='0' )
+                  input#gender0(type='radio', name='gender',value='0' )
                 |  Female
               label.radio-inline
                 if user.gender==2 
-                  input#gender3(type='radio', name='gender',value='2' , checked)
+                  input#gender2(type='radio', name='gender',value='2' , checked)
                 else
-                  input#gender3(type='radio', name='gender',value='2' )
+                  input#gender2(type='radio', name='gender',value='2' )
                 |  Other
           .form-group  
             label.control-label.col-sm-2(for='birthday') Birthday

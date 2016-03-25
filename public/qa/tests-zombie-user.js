@@ -8,7 +8,7 @@ describe('User create, edit, detail page', function() {
 
   var browser = new Browser();
   var d=new Date();
-  var username='zombieTest'+d.toLocaleString().substr(0,19).replace(/ |:/g,'-');
+  var username= 'zombieTest'+d.toLocaleString().substr(0,19).replace(/ |:/g,'-');
   var useremail=username+'@underworld.dead';
   console.log('the new account is ' + useremail);
 
@@ -23,7 +23,7 @@ describe('User create, edit, detail page', function() {
         .fill('email',    useremail)
         .fill('name', username)
         .fill('password', 'eat-the-living')
-        .fill('gender','1')
+        .choose('Male')
         .fill('birthday',new Date('2011-2-3'))        
         .pressButton('Register!', done);
 
@@ -42,7 +42,7 @@ describe('User create, edit, detail page', function() {
 
     it('should see new useremail in user detail page', function() {
       browser.assert.text('td.useremail', useremail);
-      browser.assert.text('td.gendername', 'Male');
+      
     });
 
   });
@@ -60,7 +60,7 @@ describe('User create, edit, detail page', function() {
       before(function(done) {
         browser
           .fill('name', username+'modified')
-          .fill('gender','2')
+          .choose('Female')
           .fill('birthday',new Date('2001-2-3'))        
           .pressButton('Post!', done);
 
@@ -70,7 +70,7 @@ describe('User create, edit, detail page', function() {
       });
       it('should see modified user info in user detail page', function() {
         browser.assert.text('td.username', username+'modified');
-        browser.assert.text('td.gendername', 'Other');
+        browser.assert.text('td.gendername', 'Female');
       });
     });
 

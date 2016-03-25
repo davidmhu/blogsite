@@ -4,7 +4,7 @@ var Browser = require('zombie');
 // Which will be routed to our test server localhost:3000
 Browser.localhost('localhost', 3100);
 
-describe('User create and detail page', function() {
+describe('User create, edit, detail page', function() {
 
   var browser = new Browser();
   var d=new Date();
@@ -23,7 +23,7 @@ describe('User create and detail page', function() {
         .fill('email',    useremail)
         .fill('name', username)
         .fill('password', 'eat-the-living')
-        .fill('gender','0')
+        .fill('gender','1')
         .fill('birthday',new Date('2011-2-3'))        
         .pressButton('Register!', done);
 
@@ -42,10 +42,40 @@ describe('User create and detail page', function() {
 
     it('should see new useremail in user detail page', function() {
       browser.assert.text('td.useremail', useremail);
+      browser.assert.text('td.gendername', 'Male');
     });
 
   });
 
+  describe('should see the user edit page ',function(){
+    before(function(done) {
+      browser.visit('/user/'+useremail, done);
+    });
+
+    it('should see new username in user edit page', function() {
+      browser.assert.input('#name', username);
+    });
+
+    describe('edit form submits',function() {
+      before(function(done) {
+        browser
+          .fill('name', username+'modified')
+          .fill('gender','2')
+          .fill('birthday',new Date('2001-2-3'))        
+          .pressButton('Post!', done);
+
+      });
+      it('edit a user successfully', function() {
+        browser.assert.success();
+      });
+      it('should see modified user info in user detail page', function() {
+        browser.assert.text('td.username', username+'modified');
+        browser.assert.text('td.gendername', 'Other');
+      });
+    });
+
+  });
+  
   after(function() {
     browser.destroy();
   });

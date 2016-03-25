@@ -16,11 +16,11 @@ block content
               tr
                 th Gender
                 - var gender=['Female','Male','Other'];
-                td= gender[user.gender]
+                td.gendername= gender[user.gender]
               tr
                 th birthday
                 - var strBirth='';
                 - if (user.birthday) strBirth=user.birthday.toLocaleString().substr(0,10)
-                td= strBirth
+                td.birthstr= strBirth
 
-        button.btn.btn-default(type='submit') Edit
+        a.btn.btn-default(href='/user/'+user.email) Edit

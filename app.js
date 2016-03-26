@@ -5,7 +5,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+
 require('./api/models/db');
+require('./api/config/passport');
+
 var routes = require('./appServer/routes/index');
 //var users = require('./appServer/routes/users');
 var apiRoutes = require('./api/routes/index');
@@ -27,6 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 //set tests environment
 app.use(function(req, res, next) {
@@ -51,6 +56,15 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+app.use(function(err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401);
+        res.render('error', {
+            "message": err.message,
+            error: err
+        });
+    }
+});
 
 // development error handler
 // will print stacktrace

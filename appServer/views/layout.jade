@@ -7,7 +7,10 @@ html(ng-app='blogsiteApp')
     link(rel='stylesheet', href='/css/main.css')
     if showTests
       link(rel='stylesheet',href='/css/vendor/mocha.css')
-  body
+  - var ngCtrl='';
+    if (ngController)
+      -  ngCtrl=ngController+' as ctrl';
+  body(ng-controller=ngCtrl)
     .navbar.navbar-default.navbar-fixed-top
       .container
         .navbar-header
@@ -19,7 +22,7 @@ html(ng-app='blogsiteApp')
         #navbar-main.navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(href='/about/') About11
+              a(href='/about/') About
 
           ul.nav.navbar-nav.navbar-right
             li
@@ -39,6 +42,8 @@ html(ng-app='blogsiteApp')
       
     script(src='/js/vendor/jquery-1.11.2.min.js')
     script(src='/js/vendor/bootstrap.min.js')
+    script(src='/js/vendor/angular.min.js')
+    script(src='/js/blogsiteApp.js')
     if showTests
       #mocha
       script(src='/js/vendor/mocha.js')

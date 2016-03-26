@@ -6,7 +6,8 @@ var ctrlUsers = require('../controllers/user');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', {
-        title: 'Express'
+        title: 'Express',
+        ngController:'IndexCtrl'
     });
 });
 
@@ -21,8 +22,15 @@ router.post('/blog/edit/:blogid', ctrlBlogitem.blogEdit);
 /* GET user's register. */
 router.get('/register', function(req, res) {
     res.render('register', {
-        title: 'Blogsite- register'
+        title: 'Blogsite- register',
+        ngController:'RegisterCtrl'
     });
+});
+router.get('/login',function (req,res,next) {
+	res.render('login',{
+		title:'Login',
+		ngController:'LoginCtrl'
+	});
 });
 router.post('/register', ctrlUsers.register);
 router.get('/user/show/:email', ctrlUsers.userDetail);

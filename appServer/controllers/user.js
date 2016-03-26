@@ -176,10 +176,7 @@ module.exports.userEdit = function(req, res) {
         function(err, response, body) {
             var data = body;
             if (response.statusCode === 200) {
-                res.render('user-detail', {
-                    user: data,
-                    title: 'user information'
-                });
+                res.redirect('../show/'+data.email);
             } else {
                 var returnErr = {};
                 if (response.statusCode) {

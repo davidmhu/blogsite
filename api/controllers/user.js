@@ -49,7 +49,7 @@ module.exports.userList=function(req,res){
 
 /* POST a new user */
 /* /api/user/ */
-module.exports.userCreate = function(req, res) {
+/*module.exports.userCreate = function(req, res) {
   //need to add validation here
   var birthday;
   if (req.body.birthday && req.body.birthday.length>0)
@@ -72,7 +72,7 @@ module.exports.userCreate = function(req, res) {
       sendJSONresponse(res, 201, user);
     }
   });
-};
+};*/
 
 /* modify a  user */
 /* /api/user/:email */

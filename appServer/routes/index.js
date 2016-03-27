@@ -5,6 +5,12 @@ var ctrlUsers = require('../controllers/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    if (req.cookies.token) {
+        var token=req.cookies.token;
+        //var payload = JSON.parse
+        var payload = JSON.parse(window.atob(token.split('.')[1]));
+        console.log(payload.email+' '+payload.name);
+    }
     res.render('index', {
         title: 'Express',
         ngController:'IndexCtrl'

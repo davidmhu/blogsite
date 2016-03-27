@@ -21,6 +21,7 @@ module.exports.register = function(req, res) {
     //password:req.body.password,
     user.gender = req.body.gender;
     user.createdOn = createDate;
+    
     user.save(function(err, user) {
         var token;
         if (err) {
@@ -29,7 +30,7 @@ module.exports.register = function(req, res) {
         } else {
             token = user.generateJwt();
             sendJSONresponse(res, 200, {
-                "token": token
+                "token": token,"user":user
             });
         }
     });
@@ -37,11 +38,13 @@ module.exports.register = function(req, res) {
 
 module.exports.login = function(req, res) {
     if (!req.body.email || !req.body.password) {
+        
         sendJSONresponse(res, 400, {
             "message": "Email and password are both required"
         });
         return;
     }
+    user.email=req.body.email;user.password=req.body.password;
     passport.authenticate('local', function(err, user, info) {
         var token;
         if (err) {
@@ -51,7 +54,7 @@ module.exports.login = function(req, res) {
         if (user) {
             token = user.generateJwt();
             sendJSONresponse(res, 200, {
-                "token": token
+                "token": token,"user":user
             });
         } else {
             sendJSONresponse(res, 401, info);

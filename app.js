@@ -30,8 +30,10 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
+//app.use(connect.session({ secret: 'lgphp', key: 'lgphp' ,cookie: { maxAge: 20000}}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+app.use(passport.session());
 
 //set tests environment
 app.use(function(req, res, next) {

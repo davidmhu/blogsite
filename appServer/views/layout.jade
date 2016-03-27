@@ -25,10 +25,16 @@ html(ng-app='blogsiteApp')
               a(href='/about/') About
 
           ul.nav.navbar-nav.navbar-right
-            li
-              a(href='/login') Login
-            li
-              a(href='/register') Register
+            if (!user)
+              li
+                a(href='/login') Login
+              li
+                a(href='/register') Register
+            else
+              li
+                a(href='/user/show/'+user.email)= user.name
+              li
+                a(href='/logout') Logout
     
     .container
       div(ng-view)

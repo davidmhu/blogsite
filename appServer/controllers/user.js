@@ -26,7 +26,7 @@ var _showError = function(req, res, err) {
 };
 
 /*post create a user
-/user */
+/register */
 module.exports.register = function(req, res) {
     var requestOptions, path, postdata;
     //need to add validation here
@@ -37,19 +37,55 @@ module.exports.register = function(req, res) {
         gender: parseInt(req.body.gender, 10),
         birthday: req.body.birthday
     };
-    path = "/api/user";
+    path = "/api/register";
     requestOptions = {
         url: apiOptions.server + path,
         method: "POST",
         json: postdata
     };
+    res.clearCookie('token');
     request(
         requestOptions,
         function(err, response, body) {
             var data = body;
-            if (response.statusCode === 201) {
+            if (response.statusCode === 200) {
+                res.cookie('token', data.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
+            
                 res.render('user-detail', {
-                    user: data
+                    user: data.user
+                }); //need to be modifed to go to previous viewing page
+            } else {
+                _showError(req, res, response.statusCode, data.message);
+            }
+        }
+    );
+};
+
+/*post create a user
+/login */
+module.exports.login = function(req, res) {
+    var requestOptions, path, postdata;
+    //need to add validation here
+    postdata = {
+        email: req.body.email,
+        password: req.body.password,
+    };
+    path = "/api/login";
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: postdata
+    };
+    res.clearCookie('token');
+    request(
+        requestOptions,
+        function(err, response, body) {
+            var data = body;
+            if (response.statusCode === 200) {
+                res.cookie('token', data.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
+            
+                res.render('user-detail', {
+                    user: data.user
                 }); //need to be modifed to go to previous viewing page
             } else {
                 _showError(req, res, response.statusCode, data.message);

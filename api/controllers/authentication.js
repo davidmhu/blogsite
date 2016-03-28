@@ -44,7 +44,7 @@ module.exports.login = function(req, res) {
         });
         return;
     }
-    user.email=req.body.email;user.password=req.body.password;
+    //user.email=req.body.email;user.password=req.body.password;
     passport.authenticate('local', function(err, user, info) {
         var token;
         if (err) {

@@ -7,7 +7,7 @@ passport.use(new LocalStrategy({
         usernameField: 'email'
     },
     function(username, password, done) {
-        User.findOne({
+        User.findOne({//need to limit output fields
             email: username
         }, function(err, user) {
             if (err) {

@@ -55,13 +55,20 @@ module.exports.register = function(req, res) {
                     user: data.user
                 }); //need to be modifed to go to previous viewing page
             } else {
-                _showError(req, res, response.statusCode, data.message);
+                var returnErr={};
+                if (response.statusCode) {
+                  returnErr.status=response.statusCode;
+                 } else {
+                  returnErr.status=500;
+                 }
+                 returnErr.message=data.message;
+                _showError(req, res, returnErr);
             }
         }
     );
 };
 
-/*post create a user
+/*post user login
 /login */
 module.exports.login = function(req, res) {
     var requestOptions, path, postdata;
@@ -87,8 +94,15 @@ module.exports.login = function(req, res) {
                 res.render('user-detail', {
                     user: data.user
                 }); //need to be modifed to go to previous viewing page
-            } else {
-                _showError(req, res, response.statusCode, data.message);
+            } else {console.log(data);
+                var returnErr={};
+                if (response.statusCode) {
+                  returnErr.status=response.statusCode;
+                 } else {
+                  returnErr.status=500;
+                 }
+                 returnErr.message=data.message;
+                _showError(req, res, returnErr);
             }
         }
     );

@@ -50,4 +50,4 @@ gulp.task('mocha-zombie-blog',['lint'], function() {
     ));
 });
 
-gulp.task('default',['mocha-zombie-user','mocha-zombie-blog']);
+gulp.task('default',[]);

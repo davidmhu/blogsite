@@ -7,8 +7,8 @@ var ctrlUsers = require('../controllers/user');
 router.get('/', function(req, res, next) {
     if (req.cookies.token) {
         var token=req.cookies.token;
-        //var payload = JSON.parse
-        var payload = JSON.parse(window.atob(token.split('.')[1]));
+        var strPayload = new Buffer((token.split('.')[1]),'base64').toString('utf8');
+        var payload = JSON.parse(strPayload);
         console.log(payload.email+' '+payload.name);
     }
     res.render('index', {
@@ -30,7 +30,7 @@ router.get('/register', function(req, res) {
     res.render('register', {
         title: 'Blogsite- register',
         ngController:'RegisterCtrl'
-    });
+    });/**/
 });
 router.get('/login',function (req,res,next) {
 	res.render('login',{
@@ -38,7 +38,12 @@ router.get('/login',function (req,res,next) {
 		ngController:'LoginCtrl'
 	});
 });
+router.post('/login',ctrlUsers.login);
 router.post('/register', ctrlUsers.register);
+router.get('/logout',function(req,res){
+    res.clearCookie('token');
+    res.redirect('/');
+});
 router.get('/user/show/:email', ctrlUsers.userDetail);
 router.get('/user/:email', ctrlUsers.userShowEdit);
 router.post('/user/edit/:email', ctrlUsers.userEdit);

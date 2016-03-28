@@ -25,6 +25,29 @@ var _showError = function(req, res, err) {
     });
 };
 
+var _getToken=function(){
+    return req.cookies.token;
+};
+var _isLoggedIn = function(){
+    var token=_getToken();
+    if (!token) {
+        return false;
+    }
+    var strPayload = new Buffer((token.split('.')[1]), 'base64').toString('utf8');
+    var payload = JSON.parse(strPayload);
+    return payload.exp > Date.now() / 1000;
+};
+
+var _currentUser = function() {
+      if(_isLoggedIn()){
+        var token = _getToken();
+        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        return {
+          email : payload.email,
+          name : payload.name
+        };
+      }
+    };
 /*post create a user
 /register */
 module.exports.register = function(req, res) {
@@ -43,7 +66,7 @@ module.exports.register = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token');
+    res.clearCookie('token');//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -83,7 +106,7 @@ module.exports.login = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token');
+    res.clearCookie('token');//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -213,12 +236,15 @@ module.exports.userEdit = function(req, res) {
         return;
     }
     postdata = req.body;
-
+    console.log(req.cookies.token);
     path = "/api/user/" + req.params.email;
     requestOptions = {
         url: apiOptions.server + path,
         method: "put",
-        json: postdata
+        json: postdata,
+        headers:{
+            Authorization: 'Bearer '+ req.cookies.token
+        }
     };
 
     request(

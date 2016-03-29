@@ -101,7 +101,7 @@ module.exports.login = function(req, res) {
 
 /* get a user 
 /user/show/:email */
-module.exports.userDetail = function(req, res) {
+module.exports.userDetail = function(req, res) {console.log(req.payload.email);
     var email = req.params.email,
         returnErr = {},
         requestOptions, path;

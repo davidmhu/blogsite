@@ -1,4 +1,4 @@
-var passport = require('passport');
+var passport = require('passport');//http://blog.fens.me/nodejs-express-passport/
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');

@@ -19,8 +19,7 @@ router.get('/user/:email', ctrlUser.userReadOne);
 router.get('/user', ctrlUser.userList);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
-//router.post('/user', ctrlUser.userCreate);
-router.put('/user/:email',auth, ctrlUser.userEdit);
+router.put('/user/:email', auth, ctrlUser.userEdit);
 
 router.get('/blog/:blogid', ctrlBlogitem.blogDetail);
 router.get('/blog', ctrlBlogitem.blogList);
@@ -28,9 +27,4 @@ router.post('/blog', auth, ctrlBlogitem.blogCreate);
 router.put('/blog/:blogid', auth, ctrlBlogitem.blogEdit);
 router.delete('/blog/:blogid', auth, ctrlBlogitem.blogDelete);
 
-/*router.get('/blog/:blogid/review',ctrlBlogitem.reviewList);
-router.post('blog/:blogid/review',ctrlBlogitem.reviewCreate);
-router.put('blog/:blogid/review/:reviewid',ctrlBlogitem.reviewEdit);
-router.delete('blog/:blogid/review/:reviewid',ctrlBlogitem.reviewDelete);
-*/
 module.exports = router;

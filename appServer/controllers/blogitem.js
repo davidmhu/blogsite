@@ -1,29 +1,13 @@
 //'use strict';
 
 var request = require('request');
+var commonFunc = require('../common/common');
 var apiOptions = {
   server : "http://localhost:"+process.env.PORT 
 };
 if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "https://blogsite.com";//need to modify
 }
-
-
-var _showError = function (req, res, err) {
-  if (!err.status) err.status=500;
-  if (err.status === 404) {
-      err.title="ErrorCode:404, Page not found";
-  } else if(err.status === 500) {
-      err.title = "ErrorCode:500, internal server error";
-  } else {
-      err.title = "ErrorCode:"+err.status + ", something's gone wrong";
-  }
-  if (!err.message) err.message='unknow Error';
-  err.prevUrl='';
-  console.log(err);
-  res.status(err.status);
-  res.render('generic-text', {err:err});
-};
 
 var renderHomepage = function(req, res, responseBody){ 
   for ( var i=0;i<responseBody.length;i++) {
@@ -74,7 +58,7 @@ module.exports.blogList = function(req, res){
           returnErr.status=500;
          }
          returnErr.message='search blog list in db failed';
-        _showError(req, res, returnErr);
+        commonFunc.showError(req, res, returnErr);
       }
     }
   );
@@ -110,7 +94,7 @@ module.exports.blogDetail = function(req,res){
           returnErr.status=500;
          }
          returnErr.message='search a blog in db failed';
-        _showError(req, res, returnErr);
+        commonFunc.showError(req, res, returnErr);
       }
     }
   );
@@ -133,7 +117,7 @@ module.exports.blogNew = function(req,res) {
   });
 };
 
-/* post a blog
+/* post a new blog
 /blog */
 module.exports.blogCreate = function(req,res) {
   var requestOptions,path,postData,category=[];
@@ -142,7 +126,7 @@ module.exports.blogCreate = function(req,res) {
     var returnErr={};
     returnErr.status=400;
     returnErr.message="user's Email,user's Name,title are all required";
-    _showError(req, res, returnErr);
+    commonFunc.showError(req, res, returnErr);
     return;
   }
   postData={
@@ -176,7 +160,7 @@ module.exports.blogCreate = function(req,res) {
           returnErr.status=500;
          }
          returnErr.message='create a blog in db failed';
-        _showError(req, res, returnErr);
+        commonFunc.showError(req, res, returnErr);
       }
     }
   );
@@ -189,7 +173,7 @@ module.exports.blogShowEdit = function(req,res) {
   if (!req.params.blogid) {
     returnErr.status=500;
     returnErr.message= "Not found, blogid is required";
-    _showError(req, res, returnErr);
+    commonFunc.showError(req, res, returnErr);
     return;
   }
   path = "/api/blog/"+req.params.blogid ;
@@ -215,7 +199,7 @@ module.exports.blogShowEdit = function(req,res) {
           returnErr.status=500;
          }
          returnErr.message='search a blog in db failed';
-        _showError(req, res, returnErr);
+        commonFunc.showError(req, res, returnErr);
       }
     }
   );
@@ -228,7 +212,7 @@ module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
   if (!req.params.blogid) {
     returnErr.status=500;
     returnErr.message= "Not found, blogid is required";
-    _showError(req, res, returnErr);
+    commonFunc.showError(req, res, returnErr);
     return;
   }
   path = "/api/blog/"+req.params.blogid;
@@ -236,7 +220,7 @@ module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
   if (!req.body.userEmail||!req.body.userName||!req.body.title) {
     returnErr.status=400;
     returnErr.message="user's Email,user's Name,title are all required";
-    _showError(req, res, returnErr);
+    commonFunc.showError(req, res, returnErr);
     return;
   }
 
@@ -271,7 +255,7 @@ module.exports.blogEdit = function(req,res) {//console.log('in blog edit');
           returnErr.status=500;
          }
          returnErr.message='update a blog in db failed';
-        _showError(req, res, returnErr);
+        commonFunc.showError(req, res, returnErr);
       }
     }
   );

@@ -12,7 +12,7 @@ describe('User create, login, edit, detail page', function() {
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
         randomInt = Math.floor(Math.random() * nameArr.length);
     var username = nameArr[randomInt] ,
-        useremail = emailArr[randomInt] + d.toLocaleString().substr(0, 19).replace(/ |:/g, '-') + '@blogsite.com',
+        useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',
         password = 'eat-the-living';
     console.log('the new account is ' + useremail + ' and name is '+username);
 

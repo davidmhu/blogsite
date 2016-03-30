@@ -5,6 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var passport = require('passport');
 
 require('./api/models/db');
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-//app.use(connect.session({ secret: 'lgphp', key: 'lgphp' ,cookie: { maxAge: 20000}}));
+app.use(session({ secret: process.env.COOKIE_SECRET, resave:false,saveUninitialized:false,cookie: { maxAge: 20000}}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());

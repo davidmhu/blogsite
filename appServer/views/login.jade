@@ -3,10 +3,11 @@ extends layout
 block content
   .row
       .col-md-6.col-sm-12
+        
         p.lead
           | Not a member? Please 
           a(href='/register') Register
-          |  first.
+          |  first. #{prevUrl}
         form.form-horizontal(method = 'post',action = '/login')
           .alert.alert-danger.sr-only(role='alert') 
           .form-group

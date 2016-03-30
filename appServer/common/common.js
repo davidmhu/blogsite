@@ -20,12 +20,12 @@ module.exports.showError = function(req, res, err) {
     });
 };
 
-module.exports._getToken = function() {
+module.exports.getToken = function(req,res) {
     return req.cookies.token;
 };
 
-module.exports._isLoggedIn = function() {
-    var token = _getToken();
+module.exports.isLoggedIn = function(req,res) {
+    var token = getToken(req,res);
     if (!token) {
         return false;
     }
@@ -34,9 +34,9 @@ module.exports._isLoggedIn = function() {
     return payload.exp > Date.now() / 1000;
 };
 
-module.exports.currentUser = function() {
-    if (_isLoggedIn()) {
-        var token = _getToken();
+module.exports.currentUser = function(req,res) {
+    if (isLoggedIn()) {
+        var token = getToken();
         var strPayload = new Buffer((token.split('.')[1]), 'base64').toString('utf8');
         var payload = JSON.parse(strPayload);
         return {
@@ -46,11 +46,12 @@ module.exports.currentUser = function() {
     }
 };
 
-/*module.exports.commonFunc = function() {
-    return {
-        currentUser: _currentUser,
-        isLoggedIn: _isLoggedIn,
-        getToken: _getToken,
-        showError: _showError
-    };
-};*/
+module.exports.ifLoggedIn=function(req, res, next) {
+    var token = req.cookies.token;//getToken(req,res);
+
+    if (token) {
+        return next();
+    }
+
+    res.redirect('/login');//,{'prevUrl':'please log in first'});
+};

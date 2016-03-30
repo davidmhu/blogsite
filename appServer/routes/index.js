@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var ctrlBlogitem = require('../controllers/blogItem');
 var ctrlUsers = require('../controllers/user');
+var commonFunc = require('../common/common');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -41,9 +42,11 @@ router.get('/login',function (req,res,next) {
 router.post('/login',ctrlUsers.login);
 router.post('/register', ctrlUsers.register);
 router.get('/logout',function(req,res){
-    res.clearCookie('token');
+    res.clearCookie('token');req.session.user={};
     res.redirect('/');
 });
+
+router.all('/user*',commonFunc.ifLoggedIn);
 router.get('/user/show/:email', ctrlUsers.userDetail);
 router.get('/user/:email', ctrlUsers.userShowEdit);
 router.post('/user/edit/:email', ctrlUsers.userEdit);

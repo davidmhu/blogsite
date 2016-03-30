@@ -81,7 +81,7 @@ describe('User create, login, edit, detail page', function() {
         });
     });
 
-    describe('should see the user edit page ',function(){ //need to add payload auth
+    describe('should see the user edit page ',function(){ 
       before(function(done) {
         browser.visit('/user/'+useremail, done);
       });

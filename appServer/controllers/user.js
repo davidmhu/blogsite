@@ -27,7 +27,7 @@ module.exports.register = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); //need to modify
+    res.clearCookie('token'); req.session.user={};//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -37,7 +37,7 @@ module.exports.register = function(req, res) {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
                 });
-
+                req.session.user=data.user;
                 res.render('user-detail', {
                     user: data.user
                 }); //need to be modifed to go to previous viewing page
@@ -70,7 +70,7 @@ module.exports.login = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); //need to modify
+    res.clearCookie('token'); req.session.user={};//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -80,7 +80,7 @@ module.exports.login = function(req, res) {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
                 });
-
+                req.session.user=data.user;
                 res.render('user-detail', {
                     user: data.user
                 }); //need to be modifed to go to previous viewing page
@@ -101,7 +101,7 @@ module.exports.login = function(req, res) {
 
 /* get a user 
 /user/show/:email */
-module.exports.userDetail = function(req, res) {console.log(req.payload.email);
+module.exports.userDetail = function(req, res) {//console.log(req.payload.email);
     var email = req.params.email,
         returnErr = {},
         requestOptions, path;
@@ -204,14 +204,14 @@ module.exports.userEdit = function(req, res) {
         return;
     }
     postdata = req.body;
-    console.log(req.cookies.token);
+    
     path = "/api/user/" + req.params.email;
     requestOptions = {
         url: apiOptions.server + path,
         method: "put",
         json: postdata,
         headers: {
-            Authorization: 'Bearer ' + req.cookies.token
+            Authorization: 'Bearer ' + commonFunc.getToken(req,res)
         }
     };
 

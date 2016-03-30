@@ -47,7 +47,7 @@ module.exports.currentUser = function(req,res) {
 };
 
 module.exports.ifLoggedIn=function(req, res, next) {
-    var token = req.cookies.token;//getToken(req,res);
+    var token = req.session.token;//getToken(req,res);
 
     if (token) {
         return next();

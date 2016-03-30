@@ -47,33 +47,6 @@ module.exports.userList=function(req,res){
       });
 };
 
-/* POST a new user */
-/* /api/user/ */
-/*module.exports.userCreate = function(req, res) {
-  //need to add validation here
-  var birthday;
-  if (req.body.birthday && req.body.birthday.length>0)
-    birthday=new Date(req.body.birthday);
-  var createDate=new Date();
-  var role=[];role.push('author');//need to modify
-  User.create({
-  	email:req.body.email,
-  	name:req.body.name,
-  	password:req.body.password,
-    gender:req.body.gender,
-    birthday:birthday,
-    createdOn:createDate,
-    role:role
-  }, function(err, user) {
-    if (err) {
-      console.log(err);
-      sendJSONresponse(res, 400, err);
-    } else {
-      sendJSONresponse(res, 201, user);
-    }
-  });
-};*/
-
 /* modify a  user */
 /* /api/user/:email */
 module.exports.userEdit = function(req, res) {

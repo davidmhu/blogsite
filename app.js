@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-app.use(session({ secret: process.env.COOKIE_SECRET, resave:false,saveUninitialized:false,cookie: { maxAge: 20000}}));
+app.use(session({ secret: process.env.COOKIE_SECRET, resave:false,saveUninitialized:true,cookie: { maxAge: 900000}}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -27,7 +27,7 @@ module.exports.register = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); req.session.user={};//need to modify
+    res.clearCookie('token'); req.session.user={};req.session.token='';//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -37,10 +37,8 @@ module.exports.register = function(req, res) {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
                 });
-                req.session.user=data.user;
-                res.render('user-detail', {
-                    user: data.user
-                }); //need to be modifed to go to previous viewing page
+                req.session.user=data.user;req.session.token=data.token;
+                res.redirect('/user/show/' + data.user.email); //need to be modifed to go to previous viewing page
             } else {
                 var returnErr = {};
                 if (response.statusCode) {
@@ -70,7 +68,7 @@ module.exports.login = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); req.session.user={};//need to modify
+    res.clearCookie('token'); req.session.user={};req.session.token='';//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -80,12 +78,10 @@ module.exports.login = function(req, res) {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
                 });
-                req.session.user=data.user;
-                res.render('user-detail', {
-                    user: data.user
-                }); //need to be modifed to go to previous viewing page
+                req.session.user=data.user;req.session.token=data.token;
+                res.redirect('/user/show/' + data.user.email); //need to be modifed to go to previous viewing page
             } else {
-                console.log(data);
+                //console.log(data);
                 var returnErr = {};
                 if (response.statusCode) {
                     returnErr.status = response.statusCode;
@@ -211,7 +207,7 @@ module.exports.userEdit = function(req, res) {
         method: "put",
         json: postdata,
         headers: {
-            Authorization: 'Bearer ' + commonFunc.getToken(req,res)
+            Authorization: 'Bearer ' + req.session.token//commonFunc.getToken(req,res)
         }
     };
 

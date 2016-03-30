@@ -16,7 +16,7 @@ describe('User create, login, edit, detail page', function() {
         password = 'eat-the-living';
     console.log('the new account is ' + useremail + ' and name is '+username);
 
-    describe('submits form', function() {
+    describe('Register a new user :', function() {
 
         before(function(done) {
             browser.visit('/register', done);
@@ -32,18 +32,18 @@ describe('User create, login, edit, detail page', function() {
                 .pressButton('Register!', done);
         });
 
-        it('register a new user successfully', function() {
+        it(username +' is registered successfully', function() {
             browser.assert.success();
         });
-        it('should see  token cookie', function() {
+        /*it('the token cookie is not null', function() {
             assert.isNotNull(browser.getCookie({
                 name: 'token'
             }, 'no token cookie'));
-        });
+        });*/
 
     });
 
-    describe('should see the new user detail page ', function() {
+    describe('visit the new user detail page ', function() {
         before(function(done) {
             browser.visit('/user/show/' + useremail, done);
         });
@@ -55,7 +55,7 @@ describe('User create, login, edit, detail page', function() {
 
     });
 
-    describe('should see user login', function() {
+    describe('User\'s login:', function() {
         before(function(done) {
             browser.visit('/login', done);
         });
@@ -69,35 +69,35 @@ describe('User create, login, edit, detail page', function() {
         it('login a user successfully', function() {
             browser.assert.success();
         });
-        it('should see  token cookie', function() {
+        /*it(' token cookie is correctly parsed', function() {
             var token = browser.getCookie({
                 name: 'token'
             });
             var strPayload = new Buffer((token.split('.')[1]), 'base64').toString('utf8');
             var payload = JSON.parse(strPayload);
             console.log(payload.email + ' ' + payload.name);
-            console.log(token);
+            //console.log(token);
             assert.equal(payload.email, useremail);
-        });
+        });*/
     });
 
-    describe('should see the user edit page ',function(){ 
+    describe('Edit a user: ',function(){ 
       before(function(done) {
         browser.visit('/user/'+useremail, done);
       });
 
-      it('should see new username in user edit page', function() {
+      it('visit user edit page, see the username input', function() {
         browser.assert.input('#name', username);
       });
 
-      describe('edit form submits',function() {
+      describe('to save the modified user:',function() {
         before(function(done) {
           var token = browser.getCookie({
                 name: 'token'
             });
-          browser.headers={
+          /*browser.headers={
             Authorization: 'Bearer '+ token 
-          };
+          };*/
           browser
             .fill('name', username+'modified')
             .choose('Female')
@@ -108,7 +108,7 @@ describe('User create, login, edit, detail page', function() {
         it('edit a user successfully', function() {
           browser.assert.success();
         });
-        it('should see modified user info in user detail page', function() {
+        it(' see modified user info in user detail page', function() {
           browser.assert.text('td.username', username+'modified');
           browser.assert.text('td.gendername', 'Female');
         });
@@ -116,7 +116,7 @@ describe('User create, login, edit, detail page', function() {
 
     });
 
-    describe('should see user logout', function() {
+    describe('Logout user', function() {
         before(function(done) {
             browser.visit('/logout', done);
         });

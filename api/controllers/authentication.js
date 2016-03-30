@@ -28,9 +28,14 @@ module.exports.register = function(req, res) {
             sendJSONresponse(res, 400, err);
         } else {
             token = user.generateJwt();
+            var userinfo = {
+                'email': user.email,
+                'name': user.name,
+                'gender': user.gender
+            };
             sendJSONresponse(res, 200, {
                 "token": token,
-                "user": user
+                "user": userinfo
             });
         }
     });
@@ -52,9 +57,14 @@ module.exports.login = function(req, res) {
         }
         if (user) {
             token = user.generateJwt();
+            var userinfo = {
+                'email': user.email,
+                'name': user.name,
+                'gender': user.gender
+            };
             sendJSONresponse(res, 200, {
                 "token": token,
-                "user": user
+                "user": userinfo
             });
         } else {
             sendJSONresponse(res, 401, info);

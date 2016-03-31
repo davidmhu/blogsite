@@ -10,7 +10,7 @@ html(ng-app='blogsiteApp')
   - var ngCtrl='';
     if (ngController)
       -  ngCtrl=ngController+' as ctrl';
-  body(ng-controller=ngCtrl)
+  body
     .navbar.navbar-default.navbar-fixed-top
       .container
         .navbar-header
@@ -38,15 +38,16 @@ html(ng-app='blogsiteApp')
                 a(href='/logout') Logout
     
     .container
-      div(ng-view)
-        block content
+      block content
       
     footer
       .row
         .col-xs-12
           small &copy; Simon Holmes 2014
 
-      
+    
+    script(src='/js/vendor/angular.js')
+    script(src='/js/blogsiteApp.js') 
     script(src='/js/vendor/jquery-1.11.2.min.js')
     script(src='/js/vendor/bootstrap.min.js')
     

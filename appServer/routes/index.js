@@ -13,8 +13,7 @@ router.get('/', function(req, res, next) {
         console.log(payload.email+' '+payload.name);
     }
     res.render('index', {
-        title: 'Express',
-        ngController:'IndexCtrl',
+        title: 'Blogsite',
         userInfo:req.session.userInfo
     });
 });

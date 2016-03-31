@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(ng-controller='indexCtrl as ctrl')
+    h1= title
+    p Welcome to #{title}
+    a(href='/blog')
+      |{{ctrl.linkname}}

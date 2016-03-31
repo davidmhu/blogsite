@@ -9,7 +9,7 @@ var sendJSONresponse = function(res, status, content) {
 /* GET a user */
 /* /api/user/xxx@xx.com */
 module.exports.userReadOne=function(req,res){
-  console.log('in api user readone');
+  //console.log('in api user readone');
   User.findOne(req.params)
       .exec(function(err,user){
         if (!user) {
@@ -42,7 +42,7 @@ module.exports.userList=function(req,res){
           sendJSONresponse(res, 404, err);
           return;
         }
-        console.log(user);
+        //console.log(user);
         sendJSONresponse(res, 200, user);
       });
 };

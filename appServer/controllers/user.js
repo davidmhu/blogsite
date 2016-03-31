@@ -78,7 +78,7 @@ module.exports.login = function(req, res) {
                 res.cookie('token', data.token, {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
-                });console.log(data);
+                });//console.log(data);
                 req.session.userInfo=data.userInfo;req.session.token=data.token;
                 res.redirect('/user/show/' + data.userInfo.email); //need to be modifed to go to previous viewing page
             } else {
@@ -99,7 +99,7 @@ module.exports.login = function(req, res) {
 /* get a user 
 /user/show/:email */
 module.exports.userDetail = function(req, res) {
-    //if (!authFunc.accessAllowed) return;
+    authFunc.accessAllowed(req,res);
     var email = req.params.email,
         returnErr = {},
         requestOptions, path;
@@ -122,6 +122,12 @@ module.exports.userDetail = function(req, res) {
         function(err, response, body) {
             var data = body;
             if (response.statusCode === 200) {
+                var userinfo = {
+                    'email': data.email,
+                    'name': data.name,
+                    'gender': data.gender
+                };
+                req.session.userInfo=userinfo;
                 res.render('user-detail', {
                     user: data,
                     title: 'user information',
@@ -144,8 +150,7 @@ module.exports.userDetail = function(req, res) {
 /* get a user edit page 
 /user/edit/:email */
 module.exports.userShowEdit = function(req, res) {
-    //if (!authFunc.accessAllowed) return;
-
+    authFunc.accessAllowed(req,res);
     var email = req.params.email,
         postdata = {},
         requestOptions, path;
@@ -164,7 +169,8 @@ module.exports.userShowEdit = function(req, res) {
             if (response.statusCode === 200) {
                 res.render('user-edit', {
                     user: data,
-                    title: 'user-edit'
+                    title: 'user-edit',
+                    userInfo:req.session.userInfo
                 });
             } else {
                 var returnErr = {};
@@ -184,20 +190,13 @@ module.exports.userShowEdit = function(req, res) {
 /* update a user 
 /user/:email */
 module.exports.userEdit = function(req, res) {
-    //if (!authFunc.accessAllowed) return;
+    authFunc.accessAllowed(req,res);
     var email = req.params.email,
-        postdata = {},
+        postdata = req.body,
         returnErr = {},
-        requestOptions, path;
-    if (!email) {
-        returnErr.status = 404;
-        returnErr.message = 'not valid user email';
-        commonFunc.showError(req, res, returnErr);
-        return;
-    }
-    postdata = req.body;
-    
-    path = "/api/user/" + req.params.email;
+        requestOptions, 
+        path = "/api/user/" + req.params.email;
+
     requestOptions = {
         url: apiOptions.server + path,
         method: "put",

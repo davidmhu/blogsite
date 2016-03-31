@@ -36,15 +36,15 @@ module.exports.ifLoggedIn=function(req, res, next) {
     res.redirect('/login');//,{'prevUrl':'please log in first'});
 };
 
-module.exports.accessAlllowed=function(req,res,email) {
+module.exports.accessAllowed=function(req,res) {
     var returnErr = {};
     
-    if (email && req.session.userInfo.email && email === req.session.userInfo.email)
-        return true;
-    else {
+    if (!req.params.email || !req.session.userInfo.email || req.params.email !== req.session.userInfo.email){
         returnErr.status = 401;
-        returnErr.message = 'You\'re not allowed to view other user\'s info.';
+        returnErr.message = 'You\'re not allowed to access user\'s info.';
+        //console.log(req.session.userInfo.email);
         commonFunc.showError(req, res, returnErr);
     }
+
 };
 

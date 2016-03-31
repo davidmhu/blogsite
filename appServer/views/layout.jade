@@ -26,14 +26,14 @@ html(ng-app='blogsiteApp')
 
           ul.nav.navbar-nav.navbar-right
             
-            if (!user)
+            if (!userInfo)
               li
                 a(href='/login') Login
               li
                 a(href='/register') Register
             else
               li
-                a(href='/user/show/'+user.email)= user.name
+                a(href='/user/show/'+userInfo.email)= userInfo.name
               li
                 a(href='/logout') Logout
     

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var ctrlBlogitem = require('../controllers/blogItem');
 var ctrlUsers = require('../controllers/user');
-var commonFunc = require('../common/common');
+var authFunc = require('../common/authorize');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,7 +14,8 @@ router.get('/', function(req, res, next) {
     }
     res.render('index', {
         title: 'Express',
-        ngController:'IndexCtrl'
+        ngController:'IndexCtrl',
+        userInfo:req.session.userInfo
     });
 });
 
@@ -42,11 +43,11 @@ router.get('/login',function (req,res,next) {
 router.post('/login',ctrlUsers.login);
 router.post('/register', ctrlUsers.register);
 router.get('/logout',function(req,res){
-    res.clearCookie('token');req.session.user={};
+    res.clearCookie('token');req.session.userInfo={};
     res.redirect('/');
 });
 
-router.all('/user*',commonFunc.ifLoggedIn);
+router.all('/user*',authFunc.ifLoggedIn);
 router.get('/user/show/:email', ctrlUsers.userDetail);
 router.get('/user/:email', ctrlUsers.userShowEdit);
 router.post('/user/edit/:email', ctrlUsers.userEdit);

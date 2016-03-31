@@ -35,7 +35,7 @@ module.exports.register = function(req, res) {
             };
             sendJSONresponse(res, 200, {
                 "token": token,
-                "user": userinfo
+                "userInfo": userinfo
             });
         }
     });
@@ -64,7 +64,7 @@ module.exports.login = function(req, res) {
             };
             sendJSONresponse(res, 200, {
                 "token": token,
-                "user": userinfo
+                "userInfo": userinfo
             });
         } else {
             sendJSONresponse(res, 401, info);

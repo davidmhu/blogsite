@@ -1,5 +1,6 @@
 var request = require('request');
 var commonFunc = require('../common/common');
+var authFunc = require('../common/authorize');
 var apiOptions = {
     server: "http://localhost:" + process.env.PORT
 };
@@ -27,7 +28,7 @@ module.exports.register = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); req.session.user={};req.session.token='';//need to modify
+    res.clearCookie('token'); req.session.userInfo={};req.session.token='';//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -37,8 +38,8 @@ module.exports.register = function(req, res) {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
                 });
-                req.session.user=data.user;req.session.token=data.token;
-                res.redirect('/user/show/' + data.user.email); //need to be modifed to go to previous viewing page
+                req.session.userInfo=data.userInfo;req.session.token=data.token;
+                res.redirect('/user/show/' + data.userInfo.email); //need to be modifed to go to previous viewing page
             } else {
                 var returnErr = {};
                 if (response.statusCode) {
@@ -68,7 +69,7 @@ module.exports.login = function(req, res) {
         method: "POST",
         json: postdata
     };
-    res.clearCookie('token'); req.session.user={};req.session.token='';//need to modify
+    res.clearCookie('token'); req.session.userInfo={};req.session.token='';//need to modify
     request(
         requestOptions,
         function(err, response, body) {
@@ -77,9 +78,9 @@ module.exports.login = function(req, res) {
                 res.cookie('token', data.token, {
                     expires: new Date(Date.now() + 900000),
                     httpOnly: true
-                });
-                req.session.user=data.user;req.session.token=data.token;
-                res.redirect('/user/show/' + data.user.email); //need to be modifed to go to previous viewing page
+                });console.log(data);
+                req.session.userInfo=data.userInfo;req.session.token=data.token;
+                res.redirect('/user/show/' + data.userInfo.email); //need to be modifed to go to previous viewing page
             } else {
                 //console.log(data);
                 var returnErr = {};
@@ -97,7 +98,8 @@ module.exports.login = function(req, res) {
 
 /* get a user 
 /user/show/:email */
-module.exports.userDetail = function(req, res) {//console.log(req.payload.email);
+module.exports.userDetail = function(req, res) {
+    //if (!authFunc.accessAllowed) return;
     var email = req.params.email,
         returnErr = {},
         requestOptions, path;
@@ -122,7 +124,8 @@ module.exports.userDetail = function(req, res) {//console.log(req.payload.email)
             if (response.statusCode === 200) {
                 res.render('user-detail', {
                     user: data,
-                    title: 'user information'
+                    title: 'user information',
+                    userInfo:req.session.userInfo
                 });
             } else {
                 var returnErr = {};
@@ -141,17 +144,11 @@ module.exports.userDetail = function(req, res) {//console.log(req.payload.email)
 /* get a user edit page 
 /user/edit/:email */
 module.exports.userShowEdit = function(req, res) {
+    //if (!authFunc.accessAllowed) return;
 
     var email = req.params.email,
         postdata = {},
-        returnErr = {},
         requestOptions, path;
-    if (!email) {
-        returnErr.status = 404;
-        returnErr.message = 'not valid user email';
-        commonFunc.showError(req, res, returnErr);
-        return;
-    }
 
     path = "/api/user/" + req.params.email;
     requestOptions = {
@@ -159,8 +156,6 @@ module.exports.userShowEdit = function(req, res) {
         method: "get",
         json: {}
     };
-
-
 
     request(
         requestOptions,
@@ -189,6 +184,7 @@ module.exports.userShowEdit = function(req, res) {
 /* update a user 
 /user/:email */
 module.exports.userEdit = function(req, res) {
+    //if (!authFunc.accessAllowed) return;
     var email = req.params.email,
         postdata = {},
         returnErr = {},

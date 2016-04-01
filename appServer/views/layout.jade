@@ -7,12 +7,9 @@ html(ng-app='blogsiteApp')
     link(rel='stylesheet', href='/css/main.css')
     if showTests
       link(rel='stylesheet',href='/css/vendor/mocha.css')
-  - var ngCtrl='';
-    if (ngController)
-      -  ngCtrl=ngController+' as ctrl';
   body
     .navbar.navbar-default.navbar-fixed-top
-      .container
+      .container(ng-controller='navibarCtrl as navictrl')
         .navbar-header
           a.navbar-brand(href='/blog') Blogsite
             button.navbar-toggle(type='button', data-toggle='collapse', datatarget='#navbar-main')
@@ -28,7 +25,7 @@ html(ng-app='blogsiteApp')
             
             if (!userInfo)
               li
-                a(href='/login') Login
+                a(ng-click='navictrl.popupLoginForm()' href='#') Login
               li
                 a(href='/register') Register
             else
@@ -47,6 +44,10 @@ html(ng-app='blogsiteApp')
 
     
     script(src='/js/vendor/angular.js')
+    script(src='/js/vendor/angular/angular-sanitize.min.js')
+    script(src='/js/vendor/angular/ui-bootstrap-custom-0.12.0.min.js')
+    script(src='/js/vendor/angular/ui-bootstrap-custom-tpls-0.12.0.min.js')
+    
     script(src='/js/blogsiteApp.js') 
     script(src='/js/vendor/jquery-1.11.2.min.js')
     script(src='/js/vendor/bootstrap.min.js')

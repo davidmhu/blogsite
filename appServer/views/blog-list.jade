@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  .row
+  .row(ng-controller='bloglistCtrl as listctrl')
     .col-xs-12.col-sm-8
       .row.list-group
         each blog in blogs
@@ -9,7 +9,7 @@ block content
             h4
               a(href="/blog/show/"+blog._id)= blog.title
               small &nbsp;
-              span.badge.pull-right.badge-default= blog.modifiedOn.toLocaleString().substr(0,19)
+              span.badge.pull-right.badge-default {{123.2345 + 321.321 | currency:"£" }}
             p.lead= blog.content
             p
               a(href="/blog?userEmail="+blog.userEmail)= blog.userName
@@ -18,6 +18,6 @@ block content
                 each category in blog.category
                   span.label.label-warning= category
                     | &nbsp;
-                    
+            div {{ 123.2345 + 321.321 | currency:"£" }}        
     .col-xs-12.col-sm-4
       p.lead= sidebar

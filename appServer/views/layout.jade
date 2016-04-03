@@ -35,7 +35,8 @@ html(ng-app='blogsiteApp')
                 a(href='/logout') Logout
     
     .container
-      block content
+      div(ng-view)
+        block content
       
     footer
       .row

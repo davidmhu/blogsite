@@ -5,6 +5,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var uglifyJs = require("uglify-js");
+var fs = require('fs');
+
 var session = require('express-session');
 var passport = require('passport');
 
@@ -23,6 +26,21 @@ app.set('view engine', 'jade');
 //app.set('view engine', 'ejs');
 //app.engine('html',require('ejs').renderFile);
 
+var appClientFiles = [
+    'appClient/blogsiteApp.js',
+    'appClient/userhome/userhome.controller.js',
+    'appClient/common/authentication.service.js',
+    'appClient/common/blogsiteData.service.js'
+    ];
+var uglified = uglifyJs.minify(appClientFiles, { compress : false });
+fs.writeFile('public/js/blogsite.min.js', uglified.code, function (err){
+  if(err) {
+     console.log(err);
+  } else {
+    console.log('Script generated and saved: blogsite.min.js');
+  }
+});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -32,7 +50,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({ secret: process.env.COOKIE_SECRET, resave:false,saveUninitialized:true,cookie: { maxAge: 900000}}));
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'appClient')));
+
 app.use(passport.initialize());
 app.use(passport.session());
 

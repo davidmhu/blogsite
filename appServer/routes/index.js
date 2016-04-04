@@ -5,7 +5,7 @@ var ctrlUsers = require('../controllers/user');
 var authFunc = require('../common/authorize');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+/*router.get('/', function(req, res, next) {
     if (req.cookies.token) {
         var token=req.cookies.token;
         var strPayload = new Buffer((token.split('.')[1]),'base64').toString('utf8');
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
         title: 'Blogsite',
         userInfo:req.session.userInfo
     });
-});
+});*/
 
 router.get('/blog', ctrlBlogitem.blogList);
 router.get('/blog/show/:blogid', ctrlBlogitem.blogDetail);
@@ -26,17 +26,18 @@ router.get('/blog/:blogid', ctrlBlogitem.blogShowEdit);
 router.post('/blog/edit/:blogid', ctrlBlogitem.blogEdit);
 //router.delete('/blog/:blogid',ctrlBlogitem.blogDelete);
 
+router.get('/',function(req,res){console.log('in spa');
+    res.render('layoutUser',{title:'Blogsite:user"s administation'});
+});
 /* GET user's register. */
 router.get('/register', function(req, res) {
     res.render('register', {
-        title: 'Blogsite- register',
-        ngController:'RegisterCtrl'
+        title: 'Blogsite- register'
     });/**/
 });
 router.get('/login',function (req,res,next) {
 	res.render('login',{
-		title:'Login',
-		ngController:'LoginCtrl'
+		title:'Login'
 	});
 });
 router.post('/login',ctrlUsers.login);

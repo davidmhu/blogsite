@@ -1,0 +1,17 @@
+<div class="row">
+	<p class="lead">user's information</p>
+	<div class="col-md-6 col-sm-12">
+		<div class="table-reponsive">
+			<div class="error">{{ vm.message }}</div>
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr><th>Account name</th><td class="useremail">{{vm.user.email}}</td></tr>
+					<tr><th>Full name</th><td class="username">{{vm.user.name}}</td></tr>
+					<tr><th>Gender</th><td class="gendername">{{vm.user.gender}}</td></tr>
+					<tr><th>birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-mm-dd'}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<a href="/user/fanWenxuan16-03-30202917@blogsite.com" class="btn btn-default">Edit</a>
+	</div>
+</div>

@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/user/:email', ctrlUser.userReadOne);
+router.get('/user/:email', auth,ctrlUser.userReadOne);
 router.get('/user', ctrlUser.userList);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);

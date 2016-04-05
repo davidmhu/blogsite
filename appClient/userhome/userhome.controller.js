@@ -4,13 +4,16 @@
         .module('blogsiteApp')
         .controller('userhomeCtrl', userhomeCtrl);
 
-    userhomeCtrl.$inject = ['$scope', 'blogsiteData'];
+    userhomeCtrl.$inject = ['$scope', 'blogsiteData','authentication'];
 
-    function userhomeCtrl($scope, blogsiteData) {
+    function userhomeCtrl($scope, blogsiteData,authentication) {
         var vm = this;
 
         vm.message = "Searching for the user";
-        blogsiteData.getUserinfo('fanWenxuan16-03-30202917@blogsite.com')
+        var user={password:'eat-the-living',email:'davidmhu@sina.com'};//'fanWenxuan16-03-30202917@blogsite.com'
+        //authentication.logout();
+        authentication.login(user);//need to modify
+        blogsiteData.getUserinfo()
             .success(function(data) {
                 vm.message = data ? "" : "No user found";
                 vm.user = data;

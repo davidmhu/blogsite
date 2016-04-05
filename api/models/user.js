@@ -49,10 +49,11 @@ userSchema.methods.validPassword = function(password) {
 userSchema.methods.generateJwt = function() {
     var expiry = new Date();
     expiry.setDate(expiry.getDate() + 7);
+    var name=new Buffer(this.name,'utf8').toString('base64');//for chinese language support
     return jwt.sign({
         _id: this._id,
         email: this.email,
-        name: this.name,
+        name: name,
         exp: parseInt(expiry.getTime() / 1000),
     }, process.env.JWT_SECRET);
 };

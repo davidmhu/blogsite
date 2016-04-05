@@ -15,10 +15,12 @@
             })
         /*.when('/login', {
 
-        })
-        .when('/register', {
-
         })*/
+            .when('/register', {
+                templateUrl: 'userhome/register.view.html',
+                controller: 'registerCtrl',
+                controllerAs: 'vm'
+            })
         .otherwise({
             redirectTo: '/'
         });

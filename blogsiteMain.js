@@ -29,6 +29,7 @@ app.set('view engine', 'jade');
 var appClientFiles = [
     'appClient/blogsiteApp.js',
     'appClient/userhome/userhome.controller.js',
+    'appClient/userhome/register.controller.js',
     'appClient/common/authentication.service.js',
     'appClient/common/blogsiteData.service.js'
     ];

@@ -9,7 +9,7 @@ block content
             h4
               a(href="/blog/show/"+blog._id)= blog.title
               small &nbsp;
-              span.badge.pull-right.badge-default {{123.2345 + 321.321 | currency:"£" }}
+              span.badge.pull-right.badge-default= blog.modifiedOn
             p.lead= blog.content
             p
               a(href="/blog?userEmail="+blog.userEmail)= blog.userName

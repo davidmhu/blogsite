@@ -30,6 +30,7 @@ var appClientFiles = [
     'appClient/blogsiteApp.js',
     'appClient/userhome/userhome.controller.js',
     'appClient/userhome/register.controller.js',
+    'appClient/userhome/login.controller.js',
     'appClient/common/authentication.service.js',
     'appClient/common/blogsiteData.service.js'
     ];

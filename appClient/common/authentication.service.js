@@ -18,7 +18,7 @@
     var isLoggedIn = function() {
       var token = getToken();
       if (token) {
-        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        var payload = JSON.parse($window.atob(token.split('.')[1]));//console.log(payload);
         return payload.exp > Date.now() / 1000;
       } else {
         return false;
@@ -31,7 +31,7 @@
         var payload = JSON.parse($window.atob(token.split('.')[1]));
         return {
           email : payload.email,
-          name : payload.name
+          name : base64.decode(payload.name)
         };
       }
     };

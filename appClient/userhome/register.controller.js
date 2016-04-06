@@ -15,8 +15,12 @@
             vm.check = '';
             console.log('changed');
         };
-        vm.checkEmail = function() {//need to complete
-            vm.check = '√';
+        vm.checkEmail = function() { //need to complete
+            //vm.check = '√';
+            //var str8 = '5ZGo56eL5LqR';
+            //var arr8 = str8.split
+            vm.check = base64.decode('5ZGo56eL5LqR');
+            console.log(vm.check);
         };
         vm.submit = function() {
             vm.message = '';
@@ -34,10 +38,9 @@
             }
             vm.user.password = vm.user.password1;
             //vm.message = 'Registering';
-            authentication.register(vm.user); //need to modify
-            blogsiteData.getUserinfo()
+            authentication.register(vm.user)
                 .success(function(data) {
-                    vm.message = " user is registered";
+                    vm.message = "user is registered";
                     vm.user = data;
                 })
                 .error(function(e) {
@@ -49,9 +52,7 @@
 
         };
 
-
-
-        //vm.showError = function (error) {
+      //vm.showError = function (error) {
         //$scope.$apply(function() {
         //  vm.message = error.message;
         //});

@@ -13,9 +13,11 @@
                 controller: 'bloglistCtrl',
                 controllerAs: 'vm'
             })
-        /*.when('/login', {
-
-        })*/
+            .when('/login', {
+                templateUrl: 'userhome/login.view.html',
+                controller: 'loginCtrl',
+                controllerAs: 'vm'
+            })
             .when('/register', {
                 templateUrl: 'userhome/register.view.html',
                 controller: 'registerCtrl',

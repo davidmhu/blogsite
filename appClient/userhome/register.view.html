@@ -17,15 +17,17 @@
 			</div>
 			<div class="form-group">
 				<label for="email" class="control-label col-sm-2">Email address</label>
-				<div class="col-sm-8">
-					<input id="email" type="email" name="email" ng-model="vm.user.email" required placeholder="Enter email" class="form-control">
-					<span ng-show="registerForm.email.$dirty && egisterForm.email.$error.required">
+				<div class="col-sm-7">
+					<input id="email" type="email" name="email" ng-model="vm.user.email" ng-change= "vm.emailChanged()" required placeholder="Enter email" class="form-control">
+					<span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">
 						This is a required field
 					</span>
 				</div>
 				<div class="col-sm-2">
-					<button class='btn'>check</button>
+					<a class='btn btn-default' ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>check</a>
 				</div>
+				<div class="col-sm-1" ng-show='vm.check && registerForm.email.$valid' style="padding-top: 10px;">{{vm.check}}</div>
+
 			</div>
 			<div class="form-group">
 				<label for="password" class="control-label col-sm-2">Password</label>
@@ -68,7 +70,7 @@
 			<div class="form-group">
 				<label for="birthday" class="control-label col-sm-2">Birthday</label>
 				<div class="col-sm-10">
-					<input id="birthday" type="date" ng-model="vm.user.birthday" defaultValue="2015/12/11" class="form-control">
+					<input id="birthday" type="date" ng-model="vm.user.birthday" min="2000-01-01" max="2025-12-31" class="form-control">
 				</div>
 			</div>
 			<div class="form-group">

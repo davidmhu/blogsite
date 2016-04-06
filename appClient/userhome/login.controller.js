@@ -2,11 +2,11 @@
 
     angular
         .module('blogsiteApp')
-        .controller('registerCtrl', registerCtrl);
+        .controller('loginCtrl', loginCtrl);
 
-    registerCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    loginCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
 
-    function registerCtrl($scope, $location, blogsiteData, authentication) {
+    function loginCtrl($scope, $location, blogsiteData, authentication) {
         var vm = this;
         //vm.user={password:'eat-the-living',email:'davidmhu@sina.com.cn'};
         vm.user = {};
@@ -20,11 +20,11 @@
         };
         vm.submit = function() {
             vm.message = '';
-            if ($scope.registerForm.$pristine) {
+            if ($scope.loginForm.$pristine) {
                 vm.message = 'Please fill the form first before you submit';
                 return;
             }
-            if ($scope.registerForm.$invalid) {
+            if ($scope.loginForm.$invalid) {
                 vm.message = 'There are errors in the form ,please correct them';
                 return;
             }
@@ -33,11 +33,11 @@
                 return;
             }
             vm.user.password = vm.user.password1;
-            //vm.message = 'Registering';
-            authentication.register(vm.user); //need to modify
+            //vm.message = 'logining';
+            authentication.login(vm.user); //need to modify
             blogsiteData.getUserinfo()
                 .success(function(data) {
-                    vm.message = " user is registered";
+                    vm.message = " user is logined";
                     vm.user = data;
                 })
                 .error(function(e) {

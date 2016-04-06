@@ -1,33 +1,54 @@
 <div class="row">
 	<div class="col-md-6 col-sm-12">
 		<p class="lead">Already a member? Please <a href="/login">log in</a> instead.</p>
-		<p>{{vm.message}}</p>
+		
 		<form ng-submit="vm.submit()" name='registerForm' class="form-horizontal">
-			<div role="alert" class="alert alert-danger sr-only">
-				
+			<div role="alert" class="alert alert-danger" ng-show=vm.message>
+				<p style="color:rgb(255,0,0)">{{vm.message}}</p>
 			</div>
 			<div class="form-group">
 				<label for="name" class="control-label col-sm-2">Full name</label>
 				<div class="col-sm-10">
-					<input id="name" type="text" ng-model="vm.user.name" required placeholder="Enter your name" class="form-control">
+					<input id="name" type="text" name="name" ng-model="vm.user.name" required placeholder="Enter your name" class="form-control">
+					<span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">
+						This is a required field
+					</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="email" class="control-label col-sm-2">Email address</label>
-				<div class="col-sm-10">
-					<input id="email" type="email" ng-model="vm.user.email" required placeholder="Enter email" class="form-control">
+				<div class="col-sm-8">
+					<input id="email" type="email" name="email" ng-model="vm.user.email" required placeholder="Enter email" class="form-control">
+					<span ng-show="registerForm.email.$dirty && egisterForm.email.$error.required">
+						This is a required field
+					</span>
+				</div>
+				<div class="col-sm-2">
+					<button class='btn'>check</button>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="password" class="control-label col-sm-2">Password</label>
 				<div class="col-sm-10">
-					<input id="password" type="password" ng-model="vm.user.password1" required ng-minlength="8" class="form-control">
+					<input id="password1" type="password" name="password1" ng-model="vm.user.password1" required ng-minlength="8" class="form-control">
+					<span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.required">
+						This is a required field
+					</span>
+					<span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.minlength">
+						Minimum length required is 8
+					</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="password" class="control-label col-sm-2">Retype password</label>
 				<div class="col-sm-10">
-					<input id="password" type="password" ng-model="vm.user.password2" required ng-minlength="8" class="form-control">
+					<input id="password2" type="password" ng-model="vm.user.password2" required ng-minlength="8" class="form-control">
+					<span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.required">
+						This is a required field
+					</span>
+					<span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.minlength">
+						Minimum length required is 8
+					</span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -52,7 +73,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" value="Submit" ng-disabled="registerForm.$invalid" class="btn btn-default">Register!</button>
+					<button type="submit" value="Submit"  class="btn btn-default">Register!</button>
 				</div>
 			</div>
 		</form>

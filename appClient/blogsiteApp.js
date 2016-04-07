@@ -23,6 +23,11 @@
                 controller: 'registerCtrl',
                 controllerAs: 'vm'
             })
+            .when('/user/edit',{
+                templateUrl: 'userhome/userEdit.view.html',
+                controller: 'userEditCtrl',
+                controllerAs: 'vm'
+            })
         .otherwise({
             redirectTo: '/'
         });

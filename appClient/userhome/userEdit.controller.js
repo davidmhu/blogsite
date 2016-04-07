@@ -2,16 +2,27 @@
 
     angular
         .module('blogsiteApp')
-        .controller('userhomeCtrl', userhomeCtrl);
+        .controller('userEditCtrl', userEditCtrl);
 
-    userhomeCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    userEditCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
 
-    function userhomeCtrl($scope, $location,blogsiteData, authentication) {
+    function userEditCtrl($scope, $location,blogsiteData, authentication) {
         var vm = this;
+        vm.years=[];vm.months=[];vm.days=[];
+        vm.years.push('年');vm.months.push('月');vm.days.push('日');
+        for (var i=1929;i<=2050;i++) {
+            vm.years.push(i);
+        }
+        for (i=1;i<=12;i++) {
+            vm.months.push(i);
+        }
+        for (i=1;i<=31;i++) {
+            vm.days.push(i);
+        }
         if (authentication.isLoggedIn()) {
             doViewUserInfo();
         } else {
-            $location.path('/login');
+            $location.path('/');
         }
         
         function doViewUserInfo(){
@@ -19,11 +30,6 @@
                 .success(function(data) {
                     vm.message = data ? "" : "No user found";
                     vm.user = data;
-                    if (vm.user.birthday) {
-                        vm.user.year=vm.user.birthday.getFullYear();
-                        vm.user.month=vm.user.birthday.getMonth();
-                        vm.user.day=vm.user.birthday.getDay();
-                    }
                 })
                 .error(function(e) {
                     vm.message = "Sorry, something's gone wrong, please try again later";

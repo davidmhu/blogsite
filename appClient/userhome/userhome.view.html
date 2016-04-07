@@ -9,11 +9,11 @@
 				<tbody>
 					<tr><th>Account name</th><td class="useremail">{{vm.user.email}}</td></tr>
 					<tr><th>Full name</th><td class="username">{{vm.user.name}}</td></tr>
-					<tr><th>Gender</th><td class="gendername">{{vm.user.gender}</td></tr>
-					<tr><th>birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-mm-dd'}}</td></tr>
+					<tr><th>Gender</th><td class="gendername">{{vm.user.gender===1?'Male':(vm.user.gender===0?'Female':'Unknown')}}</td></tr>
+					<tr><th>birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-MM-dd'}}</td></tr>
 				</tbody>
 			</table>
 		</div>
-		<a href="/user/fanWenxuan16-03-30202917@blogsite.com" class="btn btn-default">Edit</a>
+		<a href="/user/edit" class="btn btn-default">Edit</a>
 	</div>
 </div>

@@ -4,21 +4,20 @@
         .module('blogsiteApp')
         .controller('registerCtrl', registerCtrl);
 
-    registerCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    registerCtrl.$inject = ['$scope', '$location',  'authentication'];
 
-    function registerCtrl($scope, $location, blogsiteData, authentication) {
+    function registerCtrl($scope, $location, authentication) {
         var vm = this;
         //vm.user={password:'eat-the-living',email:'davidmhu@sina.com.cn'};
         vm.user = {};
         vm.check = '';
+        vm.returnPage = $location.search().page || '/';
         vm.emailChanged = function() {
             vm.check = '';
             console.log('changed');
         };
         vm.checkEmail = function() { //need to complete
             //vm.check = '√';
-            //var str8 = '5ZGo56eL5LqR';
-            //var arr8 = str8.split
             vm.check = base64.decode('5ZGo56eL5LqR');
             console.log(vm.check);
         };
@@ -37,21 +36,19 @@
                 return;
             }
             vm.user.password = vm.user.password1;
-            //vm.message = 'Registering';
-            authentication.register(vm.user)
-                .success(function(data) {
-                    vm.message = "user is registered";
-                    vm.user = data;
-                })
-                .error(function(e) {
-                    vm.message = "Sorry, something's gone wrong, please try again later";
-                    return;
-                });
-            authentication.login(vm.user);
-            $location.path('/');
-
+            doRegister(vm.user);
         };
 
+        function doRegister(user){
+            authentication.register(user)
+                .error(function(e){
+                    vm.message = "Sorry, something's gone wrong, please register again later";
+                    return false;
+                }).then(function(){
+                    $location.search('page', null);
+                    $location.path(vm.returnPage);
+                });
+        }
       //vm.showError = function (error) {
         //$scope.$apply(function() {
         //  vm.message = error.message;

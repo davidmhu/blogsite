@@ -3,17 +3,17 @@
 
     function config ($routeProvider, $locationProvider) {
         $routeProvider
-            /*.when('/', {
+            .when('/', {
                 templateUrl: 'userhome/userhome.view.html',
                 controller: 'userhomeCtrl',
                 controllerAs: 'vm'
-            })*/
+            })
             .when('/blog', {
                 templateUrl: 'blog/bloglist.view.html',
                 controller: 'bloglistCtrl',
                 controllerAs: 'vm'
             })
-            .when('/', {
+            .when('/login', {
                 templateUrl: 'userhome/login.view.html',
                 controller: 'loginCtrl',
                 controllerAs: 'vm'

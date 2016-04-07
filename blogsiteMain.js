@@ -32,7 +32,10 @@ var appClientFiles = [
     'appClient/userhome/register.controller.js',
     'appClient/userhome/login.controller.js',
     'appClient/common/authentication.service.js',
-    'appClient/common/blogsiteData.service.js'
+    'appClient/common/blogsiteData.service.js',
+    'appClient/common/navigation.directive.js',
+    //'appClient/common/footerGeneric.directive.js',
+    'appClient/common/navigation.controller.js'
     ];
 var uglified = uglifyJs.minify(appClientFiles, { compress : false });
 fs.writeFile('public/js/blogsite.min.js', uglified.code, function (err){

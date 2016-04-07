@@ -4,9 +4,9 @@
         .module('blogsiteApp')
         .controller('loginCtrl', loginCtrl);
 
-    loginCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    loginCtrl.$inject = ['$scope', '$location',  'authentication'];
 
-    function loginCtrl($scope, $location, blogsiteData, authentication) {
+    function loginCtrl($scope, $location,  authentication) {
         var vm = this;
         vm.credentials = {
             email: '',

@@ -19,15 +19,18 @@
 			</div>
 			<div class="form-group">
 				<label for="email" class="control-label col-sm-2">Email address</label>
-				<div class="col-sm-7">
+				<div class="col-sm-9  input-group" style="padding-left: 15px;">
 					<input id="email" type="email" name="email" ng-model="vm.user.email" ng-change= "vm.emailChanged()" required placeholder="Enter email" class="form-control">
+					<span class="input-group-btn">
+						<button type="button" class="btn" ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>Check</button>
+					</span>
 					<span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">
 						This is a required field
 					</span>
 				</div>
-				<div class="col-sm-2">
+				<!-- <div class="col-sm-2">
 					<a class='btn btn-default' ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>check</a>
-				</div>
+				</div> -->
 				<div class="col-sm-1" ng-show='vm.check && registerForm.email.$valid' style="padding-top: 10px;">{{vm.check}}</div>
 
 			</div>

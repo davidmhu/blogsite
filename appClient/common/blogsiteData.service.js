@@ -15,9 +15,21 @@
                     }
                 });
         };
-        return {
-            getUserinfo: getUserinfo
+        var updateUserinfo=function(user){console.log(user);
+            return $http.put('/api/user/' + user.email,user,{
+                    headers: {
+                        Authorization: 'Bearer ' + authentication.getToken()
+                    }
+                });           
         };
+        return {
+            getUserinfo: getUserinfo,
+            updateUserinfo:updateUserinfo
+        };
+
+
     }
+
+
 
 })();

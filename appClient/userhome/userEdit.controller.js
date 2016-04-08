@@ -29,18 +29,18 @@
         } else {
             $location.path('/');
         }
-
+        vm.message='';
         vm.submit = function() {
-            vm.message='';
             if (vm.year !== '年' && vm.month !== '月' && vm.day !== '日') {
-                vm.user.birthday=new Date(vm.year+'-'+vm.month+'-'+vm.day);
+                vm.user.birthday=new Date(vm.year+(vm.month<10?'-0':'-')+vm.month+(vm.day<10?'-0':'-')+vm.day);
                 console.log(vm.user.birthday);
             } 
             blogsiteData.updateUserinfo(vm.user)
                 .error(function(e){
-                    vm.message=e.message;
+                    vm.message='modify failed';console.log(e);
                     return false;
                 }).then(function(){
+                    //$scope.vm.user=vm.user;
                     $location.search('page', null);
                     $location.path(vm.returnPage);
                 });

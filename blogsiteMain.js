@@ -32,6 +32,7 @@ var appClientFiles = [
     'appClient/userhome/register.controller.js',
     'appClient/userhome/login.controller.js',
     'appClient/userhome/userEdit.controller.js',
+    'appClient/userhome/passwordModal.controller.js',
     'appClient/common/authentication.service.js',
     'appClient/common/blogsiteData.service.js',
     'appClient/common/navigation.directive.js',

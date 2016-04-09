@@ -4,9 +4,9 @@
         .module('blogsiteApp')
         .controller('userEditCtrl', userEditCtrl);
 
-    userEditCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    userEditCtrl.$inject = ['$scope', '$location','$modal', 'blogsiteData', 'authentication'];
 
-    function userEditCtrl($scope, $location, blogsiteData, authentication) {
+    function userEditCtrl($scope, $location, $modal,blogsiteData, authentication) {
         var vm = this;
         vm.returnPage = $location.search().page || '/';
         vm.years = [];
@@ -26,6 +26,8 @@
         }
         if (authentication.isLoggedIn()) {
             doViewUserInfo();
+            
+
         } else {
             $location.path('/');
         }
@@ -40,7 +42,6 @@
                     vm.message='modify failed';console.log(e);
                     return false;
                 }).then(function(){
-                    //$scope.vm.user=vm.user;
                     $location.search('page', null);
                     $location.path(vm.returnPage);
                 });
@@ -50,7 +51,14 @@
         vm.year = '年';
         vm.month = '月';
         vm.day = '日';
-
+        vm.popPwdChgForm=function(){
+            //alert('change password');
+            var modalInstance=$modal.open({
+                templateUrl:'/userhome/passwordModal.view.html',
+                controller:'passwordModalCtrl as vm'
+            });
+        };
+        
         function doViewUserInfo() {
             blogsiteData.getUserinfo()
                 .success(function(data) {
@@ -62,13 +70,14 @@
                         vm.month = birthDate.getMonth() + 1;
                         vm.day = birthDate.getDate();
                     }
+                    $scope.navvm.currentUser.name=data.name;
                 })
                 .error(function(e) {
                     vm.message = "Sorry, something's gone wrong, please try again later";
                 });
         }
 
-
+        
 
 
         //vm.showError = function (error) {

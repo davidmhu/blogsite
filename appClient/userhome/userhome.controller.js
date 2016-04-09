@@ -19,7 +19,7 @@
                 .success(function(data) {
                     vm.message = data ? "" : "No user found";
                     vm.user = data;
-                    console.log(data);
+                    $scope.navvm.currentUser.name=data.name;
                     
                 })
                 .error(function(e) {

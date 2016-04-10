@@ -20,6 +20,7 @@ router.get('/user', ctrlUser.userList);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 router.put('/user/:email', auth, ctrlUser.userEdit);
+router.post('/user/changepwd/:email',auth,ctrlAuth.changePwd);
 
 router.get('/blog/:blogid', ctrlBlogitem.blogDetail);
 router.get('/blog', ctrlBlogitem.blogList);

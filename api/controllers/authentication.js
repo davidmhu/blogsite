@@ -71,3 +71,55 @@ module.exports.login = function(req, res) {
         }
     })(req, res);
 };
+
+/* change a user's password */
+/* /api/user/changepwd/:email */
+module.exports.changePwd = function(req, res) {
+  //need to add validation here
+  console.log(req.params.email);
+  if (!req.params.email && !req.params.email.length) {
+    sendJSONresponse(res, 404, {
+      "message": "Not found, user email is required"
+    });
+    return;
+  }
+  if (!req.body.oldpassword || !req.body.newpassword) {
+    sendJSONresponse(res, 404, {
+      "message": "Old password or new password should not be empty."
+    });
+  }
+
+  User.findOne(req.params)
+    .exec(
+      function(err,user){
+        if (err) {
+          sendJSONresponse(res, 404, {
+            "message": "this user is not existed"
+          });
+          return;
+        }
+        if (user){
+            if (user.validPassword(req.body.oldpassword)) {
+                user.setPassword(req.body.newpassword);
+                user.save(function(err,user){
+                  if (err) {
+                    sendJSONresponse(res, 404, {"message":"updating user's password is failed by db"});
+                  } else {
+                    token = user.generateJwt();
+                    sendJSONresponse(res, 200, token);
+                  }
+                });
+            }else{
+                sendJSONresponse(res, 404, {
+                    "message": "wrong old password"
+                  });
+                return;
+            }
+        }else{
+            sendJSONresponse(res, 404, {
+                "message": "found invalid user"
+              });
+        }
+      }
+    );
+};

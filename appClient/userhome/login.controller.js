@@ -36,7 +36,7 @@
             vm.message = "";
             authentication
                 .login(vm.credentials).error(function(err) {
-                    vm.message = err;
+                    vm.message = err.message;
                 }).then(function() {//authentication.isLoggedIn();
                     $location.search('page', null);
                     $location.path(vm.returnPage);

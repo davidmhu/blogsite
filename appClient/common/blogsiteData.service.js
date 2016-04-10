@@ -8,23 +8,33 @@
 
     function blogsiteData($http, authentication) {
         var getUserinfo = function() {
-            var user=authentication.currentUser();//console.log(user);
+            var user=authentication.currentUser();
             return $http.get('/api/user/' + user.email,{
                     headers: {
                         Authorization: 'Bearer ' + authentication.getToken()
                     }
                 });
         };
-        var updateUserinfo=function(user){console.log(user);
+        var updateUserinfo=function(user){
             return $http.put('/api/user/' + user.email,user,{
                     headers: {
                         Authorization: 'Bearer ' + authentication.getToken()
                     }
                 });           
         };
+        var changePwd=function(user){
+            return $http.post('/api/user/changepwd/' + user.email,user,{
+                    headers: {
+                        Authorization: 'Bearer ' + authentication.getToken()
+                    }
+                }).success(function(data){//console.log(data);
+                    authentication.saveToken(data);
+                    });           
+        };
         return {
             getUserinfo: getUserinfo,
-            updateUserinfo:updateUserinfo
+            updateUserinfo:updateUserinfo,
+            changePwd:changePwd
         };
 
 

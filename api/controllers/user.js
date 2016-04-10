@@ -51,7 +51,7 @@ module.exports.userList=function(req,res){
 /* /api/user/:email */
 module.exports.userEdit = function(req, res) {
   //need to add validation here
-  console.log(req.params.email);
+  //console.log(req.params.email);
   if (!req.params.email && !req.params.email.length) {
     sendJsonResponse(res, 404, {
       "message": "Not found, user email is required"
@@ -77,7 +77,6 @@ module.exports.userEdit = function(req, res) {
            user.gender=req.body.gender;
         if (req.body.role && req.body.role.length>0)
             user.role=req.body.role;
-        
         
         user.save(function(err,user){
           if (err) {

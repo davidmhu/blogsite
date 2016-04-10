@@ -22,9 +22,28 @@
                 $modalInstance.dismiss('cancel');
             }
         };
-        vm.submit = function() {
-            vm.formError = 'submit';
-
+        vm.onSubmit = function() {
+            if (!vm.user.oldpassword) {
+                vm.formError='old password is needed.';
+                return false;
+            }
+            if (!vm.user.password1 || !vm.user.password2 || vm.user.password1 !== vm.user.password2) {
+                vm.formError='two new password are both needed and should be equal.';
+                return false;
+            }
+            vm.formError = 'submiting...';
+            var data={email:vm.user.email,oldpassword:vm.user.oldpassword,newpassword:vm.user.password1};
+            blogsiteData.changePwd(data)
+                .success(function(){
+                    vm.formError='changed pwd successfully';
+                    vm.user.oldpassword='';
+                    vm.user.password1='';
+                    vm.user.password2='';
+                    data={};
+                })
+                .error(function(e){
+                    vm.formError = "Sorry, something's gone wrong:"+e.message;
+                });
         };
 
 
@@ -33,9 +52,6 @@
                 .success(function(data) {
                     vm.message = data ? "" : "No user found";
                     vm.user = data;
-
-
-
                 })
                 .error(function(e) {
                     vm.formError = "Sorry, something's gone wrong, please try again later";

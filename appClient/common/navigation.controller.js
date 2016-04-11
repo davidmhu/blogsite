@@ -4,8 +4,8 @@
     .module('blogsiteApp')
     .controller('navigationCtrl', navigationCtrl);
 
-  navigationCtrl.$inject = ['$location', 'authentication'];
-  function navigationCtrl($location, authentication) {
+  navigationCtrl.$inject = ['$scope','$location', 'authentication'];
+  function navigationCtrl($scope,$location, authentication) {
     var vm = this;
 
     vm.currentPath = $location.path();
@@ -16,7 +16,9 @@
 
     vm.logout = function() {
       authentication.logout();
-      $location.path('/');
+      //$scope.$apply(function(){
+        $location.path('/');
+      //});
     };
 
   }

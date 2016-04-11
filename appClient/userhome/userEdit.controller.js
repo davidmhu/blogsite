@@ -51,6 +51,7 @@
         vm.year = '年';
         vm.month = '月';
         vm.day = '日';
+
         vm.popPwdChgForm=function(){
             //alert('change password');
             var modalInstance=$modal.open({
@@ -59,6 +60,13 @@
             });
         };
         
+        vm.popImgUploadForm=function(){
+            var modalInstance=$modal.open({
+                templateUrl:'/common/picUploadModal.view.html',
+                controller:'picUploadModalCtrl as vm'
+            });
+        };
+
         function doViewUserInfo() {
             blogsiteData.getUserinfo()
                 .success(function(data) {
@@ -76,15 +84,6 @@
                     vm.message = "Sorry, something's gone wrong, please try again later";
                 });
         }
-
-        
-
-
-        //vm.showError = function (error) {
-        //$scope.$apply(function() {
-        //  vm.message = error.message;
-        //});
-        //};
 
     }
 

@@ -31,10 +31,15 @@
                     authentication.saveToken(data);
                     });           
         };
+        var imgUpload=function(user){
+            return $http.post('/api/user/uploads/' + user.email,user);
+                
+        }
         return {
             getUserinfo: getUserinfo,
             updateUserinfo:updateUserinfo,
-            changePwd:changePwd
+            changePwd:changePwd,
+            imgUpload:imgUpload
         };
 
 

@@ -36,9 +36,13 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="portrait" class="control-label col-sm-2">Upload portrait</label>
-        <div class="col-sm-10">
-          <input id="portrait" type="file" name="portrait"  ng-model='vm.user.portrait' class="form-control"/>
+        <label for="portrait" class="control-label col-sm-2">Portrait</label>
+        <div class="col-sm-10" ng-show="vm.user.portrait">
+          <img src="vm.user.portrait"/>
+          <button ng-click="vm.popImgUploadForm()" type="button" class="btn btn-default">更改头像</button>
+        </div>
+        <div class="col-sm-10" ng-hide="vm.user.portrait">
+          <button ng-click="vm.popImgUploadForm()" type="button" class="btn btn-default">上传头像</button>
         </div>
       </div>
       <div class="form-group">

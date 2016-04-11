@@ -4,9 +4,9 @@
         .module('blogsiteApp')
         .controller('picUploadModalCtrl', picUploadModalCtrl);
 
-    picUploadModalCtrl.$inject = [ '$modalInstance', 'blogsiteData', 'authentication'];
+    picUploadModalCtrl.$inject = [ '$modalInstance', '$scope','blogsiteData', 'authentication'];
 
-    function picUploadModalCtrl($modalInstance, blogsiteData, authentication) {
+    function picUploadModalCtrl($modalInstance,$scope, blogsiteData, authentication) {
         var vm = this;
         vm.formError = '';
         vm.message = '';
@@ -17,15 +17,12 @@
             }
         };
         vm.onSubmit = function() {
-            
+            var data;
             vm.formError = 'uploading...';
-
-            blogsiteData.imgUpload(vm.user)
+            //console.log($scope.element[0]);
+            /*blogsiteData.imgUpload(vm.user.email,data)
                 .success(function(){
                     vm.formError='changed pwd successfully';
-                    vm.user.oldpassword='';
-                    vm.user.password1='';
-                    vm.user.password2='';
                     data={};
                 })
                 .error(function(e){

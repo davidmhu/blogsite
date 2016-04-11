@@ -31,8 +31,12 @@
                     authentication.saveToken(data);
                     });           
         };
-        var imgUpload=function(user){
-            return $http.post('/api/user/uploads/' + user.email,user);
+        var imgUpload=function(email,data){
+            return $http.post('/api/user/uploads/' + email,data,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            });
                 
         }
         return {

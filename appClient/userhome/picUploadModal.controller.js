@@ -16,19 +16,10 @@
                 $modalInstance.dismiss('cancel');
             }
         };
-        vm.fileChange=function(){
-            console.log(vm.file);
-            blogsiteData.imgUpload('sieie@kdod.com',vm.file)
-                .success(function(data){
-                    vm.formError='changed pwd successfully';
-                    vm.imgfile=data.path;
-                })
-                .error(function(e){
-                    vm.formError = "Sorry, something's gone wrong:";
-                });
-        };
+        
 
         var uploader=$scope.uploader=new FileUploader();
+
         uploader.filters.push({
             name: 'imageFilter',
             fn: function(item /*{File|FileLikeObject}*/, options) {
@@ -37,22 +28,17 @@
             }
         });
 
-        vm.onSubmit = function() {
-            var data;
-            vm.formError = 'uploading...';
-            //console.log($scope.element[0]);
-            /*blogsiteData.imgUpload(vm.user.email,data)
-                .success(function(){
-                    vm.formError='changed pwd successfully';
-                    data={};
-                })
-                .error(function(e){
-                    vm.formError = "Sorry, something's gone wrong:"+e.message;
-                });*/
+        uploader.onAfterAddingFile = function(fileItem) {
+            if (uploader.queue.length>1) {
+                uploader.queue.shift();//only one image
+            }
+            
         };
-
-
-
+        
+        vm.onSubmit=function(){
+            var item=uploader.queue[0];
+            vm.formError=item.file.name;
+        }
     }
 
 })();

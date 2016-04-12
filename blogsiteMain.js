@@ -37,6 +37,7 @@ var appClientFiles = [
     'appClient/common/authentication.service.js',
     'appClient/common/blogsiteData.service.js',
     'appClient/common/navigation.directive.js',
+    // 'appClient/common/fileChange.directive.js',
     //'appClient/common/footerGeneric.directive.js',
     'appClient/common/navigation.controller.js'
     ];

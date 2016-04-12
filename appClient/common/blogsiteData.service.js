@@ -34,11 +34,11 @@
         var imgUpload=function(email,data){
             return $http.post('/api/user/uploads/' + email,data,{
                 headers:{
-                    'Content-Type':'multipart/form-data'
-                }
+                    'Content-Type':'file'
+                },file:data,
             });
                 
-        }
+        };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo:updateUserinfo,

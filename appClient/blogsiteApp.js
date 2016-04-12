@@ -1,5 +1,5 @@
 (function() {
-    angular.module('blogsiteApp', ['ngRoute', 'ui.bootstrap']);
+    angular.module('blogsiteApp', ['ngRoute', 'ui.bootstrap','angularFileUpload']);
 
     function config ($routeProvider, $locationProvider) {
         $routeProvider
@@ -53,7 +53,6 @@
 
     angular.module('blogsiteApp')
         .config(['$routeProvider', '$locationProvider', config])
-        .controller('indexCtrl', indexCtrl)
         .controller('navibarCtrl', navibarCtrl)
         .controller('bloglistCtrl', bloglistCtrl)
         ;

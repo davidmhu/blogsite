@@ -18,8 +18,19 @@
         };
         
 
-        var uploader=$scope.uploader=new FileUploader();
-
+        var uploader=$scope.uploader=new FileUploader({
+            url:'/api/user/uploads/'+'sidie@sis.com'
+        });
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            vm.formError=response.name;
+        };
+        uploader.onErrorItem=function(item, response, status, headers){
+            if (response.message){
+             vm.formError='Sorry,upload failed, due to '+response.message+', please try again later';
+            }else{
+                vm.formError='Sorry,upload failed,  please try again later';
+            }
+        };
         uploader.filters.push({
             name: 'imageFilter',
             fn: function(item /*{File|FileLikeObject}*/, options) {
@@ -31,14 +42,14 @@
         uploader.onAfterAddingFile = function(fileItem) {
             if (uploader.queue.length>1) {
                 uploader.queue.shift();//only one image
+                //uploader.reomoveFromQueue(0);
             }
             
         };
         
-        vm.onSubmit=function(){
-            var item=uploader.queue[0];
-            vm.formError=item.file.name;
-        }
+        vm.changePortrait = function(){
+            
+        };
     }
 
 })();

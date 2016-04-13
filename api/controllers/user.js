@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var fs = require('fs');
 
 var sendJSONresponse = function(res, status, content) {
   res.status(status);
@@ -94,12 +95,8 @@ module.exports.userEdit = function(req, res) {
 
 /*upload a portrait
 post /api/user/uploads/:email*/
-module.exports.portraitUpload=function(req,res){console.log(req);
+module.exports.portraitUpload=function(req,res){console.log(req.params.email);
   var file = req.files.file;//uploadPath = path.normalize(cfg.data + '/uploads')
-    //var file=req.file;
-    console.log(file.name);
-    console.log(file.type);
-    console.log(__dirname);
     
   if (file.type.substr(0,5) !== 'image') {
     sendJSONresponse(res, 404,{"message":"only image file is accepted"});
@@ -107,5 +104,11 @@ module.exports.portraitUpload=function(req,res){console.log(req);
   if (file.size > 2*1024*1024) {
     sendJSONresponse(res, 404,{"message":"only image file of less than 2M size is accepted"});
   }
+  var dataDir = 'data';
+  var userPortraitDir = dataDir + '/user-portrait';
+  if (!fs.existsSync(dataDir))  fs.mkdirSync(dataDir);
+  if (!fs.existsSync(userPortraitDir)) fs.mkdirSync(userPortraitDir);
+  
+  //fs.renameSync(file.path,userPortraitDir+'/'+file.name);
   sendJSONresponse(res, 200, {name:file.name,type:file.type,path:file.path});
 };

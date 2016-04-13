@@ -8,7 +8,7 @@ var auth = jwt({
 });
 
 var multiparty = require('connect-multiparty');
-var multipartyMiddleware = multiparty();
+var multipartyMiddleware = multiparty({uploadDir:process.env.UPLOAD_DIR});
 
 var ctrlBlogitem = require('../controllers/blogItem');
 var ctrlUser = require('../controllers/user');

@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var uglifyJs = require("uglify-js");
 var fs = require('fs');
 if (!fs.existsSync(process.env.UPLOAD_DIR)) fs.mkdirSync(process.env.UPLOAD_DIR);
+if (!fs.existsSync(process.env.DATA_DIR)) fs.mkdirSync(process.env.DATA_DIR);
 
 var session = require('express-session');
 var passport = require('passport');
@@ -63,6 +64,8 @@ app.use(session({ secret: process.env.COOKIE_SECRET, resave:false,saveUninitiali
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'appClient')));
+app.use(express.static(path.join(__dirname, process.env.UPLOAD_DIR)));
+app.use(express.static(path.join(__dirname, process.env.DATA_DIR)));
 
 app.use(passport.initialize());
 app.use(passport.session());

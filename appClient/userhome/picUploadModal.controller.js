@@ -19,10 +19,10 @@
         
 
         var uploader=$scope.uploader=new FileUploader({
-            url:'/api/user/uploads/'+'sidie@sis.com'
+            url:'/api/user/uploads'
         });
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            vm.formError=response.name;
+            vm.imgfile=response.path;
         };
         uploader.onErrorItem=function(item, response, status, headers){
             if (response.message){
@@ -48,7 +48,11 @@
         };
         
         vm.changePortrait = function(){
-            
+            authentication
+                .changePortrait(vm.user.email,vm.imgfile)
+                .success(function(data){
+                    vm.imgfile=data;vm.user.portrait=data;vm.formError='well done';
+                });
         };
     }
 

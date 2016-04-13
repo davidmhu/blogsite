@@ -31,19 +31,19 @@
                     authentication.saveToken(data);
                     });           
         };
-        var imgUpload=function(email,data){
-            return $http.post('/api/user/uploads/' + email,data,{
-                headers:{
-                    'Content-Type':'file'
-                },file:data,
-            });
-                
+        
+        var changePortrait=function(email,imgfilepath){
+            return $http.post('/api/user/portrait/' + email,imgfilepath,{
+                    headers: {
+                        Authorization: 'Bearer ' + authentication.getToken()
+                    }
+                });
         };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo:updateUserinfo,
             changePwd:changePwd,
-            imgUpload:imgUpload
+            changePortrait:changePortrait
         };
 
 

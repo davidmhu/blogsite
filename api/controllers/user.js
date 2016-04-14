@@ -84,7 +84,7 @@ module.exports.userEdit = function(req, res) {
                 user.save(function(err, user) {
                     if (err) {
                         console.log(err);
-                        sendJSONresponse(res, 404, {
+                        sendJSONresponse(res, 500, {
                             "message": "update this user failed by db"
                         });
                     } else {
@@ -114,46 +114,43 @@ module.exports.portraitUpload = function(req, res) {
     }
     var userPortraitDir = process.env.DATA_DIR + '/user-portrait';
     if (!fs.existsSync(userPortraitDir)) fs.mkdirSync(userPortraitDir);
-
+    file.path=file.path.replace(process.env.UPLOAD_DIR + '\\', '');
+    file.path=file.path.replace(process.env.UPLOAD_DIR + '\/', '');
+    
     //fs.renameSync(file.path,userPortraitDir+'/'+file.name);
     sendJSONresponse(res, 200, {
-        path: file.path.replace(process.env.UPLOAD_DIR + '\\', '')
+        path: file.path
     });
 };
 
 /*change a user's portrait
 post /api/user/portrait/:email*/
 module.exports.changePortrait = function(req, res) {
+    var isFile=false;
+  console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
     if (!req.params.email || !req.params.email.length || !req.body.filename) {
-        sendJsonResponse(res, 404, {
+        sendJSONresponse(res, 404, {
             "message": "Not found, user email and filename are both required"
         });
-        return;
+        //return;
     }
-    var isFileExist=false;
-    var stat=fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename);
-    console.log(stat);
-    /*try{
-            fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
+
+    try{
+          isFile=fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
 
     }
     catch(e){
-        sendJsonResponse(res, 404, {
+        sendJSONresponse(res, 404, {
             "message": "Image File Not found"
         });
         return;
     }
-    if (!isFileExist) {
-        sendJsonResponse(res, 404, {
-            "message": "Image File Not found"
-        });
-        return;
-    }console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);*/
+
     User.findOne(req.params)
         .exec(
             function(err, user) {
                 if (err) {
-                    sendJSONResponse(res, 404, {
+                    sendJSONresponse(res, 404, {
                         "message": "this user is not existed"
                     });
                     return;
@@ -162,12 +159,18 @@ module.exports.changePortrait = function(req, res) {
                 var newfilename =  Date.now()+filename.substring(filename.lastIndexOf('.'));
                 var filepath = process.env.DATA_DIR + '/user-portrait/' + newfilename;
                 //console.log('newfilename:'+newfilename);console.log('oldfilename:'+process.env.UPLOAD_DIR + '/' + filename);
-                fs.renameSync(process.env.UPLOAD_DIR + '/' + filename, filepath);//need to catch error
+                try{
+                  fs.renameSync(process.env.UPLOAD_DIR + '/' + filename, filepath);
+                }catch(e){
+                  sendJSONresponse(res, 500, {
+                      "message": "server error: Image File Not Copied"
+                  });
+                }
 
                 user.portrait='/user-portrait/' + newfilename;
                 user.save(function(err, user) {
                     if (err) {
-                        sendJSONresponse(res, 404, {
+                        sendJSONresponse(res, 500, {
                             "message": "update user's portrait failed by db"
                         });
                     } else {
@@ -176,5 +179,5 @@ module.exports.changePortrait = function(req, res) {
                     }
                 });
             });
-
+    
 };

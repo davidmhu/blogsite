@@ -43,8 +43,7 @@
 
         uploader.onAfterAddingFile = function(fileItem) {
             if (uploader.queue.length>1) {
-                uploader.queue.shift();//only one image
-                //uploader.reomoveFromQueue(0);
+                uploader.queue.shift();
             }
             
         };
@@ -54,6 +53,13 @@
                 .changePortrait(vm.user.email,vm.imgfile)
                 .success(function(data){
                     vm.imgfile=data;vm.user.portrait=data;vm.formError='well done';
+                    $scope.$apply(function(){
+                        $scope.vm.user.portrait=data;
+                    });
+                    $modalInstance.dismiss('cancel');
+                })
+                .error(function(e){
+                    vm.formError=e.message;
                 });
         };
     }

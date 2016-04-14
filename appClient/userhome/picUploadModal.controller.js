@@ -4,10 +4,11 @@
         .module('blogsiteApp')
         .controller('picUploadModalCtrl', picUploadModalCtrl);
 
-    picUploadModalCtrl.$inject = [ '$modalInstance', '$scope','FileUploader','blogsiteData', 'authentication'];
+    picUploadModalCtrl.$inject = [ '$modalInstance', '$scope','FileUploader','blogsiteData', 'authentication','userData'];
 
-    function picUploadModalCtrl($modalInstance,$scope, FileUploader,blogsiteData, authentication) {
+    function picUploadModalCtrl($modalInstance,$scope, FileUploader,blogsiteData, authentication,userData) {
         var vm = this;
+        vm.user=userData;
         vm.formError = '';
         vm.message = '';
         vm.imgfile='';
@@ -23,6 +24,7 @@
         });
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             vm.imgfile=response.path;
+            vm.formError='upload completed.';
         };
         uploader.onErrorItem=function(item, response, status, headers){
             if (response.message){
@@ -48,7 +50,7 @@
         };
         
         vm.changePortrait = function(){
-            authentication
+            blogsiteData
                 .changePortrait(vm.user.email,vm.imgfile)
                 .success(function(data){
                     vm.imgfile=data;vm.user.portrait=data;vm.formError='well done';

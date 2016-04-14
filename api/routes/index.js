@@ -29,7 +29,6 @@ router.post('/user/changepwd/:email',auth,ctrlAuth.changePwd);
 router.post('/user/uploads', multipartyMiddleware,ctrlUser.portraitUpload);//need to add auth
 router.post('/user/portrait/:email',auth,ctrlUser.changePortrait);//need to add auth
 
-
 router.get('/blog/:blogid', ctrlBlogitem.blogDetail);
 router.get('/blog', ctrlBlogitem.blogList);
 router.post('/blog', auth, ctrlBlogitem.blogCreate);

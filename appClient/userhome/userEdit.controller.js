@@ -63,7 +63,16 @@
         vm.popImgUploadForm=function(){
             var modalInstance=$modal.open({
                 templateUrl:'/common/picUploadModal.view.html',
-                controller:'picUploadModalCtrl as vm'
+                controller:'picUploadModalCtrl as vm',
+                resolve:{
+                	userData:function(){
+                		return {
+                			email:vm.user.email,
+                			name:vm.user.name,
+                			protrait:vm.user.portrait 
+                		};
+                	}
+                }
             });
         };
 

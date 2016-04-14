@@ -10,8 +10,8 @@ var sendJSONresponse = function(res, status, content) {
 /* GET a user */
 /* /api/user/xxx@xx.com */
 module.exports.userReadOne = function(req, res) {
-    //console.log('in api user readone');
     User.findOne(req.params)
+        .select('-hash -salt -_id')
         .exec(function(err, user) {
             if (!user) {
                 sendJSONresponse(res, 404, {
@@ -23,7 +23,6 @@ module.exports.userReadOne = function(req, res) {
                 sendJSONresponse(res, 404, err);
                 return;
             }
-            //console.log(user);
             sendJSONresponse(res, 200, user);
         });
 };
@@ -34,6 +33,7 @@ module.exports.userList = function(req, res) {
     User.findOne({
         email: req.query.email
     })
+        .select('-hash -salt -_id')
         .exec(function(err, user) {
             if (!user) {
                 sendJSONresponse(res, 404, {
@@ -117,12 +117,12 @@ module.exports.portraitUpload = function(req, res) {
 
     //fs.renameSync(file.path,userPortraitDir+'/'+file.name);
     sendJSONresponse(res, 200, {
-        path: file.path.replace(process.env.UPLOAD_DIR + '/', '')
+        path: file.path.replace(process.env.UPLOAD_DIR + '\\', '')
     });
 };
 
 /*change a user's portrait
-post /api/user/uploads/:email*/
+post /api/user/portrait/:email*/
 module.exports.changePortrait = function(req, res) {
     if (!req.params.email || !req.params.email.length || !req.body.filename) {
         sendJsonResponse(res, 404, {
@@ -130,12 +130,25 @@ module.exports.changePortrait = function(req, res) {
         });
         return;
     }
-    if (!fs.existsSync(process.env.UPLOAD_DIR + '/' + req.body.filename)) {
+    var isFileExist=false;
+    var stat=fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename);
+    console.log(stat);
+    /*try{
+            fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
+
+    }
+    catch(e){
         sendJsonResponse(res, 404, {
             "message": "Image File Not found"
         });
         return;
     }
+    if (!isFileExist) {
+        sendJsonResponse(res, 404, {
+            "message": "Image File Not found"
+        });
+        return;
+    }console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);*/
     User.findOne(req.params)
         .exec(
             function(err, user) {
@@ -145,10 +158,13 @@ module.exports.changePortrait = function(req, res) {
                     });
                     return;
                 }
-                var filepath = process.env.DATA_DIR + '/user-portrait/' + req.body.filename;
-                fs.renameSync(process.env.UPLOAD_DIR + '/' + req.body.filename, filepath);//need to catch error
+                var filename= req.body.filename;
+                var newfilename =  Date.now()+filename.substring(filename.lastIndexOf('.'));
+                var filepath = process.env.DATA_DIR + '/user-portrait/' + newfilename;
+                //console.log('newfilename:'+newfilename);console.log('oldfilename:'+process.env.UPLOAD_DIR + '/' + filename);
+                fs.renameSync(process.env.UPLOAD_DIR + '/' + filename, filepath);//need to catch error
 
-                user.portrait='/user-portrait/' + req.body.filename;
+                user.portrait='/user-portrait/' + newfilename;
                 user.save(function(err, user) {
                     if (err) {
                         sendJSONresponse(res, 404, {

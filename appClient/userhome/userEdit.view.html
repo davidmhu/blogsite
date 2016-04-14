@@ -38,7 +38,7 @@
       <div class="form-group">
         <label for="portrait" class="control-label col-sm-2">Portrait</label>
         <div class="col-sm-10" ng-show="vm.user.portrait">
-          <img src="vm.user.portrait"/>
+          <img src={{vm.user.portrait}}  width="276" height="200" />
           <button ng-click="vm.popImgUploadForm()" type="button" class="btn btn-default">更改头像</button>
         </div>
         <div class="col-sm-10" ng-hide="vm.user.portrait">

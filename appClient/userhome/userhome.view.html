@@ -10,7 +10,8 @@
 					<tr><th>Account name</th><td class="useremail">{{vm.user.email}}</td></tr>
 					<tr><th>Full name</th><td class="username">{{vm.user.name}}</td></tr>
 					<tr><th>Gender</th><td class="gendername">{{vm.user.gender===1?'Male':(vm.user.gender===0?'Female':'Unknown')}}</td></tr>
-					<tr><th>birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-MM-dd'}}</td></tr>
+					<tr><th>Birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-MM-dd'}}</td></tr>
+					<tr ng-show=vm.user.portrait><th>Portrait</th><td class='portrait'><img src={{vm.user.portrait}}  width="276" height="200" /></td></tr>
 				</tbody>
 			</table>
 		</div>

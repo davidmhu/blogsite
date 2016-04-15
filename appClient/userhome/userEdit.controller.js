@@ -74,6 +74,10 @@
                 	}
                 }
             });
+
+            modalInstance.result.then(function (data) {
+                vm.user.portrait=data;
+            });
         };
 
         function doViewUserInfo() {

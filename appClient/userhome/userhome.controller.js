@@ -6,7 +6,7 @@
 
     userhomeCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
 
-    function userhomeCtrl($scope, $location,blogsiteData, authentication) {console.log('in home');
+    function userhomeCtrl($scope, $location,blogsiteData, authentication) {
         var vm = this;
         if (authentication.isLoggedIn()) {
             doViewUserInfo();

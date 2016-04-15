@@ -175,7 +175,7 @@ module.exports.changePortrait = function(req, res) {
                         });
                     } else {
                         //console.log(user);
-                        sendJSONresponse(res, 200, user.portrait);
+                        sendJSONresponse(res, 200, {portrait:user.portrait});
                     }
                 });
             });

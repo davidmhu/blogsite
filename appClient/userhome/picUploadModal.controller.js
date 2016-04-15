@@ -15,6 +15,9 @@
         vm.modal = {
             cancel: function() {
                 $modalInstance.dismiss('cancel');
+            },
+            close: function(result) {
+                $modalInstance.close(result);
             }
         };
         
@@ -52,11 +55,8 @@
             blogsiteData
                 .changePortrait(vm.user.email,vm.imgfile)
                 .success(function(data){
-                    vm.imgfile=data;vm.user.portrait=data;vm.formError='well done';
-                    $scope.$apply(function(){
-                        $scope.vm.user.portrait=data;
-                    });
-                    $modalInstance.dismiss('cancel');
+                    vm.imgfile=data.portrait;vm.formError='well done';
+                    vm.modal.close(vm.imgfile);
                 })
                 .error(function(e){
                     vm.formError=e.message;

@@ -43,11 +43,14 @@
         };
         var checkEmail = function(email) {
             $http.get('/api/user/emailcheck/' + email)
-                .success(function(err, data) {
-                    if (data || err)
+                .success(function(data) {
+                    if (data)
                         return false;
                     else
                         return true;
+                })
+                .error(function(e) {
+                    return false;
                 });
         };
         return {

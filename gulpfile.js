@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
-
+var karma= require('karma').Server;
 
 gulp.task('lint', function(cb) {
   return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js','./public/qa/tests*.js','./appClient/**/*.js'])
@@ -48,6 +48,13 @@ gulp.task('mocha-zombie-blog',['lint'], function() {
       ui:'bdd'
       }
     ));
+});
+
+gulp.task('karma',function(done){
+  new karma({
+    configFile:__dirname+'/karma.conf.js',
+    singleRun:true
+  },done).start();
 });
 
 gulp.task('default',['lint','mocha-zombie-user']);

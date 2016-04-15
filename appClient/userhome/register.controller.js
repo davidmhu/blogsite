@@ -49,12 +49,6 @@
                     $location.path(vm.returnPage);
                 });
         }
-      //vm.showError = function (error) {
-        //$scope.$apply(function() {
-        //  vm.message = error.message;
-        //});
-        //};
-
     }
 
 })();

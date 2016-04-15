@@ -27,12 +27,12 @@
                 headers: {
                     Authorization: 'Bearer ' + authentication.getToken()
                 }
-            }).success(function(data) { 
+            }).success(function(data) {
                 authentication.saveToken(data);
             });
         };
 
-        var changePortrait = function(email, imgfilepath) { 
+        var changePortrait = function(email, imgfilepath) {
             return $http.post('/api/user/portrait/' + email, {
                 filename: imgfilepath
             }, {
@@ -41,11 +41,21 @@
                 }
             });
         };
+        var checkEmail = function(email) {
+            $http.get('/api/user/emailcheck/' + email)
+                .success(function(err, data) {
+                    if (data || err)
+                        return false;
+                    else
+                        return true;
+                });
+        };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo: updateUserinfo,
             changePwd: changePwd,
-            changePortrait: changePortrait
+            changePortrait: changePortrait,
+            checkEmail: checkEmail
         };
 
 

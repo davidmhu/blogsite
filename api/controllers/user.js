@@ -41,7 +41,7 @@ module.exports.userList = function(req, res) {
                 });
                 return;
             } else if (err) {
-                console.log(err);
+                //console.log(err);
                 sendJSONresponse(res, 404, err);
                 return;
             }
@@ -56,7 +56,7 @@ module.exports.userEdit = function(req, res) {
     //need to add validation here
     //console.log(req.params.email);
     if (!req.params.email && !req.params.email.length) {
-        sendJsonResponse(res, 404, {
+        sendJSONresponse(res, 400, {
             "message": "Not found, user email is required"
         });
         return;
@@ -65,7 +65,7 @@ module.exports.userEdit = function(req, res) {
         .exec(
             function(err, user) {
                 if (err) {
-                    sendJSONResponse(res, 404, {
+                    sendJSONresponse(res, 404, {
                         "message": "this user is not existed"
                     });
                     return;
@@ -83,7 +83,7 @@ module.exports.userEdit = function(req, res) {
 
                 user.save(function(err, user) {
                     if (err) {
-                        console.log(err);
+                        //console.log(err);
                         sendJSONresponse(res, 500, {
                             "message": "update this user failed by db"
                         });
@@ -97,18 +97,50 @@ module.exports.userEdit = function(req, res) {
     );
 };
 
+/*check if an email account exists
+get /api/user/emailcheck/:email*/
+module.exports.checkEmail=function(req,res){
+    if (!req.params.email) {
+        sendJSONresponse(res, 400, {"message": " email is requried"});
+        return;
+    }
+    if (!req.params.email.match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
+        sendJSONresponse(res, 400, {"message": " wrong email format"});
+        return;
+    }
+
+    User.findOne({email:req.params.email})
+        .select('email')
+        .exec(
+            function(err,data){
+                if (err ) {
+                    sendJSONresponse(res, 500, {
+                            "message": "checking email failed by db"
+                        });
+                    return;
+                }console.log(data);
+                if (data) { //already exists
+                    sendJSONresponse(res, 200, {email:data.email});
+                    return;
+                }else{ // not found , new email is valid
+                    sendJSONresponse(res, 200, {});
+                    return;
+                }
+            });
+};
+
 /*upload a portrait
 post /api/user/uploads/:email*/
 module.exports.portraitUpload = function(req, res) {
     var file = req.files.file; //uploadPath = path.normalize(cfg.data + '/uploads')
 
     if (file.type.substr(0, 5) !== 'image') {
-        sendJSONresponse(res, 404, {
+        sendJSONresponse(res, 400, {
             "message": "only image file is accepted"
         });
     }
     if (file.size > 2 * 1024 * 1024) {
-        sendJSONresponse(res, 404, {
+        sendJSONresponse(res, 400, {
             "message": "only image file of less than 2M size is accepted"
         });
     }
@@ -129,7 +161,7 @@ module.exports.changePortrait = function(req, res) {
     var isFile=false;
   console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
     if (!req.params.email || !req.params.email.length || !req.body.filename) {
-        sendJSONresponse(res, 404, {
+        sendJSONresponse(res, 400, {
             "message": "Not found, user email and filename are both required"
         });
         //return;

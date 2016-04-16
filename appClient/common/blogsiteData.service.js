@@ -1,7 +1,7 @@
 (function() {
 
     angular
-        .module('blogsiteApp',[])
+        .module('blogsiteApp')
         .service('blogsiteData', blogsiteData);
 
     blogsiteData.$inject = ['$http', 'authentication'];
@@ -42,16 +42,8 @@
             });
         };
         var checkEmail = function(email) {
-            $http.get('/api/user/emailcheck/' + email)
-                .success(function(data) {
-                    if (data)
-                        return false;
-                    else
-                        return true;
-                })
-                .error(function(e) {
-                    return false;
-                });
+            return $http.get('/api/user/emailcheck/' + email);
+                
         };
         return {
             getUserinfo: getUserinfo,

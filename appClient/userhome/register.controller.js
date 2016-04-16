@@ -4,9 +4,9 @@
         .module('blogsiteApp')
         .controller('registerCtrl', registerCtrl);
 
-    registerCtrl.$inject = ['$scope', '$location',  'authentication'];
+    registerCtrl.$inject = ['$scope', '$location',  'authentication','blogsiteData'];
 
-    function registerCtrl($scope, $location, authentication) {
+    function registerCtrl($scope, $location, authentication,blogsiteData) {
         var vm = this;
         //vm.user={password:'eat-the-living',email:'davidmhu@sina.com.cn'};
         vm.user = {};
@@ -14,13 +14,18 @@
         vm.returnPage = $location.search().page || '/';
         vm.emailChanged = function() {
             vm.check = '';
-            console.log('changed');
         };
-        vm.checkEmail = function() { //need to complete
-            //vm.check = '√';
-            vm.check = base64.decode('5ZGo56eL5LqR');
-            console.log(vm.check);
+        vm.checkEmail = function() { 
+            vm.check='X';
+            blogsiteData.checkEmail(vm.user.email)
+                .success(function(data){
+                    if (!data.email) {
+                        vm.check='√';
+                    }
+                });
+                
         };
+
         vm.submit = function() {
             vm.message = '';
             if ($scope.registerForm.$pristine) {

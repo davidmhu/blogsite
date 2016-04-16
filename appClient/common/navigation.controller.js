@@ -1,25 +1,21 @@
 (function () {
 
   angular
-    .module('blogsiteApp')
+    .module('blogsiteApp',[])
     .controller('navigationCtrl', navigationCtrl);
 
-  navigationCtrl.$inject = ['$scope','$location', 'authentication'];
-  function navigationCtrl($scope,$location, authentication) {
+  navigationCtrl.$inject = ['$location','authentication'];
+  function navigationCtrl( $location,authentication) {
     var vm = this;
-
-    vm.currentPath = $location.path();
-
+    vm.test='123';
     vm.isLoggedIn = authentication.isLoggedIn();
-
     vm.currentUser = authentication.currentUser();
-
     vm.logout = function() {
       authentication.logout();
       //$scope.$apply(function(){
         $location.path('/');
       //});
     };
-
+    vm.currentPath = $location.path();
   }
 })();

@@ -1,7 +1,7 @@
 (function() {
 
     angular
-        .module('blogsiteApp')
+        .module('blogsiteApp',[])
         .service('blogsiteData', blogsiteData);
 
     blogsiteData.$inject = ['$http', 'authentication'];

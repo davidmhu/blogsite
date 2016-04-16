@@ -22,7 +22,8 @@ module.exports = function(config) {
 
 
     // list of files to exclude
-    exclude: ['karma.config.js'
+    exclude: ['karma.config.js'/*,
+                './public/qa/client/blogsiteDataSpec.js'*/
     ],
 
 
@@ -66,6 +67,11 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity/*,
+
+    plugins: [
+      require('./'),
+      'karma-mocha'
+    ]*/
   })
 }

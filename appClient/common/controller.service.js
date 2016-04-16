@@ -1,5 +1,12 @@
-angular.module('notesApp', []).controller('ListCtrl', [
-    function() {
+(function() {
+
+    angular
+        .module('notesApp',[])
+        .controller('ListCtrl', ListCtrl);
+
+    //ListCtrl.$inject = ['$scope'];
+
+    function ListCtrl() {
         var self = this;
         self.items = [{
             id: 1,
@@ -17,4 +24,5 @@ angular.module('notesApp', []).controller('ListCtrl', [
             };
         };
     }
-]);
+
+})();

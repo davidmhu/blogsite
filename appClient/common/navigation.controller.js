@@ -1,7 +1,7 @@
 (function () {
 
   angular
-    .module('blogsiteApp',[])
+    .module('blogsiteApp')
     .controller('navigationCtrl', navigationCtrl);
 
   navigationCtrl.$inject = ['$location','authentication'];

@@ -30,10 +30,10 @@ router.get('/',function(req,res){console.log('in spa');
     res.render('layoutUser',{title:'Blogsite:user"s administation'});
 });
 /* GET user's register. */
-router.get('/register', function(req, res) {
+/*router.get('/register', function(req, res) {
     res.render('register', {
         title: 'Blogsite- register'
-    });/**/
+    });
 });
 router.get('/login',function (req,res,next) {
 	res.render('login',{
@@ -50,5 +50,5 @@ router.get('/logout',function(req,res){
 router.all('/user*',authFunc.ifLoggedIn);
 router.get('/user/show/:email', ctrlUsers.userDetail);
 router.get('/user/:email', ctrlUsers.userShowEdit);
-router.post('/user/edit/:email', ctrlUsers.userEdit);
+router.post('/user/edit/:email', ctrlUsers.userEdit);*/
 module.exports = router;

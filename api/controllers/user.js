@@ -110,7 +110,7 @@ module.exports.checkEmail=function(req,res){
     }
 
     User.findOne({email:req.params.email})
-        .select('email')
+        .select('email -_id')
         .exec(
             function(err,data){
                 if (err ) {
@@ -120,7 +120,7 @@ module.exports.checkEmail=function(req,res){
                     return;
                 }console.log(data);
                 if (data) { //already exists
-                    sendJSONresponse(res, 200, {email:data.email});
+                    sendJSONresponse(res, 200, data);
                     return;
                 }else{ // not found , new email is valid
                     sendJSONresponse(res, 200, {});

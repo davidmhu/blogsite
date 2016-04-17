@@ -7,7 +7,7 @@
 			<div class="error">{{ vm.message }}</div>
 			<table class="table table-bordered table-striped">
 				<tbody>
-					<tr><th>Account name</th><td class="useremail">{{vm.user.email}}</td></tr>
+					<tr><th>Account name</th><td id="usermail" class="useremail">{{vm.user.email}}</td></tr>
 					<tr><th>Full name</th><td class="username">{{vm.user.name}}</td></tr>
 					<tr><th>Gender</th><td class="gendername">{{vm.user.gender===1?'Male':(vm.user.gender===0?'Female':'Unknown')}}</td></tr>
 					<tr><th>Birthday</th><td class="birthstr">{{vm.user.birthday | date:'yyyy-MM-dd'}}</td></tr>

@@ -5,7 +5,9 @@ var jshint = require('gulp-jshint');
 var karma= require('karma').Server;
 
 gulp.task('lint', function(cb) {
-  return gulp.src(['app.js','./appServer/**/*.js','./api/**/*.js','./public/qa/tests*.js','./appClient/**/*.js'])
+  return gulp.src(['app.js','./appServer/**/*.js',
+        './api/**/*.js','./public/qa/**/test*.js',
+        './appClient/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 
@@ -22,12 +24,11 @@ gulp.task('watch-mocha', function() {
 });
 
 
-gulp.task('qa-test', function() {
-  return gulp.src(['test/test-*.js'], { read: false })
+gulp.task('qa-test', ['lint'],function() {
+  return gulp.src(['public/qa/api/test-*.js'], { read: false })
     .pipe(mocha({
-      reporter: 'spec',
+      reporter: 'list',
       globals: {
-        should: require('should')
       }
     }));
 });

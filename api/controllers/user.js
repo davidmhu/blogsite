@@ -131,8 +131,8 @@ module.exports.checkEmail=function(req,res){
 
 /*upload a portrait
 post /api/user/uploads/:email*/
-module.exports.portraitUpload = function(req, res) {//console.log(req.body);
-    var file = req.files.file; //uploadPath = path.normalize(cfg.data + '/uploads')
+module.exports.portraitUpload = function(req, res) {console.log(req.headers);
+    var file = req.files.file; console.log(req.files);//uploadPath = path.normalize(cfg.data + '/uploads')
     
     if (file.type.substr(0, 5) !== 'image') {
         sendJSONresponse(res, 400, {
@@ -149,7 +149,6 @@ module.exports.portraitUpload = function(req, res) {//console.log(req.body);
     file.path=file.path.replace(process.env.UPLOAD_DIR + '\\', '');
     file.path=file.path.replace(process.env.UPLOAD_DIR + '\/', '');
     
-    //fs.renameSync(file.path,userPortraitDir+'/'+file.name);
     sendJSONresponse(res, 200, {
         path: file.path
     });
@@ -159,14 +158,15 @@ module.exports.portraitUpload = function(req, res) {//console.log(req.body);
 post /api/user/portrait/:email*/
 module.exports.changePortrait = function(req, res) {
     var isFile=false;
-  console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
+    
     if (!req.params.email || !req.params.email.length || !req.body.filename) {
         sendJSONresponse(res, 400, {
             "message": "Not found, user email and filename are both required"
         });
-        //return;
+        return;
     }
-
+    
+    console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
     try{
           isFile=fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
 
@@ -177,7 +177,7 @@ module.exports.changePortrait = function(req, res) {
         });
         return;
     }
-
+    console.log('2');
     User.findOne(req.params)
         .exec(
             function(err, user) {

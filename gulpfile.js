@@ -27,7 +27,7 @@ gulp.task('watch-mocha', function() {
 gulp.task('qa-test', ['lint'],function() {
   return gulp.src(['public/qa/api/test-*.js'], { read: false })
     .pipe(mocha({
-      reporter: 'list',
+      reporter: 'spec',
       globals: {
       }
     }));

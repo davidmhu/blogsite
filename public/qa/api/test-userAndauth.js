@@ -6,7 +6,7 @@ require('dotenv').load();
 
 
 describe('Testing user api:', function() {
-	var existedEmail='davidhu@163.com';
+	var existedEmail='davidhu@163.com';//davidhu@163.com
 	var token;
 
 	var d = new Date(),
@@ -25,7 +25,7 @@ describe('Testing user api:', function() {
                 function(error, response, body) {
                     console.log(response.statusCode);
                     if (!error && response.statusCode == 200) {
-                        result = JSON.parse(body);
+                        result = JSON.parse(body);console.log(body);
                     }
                     done();
                 });
@@ -197,6 +197,59 @@ describe('Testing user api:', function() {
         	expect(result).to.have.property('name').and.to.equal('davidhuModi');
         });
 
+    });
+
+    describe('Testing upload user portrait',function(){
+    	var result,code,mfile,filepath=__dirname + '/test.jpg';
+    	var fs = require('fs');
+    	if (!fs.existsSync(filepath)) {
+    		console.log('file not exist');
+    		it('file should exists',function(){
+    			expect(false).to.equal(true);
+    		});
+    		return;	
+    	}
+
+    	try{
+    		mfile=fs.createReadStream(filepath);
+    	}catch(e){
+    		//console.log(e);
+    		it('cannot read file',function(){
+    			expect(false).to.equal(true);
+    		});
+    		return;
+    	}
+
+    	//var formdata={m_file:mfile};
+    	var formdata={
+    		my_file:mfile,
+    		attachments:[
+    			fs.createReadStream(__dirname + '/test.jpg')
+    		]
+    		/*options:{
+    			filename:'test.jpg',
+    			contentType:'image/jpg'
+    		}*/
+    	};
+    	before(function(done){
+    		request.post({url:'http://localhost:' + port + '/api/user/uploads',
+            	formData:formdata
+            	},
+                function(error, response, body) {
+                    code=response.statusCode;//console.log(response.statusCode);console.log(token);
+                    if (!error && response.statusCode == 200) {
+                        result = body;//console.log(result);
+                        
+                    }else{
+                    	console.log(error);
+                    }
+                    done();
+                });
+    	});
+
+    	it('should get upload filepath successfully',function(){
+        	expect(result).to.have.property('path').and.not.to.null();
+        });
     });
 
 

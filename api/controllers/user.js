@@ -131,9 +131,9 @@ module.exports.checkEmail=function(req,res){
 
 /*upload a portrait
 post /api/user/uploads/:email*/
-module.exports.portraitUpload = function(req, res) {
+module.exports.portraitUpload = function(req, res) {//console.log(req.body);
     var file = req.files.file; //uploadPath = path.normalize(cfg.data + '/uploads')
-
+    
     if (file.type.substr(0, 5) !== 'image') {
         sendJSONresponse(res, 400, {
             "message": "only image file is accepted"

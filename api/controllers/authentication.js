@@ -87,7 +87,18 @@ module.exports.changePwd = function(req, res) {
     sendJSONresponse(res, 404, {
       "message": "Old password or new password should not be empty."
     });
+    return;
   }
+  
+  var type1=typeof(req.body.oldpassword);
+  var type2=typeof(req.body.newpassword);
+
+  if (type1 !=="string" || type2 !== "string") {
+    sendJSONresponse(res, 404, {
+      "message": "Old password or new password should  be string."
+    });
+    return;
+}
 
   User.findOne(req.params)
     .exec(

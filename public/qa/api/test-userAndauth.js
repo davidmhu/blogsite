@@ -15,7 +15,7 @@ describe('Testing user api:', function() {
         randomInt = Math.floor(Math.random() * nameArr.length);
     var username = nameArr[randomInt],
         useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',
-        password = 'eat-the-living';
+        password = 'eat-the-living'; //'88888888'
     console.log('the new account is ' + useremail + ' and name is ' + username);
 
     describe('Testing email check', function() {
@@ -70,7 +70,7 @@ describe('Testing user api:', function() {
 
         var postdata = {
             email: existedEmail,
-            password: 'eat-the-living'
+            password: password
         };
         var result, code;
 
@@ -88,7 +88,7 @@ describe('Testing user api:', function() {
                 });
         });
         it('should login successfully', function() {
-            console.log(result.token);
+            //console.log(result.token);
             expect(result).to.have.property('token');
         });
 
@@ -291,7 +291,38 @@ describe('Testing user api:', function() {
 
     });
 
+    describe('Testing change user password', function() {
+        var result, code;
+        //the uploadedName value cannot be passed to this function!
 
+        var postdata = {
+            newpassword: '88888888',
+            oldpassword: 'eat-the-living'
+        };
+        before(function(done) {
+
+            request.post('http://localhost:' + port + '/api/user/changepwd/' + existedEmail, {
+                json: postdata,
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }, function(error, response, body) {
+                code = response.statusCode;
+                if (!error && response.statusCode == 200) {
+                    result = body; //JSON.parse(body);
+                    token = result;
+                } else {
+                    console.log(error);
+                }
+                done();
+            });
+        });
+
+        it('should change user password successfully', function() {
+            expect(result).not.to.be.empty;
+        });
+
+    });
 
 
 });

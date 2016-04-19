@@ -131,8 +131,8 @@ module.exports.checkEmail=function(req,res){
 
 /*upload a portrait
 post /api/user/uploads/:email*/
-module.exports.portraitUpload = function(req, res) {console.log(req.headers);
-    var file = req.files.file; console.log(req.files);//uploadPath = path.normalize(cfg.data + '/uploads')
+module.exports.portraitUpload = function(req, res) {
+    var file = req.files.file; //console.log(req.files);//uploadPath = path.normalize(cfg.data + '/uploads')
     
     if (file.type.substr(0, 5) !== 'image') {
         sendJSONresponse(res, 400, {
@@ -177,7 +177,7 @@ module.exports.changePortrait = function(req, res) {
         });
         return;
     }
-    console.log('2');
+
     User.findOne(req.params)
         .exec(
             function(err, user) {

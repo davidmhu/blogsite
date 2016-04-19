@@ -3,6 +3,15 @@ var mocha = require('gulp-mocha');
 var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
 var karma= require('karma').Server;
+var protractor = require("gulp-protractor").protractor;
+ 
+gulp.src(["./src/tests/*.js"])
+  .pipe(protractor({
+    configFile: "test/protractor.config.js",
+    args: ['--baseUrl', 'http://127.0.0.1:8000']
+  }))
+  .on('error', function(e) { throw e })
+
 
 gulp.task('lint', function(cb) {
   return gulp.src(['app.js','./appServer/**/*.js',

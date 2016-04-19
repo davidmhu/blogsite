@@ -291,7 +291,7 @@ describe('Testing user api:', function() {
 
     });
 
-    describe('Testing change user password', function() {
+    /*describe('Testing change user password', function() {
         var result, code;
         //the uploadedName value cannot be passed to this function!
 
@@ -322,7 +322,7 @@ describe('Testing user api:', function() {
             expect(result).not.to.be.empty;
         });
 
-    });
+    });*/
 
 
 });

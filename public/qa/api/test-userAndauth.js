@@ -6,17 +6,46 @@ require('dotenv').load();
 
 
 describe('Testing user api:', function() {
-    var existedEmail = 'davidhu@163.com'; //davidhu@163.com
+    
     var token, uploadedName;
 
     var d = new Date(),
         nameArr = ['李明哲', '范文暄', '陈立得', '伍三湘', '顾江汉', '马芳', '欧阳明惠', '周秋云'],
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
-        randomInt = Math.floor(Math.random() * nameArr.length);
-    var username = nameArr[randomInt],
+        randomInt = Math.floor(Math.random() * nameArr.length),
+	    username = nameArr[randomInt],
         useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',
         password = 'eat-the-living'; //'88888888'
+    
+	var existedEmail = useremail;//'davidhu@163.com'; used for test without register
+
     console.log('the new account is ' + useremail + ' and name is ' + username);
+
+    describe('Testing user register',function(){
+    	var postdata={email:useremail,name:username,password:password,gender:1};
+    	var info,code;
+    	before(function(done) {
+            request.post('http://localhost:' + port + '/api/register/', {
+                    json: postdata
+                },
+                function(error, response, body) {
+                    console.log(response.statusCode);code=response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        token = body.token;
+                        info=body.userInfo;
+                    }else{
+                    	console.log(error);
+                    }
+                    done();
+                });
+
+        });
+
+        it('should register successfully',function(){
+        	expect(info.email).to.equal(useremail);
+        });
+
+    });
 
     describe('Testing email check', function() {
         var result;
@@ -40,7 +69,7 @@ describe('Testing user api:', function() {
     describe('Testing user login 1', function() {
 
         var postdata = {
-            email: 'davidhu@163.com',
+            email: useremail,
             password: 'eatee-the-living'
         };
         var result, code;
@@ -95,33 +124,7 @@ describe('Testing user api:', function() {
 
     });
 
-    /*    describe('Testing user register',function(){
-    	console.log('the new account is ' + useremail + ' and name is '+username);
-    	var postdata={email:useremail,name:username,password:password,gender:1};
-    	var info,code;
-    	before(function(done) {
-            request.post('http://localhost:' + port + '/api/register/', {
-                    json: postdata
-                },
-                function(error, response, body) {
-                    console.log(response.statusCode);code=response.statusCode;
-                    if (!error && response.statusCode == 200) {
-                        token = body.token;
-                        info=body.userInfo;
-                    }else{
-                    	console.log(error);
-                    }
-                    done();
-                });
-
-        });
-
-        it('should register successfully',function(){
-        	expect(info.email).to.equal(useremail);
-        });
-
-    });*/
-
+    
     describe('Testing get user info 1', function() {
         var result, info, code;
         before(function(done) {
@@ -291,7 +294,7 @@ describe('Testing user api:', function() {
 
     });
 
-    /*describe('Testing change user password', function() {
+    describe('Testing change user password to 88888888', function() {
         var result, code;
         //the uploadedName value cannot be passed to this function!
 
@@ -322,7 +325,39 @@ describe('Testing user api:', function() {
             expect(result).not.to.be.empty;
         });
 
-    });*/
+    });
 
+describe('Testing change user password back to '+password, function() {
+        var result, code;
+        //the uploadedName value cannot be passed to this function!
+
+        var postdata = {
+            oldpassword: '88888888',
+            newpassword: password
+        };
+        before(function(done) {
+
+            request.post('http://localhost:' + port + '/api/user/changepwd/' + existedEmail, {
+                json: postdata,
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }, function(error, response, body) {
+                code = response.statusCode;
+                if (!error && response.statusCode == 200) {
+                    result = body; //JSON.parse(body);
+                    token = result;
+                } else {
+                    console.log(error);
+                }
+                done();
+            });
+        });
+
+        it('should change user password successfully', function() {
+            expect(result).not.to.be.empty;
+        });
+
+    });
 
 });

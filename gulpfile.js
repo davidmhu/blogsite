@@ -4,14 +4,15 @@ var gutil = require('gulp-util');
 var jshint = require('gulp-jshint');
 var karma= require('karma').Server;
 var protractor = require("gulp-protractor").protractor;
- 
-gulp.src(["./src/tests/*.js"])
-  .pipe(protractor({
-    configFile: "test/protractor.config.js",
-    args: ['--baseUrl', 'http://127.0.0.1:8000']
-  }))
-  .on('error', function(e) { throw e })
 
+gulp.task('protractor',function(){
+  return gulp.src(["public/qa/e2e/spec.js"])
+  .pipe(protractor({
+    configFile: "public/qa/e2e/conf.js",
+    args: ['--baseUrl', 'http://127.0.0.1:3100']
+  }))
+  .on('error', function(e) { throw e });
+});
 
 gulp.task('lint', function(cb) {
   return gulp.src(['app.js','./appServer/**/*.js',
@@ -33,7 +34,7 @@ gulp.task('watch-mocha', function() {
 });
 
 
-gulp.task('qa-test', ['lint'],function() {
+gulp.task('qa-api', ['lint'],function() {
   return gulp.src(['public/qa/api/test-*.js'], { read: false })
     .pipe(mocha({
       reporter: 'spec',
@@ -67,4 +68,4 @@ gulp.task('karma',function(done){
   },done).start();
 });
 
-gulp.task('default',['lint','mocha-zombie-user']);
+gulp.task('default',['lint','qa-api','protractor']);

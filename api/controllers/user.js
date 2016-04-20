@@ -99,30 +99,37 @@ module.exports.userEdit = function(req, res) {
 
 /*check if an email account exists
 get /api/user/emailcheck/:email*/
-module.exports.checkEmail=function(req,res){
+module.exports.checkEmail = function(req, res) {
     if (!req.params.email) {
-        sendJSONresponse(res, 400, {"message": " email is requried"});
+        sendJSONresponse(res, 400, {
+            "message": " email is requried"
+        });
         return;
     }
     if (!req.params.email.match(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)) {
-        sendJSONresponse(res, 400, {"message": " wrong email format"});
+        sendJSONresponse(res, 400, {
+            "message": " wrong email format"
+        });
         return;
     }
 
-    User.findOne({email:req.params.email})
+    User.findOne({
+        email: req.params.email
+    })
         .select('email -_id')
         .exec(
-            function(err,data){
-                if (err ) {
+            function(err, data) {
+                if (err) {
                     sendJSONresponse(res, 500, {
-                            "message": "checking email failed by db"
-                        });
+                        "message": "checking email failed by db"
+                    });
                     return;
-                }console.log(data);
+                }
+                console.log(data);
                 if (data) { //already exists
                     sendJSONresponse(res, 200, data);
                     return;
-                }else{ // not found , new email is valid
+                } else { // not found , new email is valid
                     sendJSONresponse(res, 200, {});
                     return;
                 }
@@ -133,7 +140,7 @@ module.exports.checkEmail=function(req,res){
 post /api/user/uploads/:email*/
 module.exports.portraitUpload = function(req, res) {
     var file = req.files.file; //console.log(req.files);//uploadPath = path.normalize(cfg.data + '/uploads')
-    
+
     if (file.type.substr(0, 5) !== 'image') {
         sendJSONresponse(res, 400, {
             "message": "only image file is accepted"
@@ -146,9 +153,9 @@ module.exports.portraitUpload = function(req, res) {
     }
     var userPortraitDir = process.env.DATA_DIR + '/user-portrait';
     if (!fs.existsSync(userPortraitDir)) fs.mkdirSync(userPortraitDir);
-    file.path=file.path.replace(process.env.UPLOAD_DIR + '\\', '');
-    file.path=file.path.replace(process.env.UPLOAD_DIR + '\/', '');
-    
+    file.path = file.path.replace(process.env.UPLOAD_DIR + '\\', '');
+    file.path = file.path.replace(process.env.UPLOAD_DIR + '\/', '');
+
     sendJSONresponse(res, 200, {
         path: file.path
     });
@@ -157,21 +164,20 @@ module.exports.portraitUpload = function(req, res) {
 /*change a user's portrait
 post /api/user/portrait/:email*/
 module.exports.changePortrait = function(req, res) {
-    var isFile=false;
-    
+    var isFile = false;
+
     if (!req.params.email || !req.params.email.length || !req.body.filename) {
         sendJSONresponse(res, 400, {
             "message": "Not found, user email and filename are both required"
         });
         return;
     }
-    
-    console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
-    try{
-          isFile=fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
 
-    }
-    catch(e){
+    console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
+    try {
+        isFile = fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
+
+    } catch (e) {
         sendJSONresponse(res, 404, {
             "message": "Image File Not found"
         });
@@ -187,19 +193,19 @@ module.exports.changePortrait = function(req, res) {
                     });
                     return;
                 }
-                var filename= req.body.filename;
-                var newfilename =  Date.now()+filename.substring(filename.lastIndexOf('.'));
+                var filename = req.body.filename;
+                var newfilename = Date.now() + filename.substring(filename.lastIndexOf('.'));
                 var filepath = process.env.DATA_DIR + '/user-portrait/' + newfilename;
                 //console.log('newfilename:'+newfilename);console.log('oldfilename:'+process.env.UPLOAD_DIR + '/' + filename);
-                try{
-                  fs.renameSync(process.env.UPLOAD_DIR + '/' + filename, filepath);
-                }catch(e){
-                  sendJSONresponse(res, 500, {
-                      "message": "server error: Image File Not Copied"
-                  });
+                try {
+                    fs.renameSync(process.env.UPLOAD_DIR + '/' + filename, filepath);
+                } catch (e) {
+                    sendJSONresponse(res, 500, {
+                        "message": "server error: Image File Not Copied"
+                    });
                 }
 
-                user.portrait='/user-portrait/' + newfilename;
+                user.portrait = '/user-portrait/' + newfilename;
                 user.save(function(err, user) {
                     if (err) {
                         sendJSONresponse(res, 500, {
@@ -207,9 +213,55 @@ module.exports.changePortrait = function(req, res) {
                         });
                     } else {
                         //console.log(user);
-                        sendJSONresponse(res, 200, {portrait:user.portrait});
+                        sendJSONresponse(res, 200, {
+                            portrait: user.portrait
+                        });
                     }
                 });
             });
+};
+
+/*get /user/list/*/
+module.exports.getUserByPage = function(req, res) {
+    var page,pagesize;
+    if (req.body.page ) {
+        if (!/^[0-9]+$/.test(req.body.page)) {
+            sendJSONresponse(res, 400, {
+                "message": " wrong page format:must be a positive integar"
+            });
+            return;
+        }
+    }
+    if (req.body.pagesize ) {
+        if (!/^[0-9]+$/.test(req.body.pagesize)) {
+            sendJSONresponse(res, 400, {
+                "message": " wrong pagesize format:must be a positive integar"
+            });
+            return;
+        }
+    }
+    page=parseInt(req.body.page) || 1;
+    pagesize=parseInt(req.body.pagesize) || 10;
     
+    var queryCond=req.body.queryCond || {};console.log(page);console.log(pagesize);console.log(queryCond);
+    User.find(queryCond)
+        .skip(pagesize*(page-1)).limit(pagesize)
+        .select('-_id -salt -hash')
+        .exec(
+            function(err, data) {
+                if (err) {
+                    sendJSONresponse(res, 500, {
+                        "message": "checking email failed by db"
+                    });
+                    return;
+                }
+                console.log(data);
+                if (data) { //already exists
+                    sendJSONresponse(res, 200, data);
+                    return;
+                } else { // not found , new email is valid
+                    sendJSONresponse(res, 200, {});
+                    return;
+                }
+            });
 };

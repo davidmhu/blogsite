@@ -30,6 +30,7 @@ router.put('/user/:email', auth, ctrlUser.userEdit);
 router.post('/user/changepwd/:email',auth,ctrlAuth.changePwd);
 router.post('/user/uploads', multipartyMiddleware,ctrlUser.portraitUpload);
 router.post('/user/portrait/:email',auth,ctrlUser.changePortrait);
+router.post('/user/list',ctrlUser.getUserByPage)
 
 router.get('/blog/:blogid', ctrlBlogitem.blogDetail);
 router.get('/blog', ctrlBlogitem.blogList);

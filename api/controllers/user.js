@@ -277,13 +277,10 @@ module.exports.getUserByPage = function(req, res) {
                                     });
                                     return;
                                 }
-                                if (data) { //already exists
-                                    sendJSONresponse(res, 200, data);
-                                    return;
-                                } else { // not found , new email is valid
-                                    sendJSONresponse(res, 200, {});
-                                    return;
-                                }
+                                var result={rowcnt:rowcnt,userlist:data};
+                                sendJSONresponse(res, 200, result);
+                                return;
+                                
                             });
                 }
             });

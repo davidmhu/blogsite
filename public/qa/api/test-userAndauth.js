@@ -386,11 +386,11 @@ describe('Testing get user list by page',function(){
         });
 
 	it('should get '+postdata.pagesize+' users\' list successfully', function() {
-            expect(result.length).to.equal(2);
+            expect(result.userlist.length).to.equal(2);
     });
 
     it('should get users\' list with conditions successfully', function() {
-            expect(result[1].gender).to.equal(1);
+            expect(result.userlist[1].gender).to.equal(1);
     });
 
 });

@@ -45,12 +45,21 @@
             return $http.get('/api/user/emailcheck/' + email);
                 
         };
+        var getListpage = function (page,pagesize,queryCond) {console.log('in blogdata getlistpage');
+            var postdata={
+                page : page,
+                pagesize : pagesize,
+                queryCond: queryCond
+            };
+            return $http.post('/api/user/list/',postdata);
+        };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo: updateUserinfo,
             changePwd: changePwd,
             changePortrait: changePortrait,
-            checkEmail: checkEmail
+            checkEmail: checkEmail,
+            getListpage:getListpage
         };
 
 

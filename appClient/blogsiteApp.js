@@ -28,6 +28,11 @@
                 controller: 'userEditCtrl',
                 controllerAs: 'vm'
             })
+            .when('/user/list',{
+                templateUrl: 'userhome/userList.view.html',
+                controller: 'userlistCtrl',
+                controllerAs: 'vm'
+            })
         .otherwise({
             redirectTo: '/'
         });

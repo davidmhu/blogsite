@@ -8,20 +8,27 @@
 
     function userlistCtrl($scope, $location,blogsiteData, authentication) {
         var vm = this;
-        vm={page:1,pagesize:5,queryCond:{},rowcnt:0};
-        blogsiteData.getListpage(vm.page,vm.pagesize,vm.queryCond)
+        vm={curpage:1,pagesize:8,queryCond:{},rowcnt:0,pagecnt:1};
+        vm.getListpage(1);
+        
+        vm.getListpage=function(curpage) {
+            
+            blogsiteData.getListpage(curpage,vm.pagesize,vm.queryCond)
             .success(function(data) {
                 vm.userlist = data.userlist;
                 $scope.vm.userlist=vm.userlist;
                 vm.rowcnt=data.rowcnt;
-                console.log(vm.rowcnt);console.log(vm.userlist);
+                vm.pagecnt=Math.ceil(vm.pagesize/vm.rowcnt);
+                //console.log(vm.rowcnt);console.log(vm.userlist);
                 $scope.vm.rowcnt=vm.rowcnt;
+                $scope.vm.pagecnt=vm.pagecnt;
+                $scope.vm.curpage=vm.curpage=curpage;
                 
             })
             .error(function(e) {
                 vm.message = "Sorry, something's gone wrong: "+e.message;
             });
-        
+        };
         
     }
 

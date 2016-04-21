@@ -361,3 +361,36 @@ describe('Testing change user password back to '+password, function() {
     });
 
 });
+
+describe('Testing get user list by page',function(){
+	var postdata={
+		page : 2,
+		pagesize : 2,
+		queryCond: {
+			gender:1
+		}
+	};
+
+	before(function(done) {
+        request.post('http://localhost:' + port + '/api/user/list/' , {
+                json: postdata
+            }, function(error, response, body) {
+                //code = response.statusCode;
+                if (!error && response.statusCode == 200) {
+                    result = body; //console.log(result);//JSON.parse(body);
+                } else {
+                    console.log(error);
+                }
+                done();
+            });
+        });
+
+	it('should get '+postdata.pagesize+' users\' list successfully', function() {
+            expect(result.length).to.equal(2);
+    });
+
+    it('should get users\' list with conditions successfully', function() {
+            expect(result[1].gender).to.equal(1);
+    });
+
+});

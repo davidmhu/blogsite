@@ -223,8 +223,8 @@ module.exports.changePortrait = function(req, res) {
 
 /*get /user/list/*/
 module.exports.getUserByPage = function(req, res) {
-    var page,pagesize;
-    if (req.body.page ) {
+    var page, pagesize, rowcnt;
+    if (req.body.page) {
         if (!/^[0-9]+$/.test(req.body.page)) {
             sendJSONresponse(res, 400, {
                 "message": " wrong page format:must be a positive integar"
@@ -232,7 +232,7 @@ module.exports.getUserByPage = function(req, res) {
             return;
         }
     }
-    if (req.body.pagesize ) {
+    if (req.body.pagesize) {
         if (!/^[0-9]+$/.test(req.body.pagesize)) {
             sendJSONresponse(res, 400, {
                 "message": " wrong pagesize format:must be a positive integar"
@@ -240,28 +240,51 @@ module.exports.getUserByPage = function(req, res) {
             return;
         }
     }
-    page=parseInt(req.body.page) || 1;
-    pagesize=parseInt(req.body.pagesize) || 10;
-    
-    var queryCond=req.body.queryCond || {};console.log(page);console.log(pagesize);console.log(queryCond);
-    User.find(queryCond)
-        .skip(pagesize*(page-1)).limit(pagesize)
-        .select('-_id -salt -hash')
+    page = parseInt(req.body.page) || 1;
+    pagesize = parseInt(req.body.pagesize) || 10;
+
+    var queryCond = req.body.queryCond || {};
+    console.log(page);
+    console.log(pagesize);
+    console.log(queryCond);
+
+    User.count(queryCond)
         .exec(
             function(err, data) {
                 if (err) {
                     sendJSONresponse(res, 500, {
-                        "message": "checking email failed by db"
+                        "message": "Query user list count failed by db"
                     });
                     return;
                 }
-                console.log(data);
-                if (data) { //already exists
-                    sendJSONresponse(res, 200, data);
+                if (!data || parseInt(data) < 0) {
+                    rowcnt = 0;
+                    sendJSONresponse(res, 200, []);
                     return;
-                } else { // not found , new email is valid
-                    sendJSONresponse(res, 200, {});
-                    return;
+                }
+                rowcnt = parseInt(data);
+                console.log('rowcount=' + rowcnt);
+
+                if (rowcnt && rowcnt >= page * pagesize) {
+                    User.find(queryCond)
+                        .skip(pagesize * (page - 1)).limit(pagesize)
+                        .select('-_id -salt -hash')
+                        .exec(
+                            function(err, data) {
+                                if (err) {
+                                    sendJSONresponse(res, 500, {
+                                        "message": "Query user failed by db"
+                                    });
+                                    return;
+                                }
+                                if (data) { //already exists
+                                    sendJSONresponse(res, 200, data);
+                                    return;
+                                } else { // not found , new email is valid
+                                    sendJSONresponse(res, 200, {});
+                                    return;
+                                }
+                            });
                 }
             });
 };

@@ -244,9 +244,7 @@ module.exports.getUserByPage = function(req, res) {
     pagesize = parseInt(req.body.pagesize) || 10;
 
     var queryCond = req.body.queryCond || {};
-    console.log(page);
-    console.log(pagesize);
-    console.log(queryCond);
+    //console.log(page);console.log(pagesize);console.log(queryCond);
 
     User.count(queryCond)
         .exec(
@@ -265,7 +263,7 @@ module.exports.getUserByPage = function(req, res) {
                 rowcnt = parseInt(data);
                 console.log('rowcount=' + rowcnt);
 
-                if (rowcnt && rowcnt >= page * pagesize) {
+                if (rowcnt && rowcnt >= (page-1) * pagesize) {
                     User.find(queryCond)
                         .skip(pagesize * (page - 1)).limit(pagesize)
                         .select('-_id -salt -hash')
@@ -282,6 +280,10 @@ module.exports.getUserByPage = function(req, res) {
                                 return;
                                 
                             });
+                }
+                else {
+                    sendJSONresponse(res, 404, {"message": "Invalid page or result"});
+                                return;
                 }
             });
 };

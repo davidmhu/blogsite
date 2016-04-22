@@ -45,7 +45,7 @@
             return $http.get('/api/user/emailcheck/' + email);
                 
         };
-        var getListpage = function (page,pagesize,queryCond) {console.log('in blogdata getlistpage');
+        var getListpage = function (page,pagesize,queryCond) {
             var postdata={
                 page : page,
                 pagesize : pagesize,

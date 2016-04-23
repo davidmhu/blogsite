@@ -157,7 +157,7 @@ describe('Testing user api:', function() {
         var postdata = {
             email: existedEmail,
             gender: '0',
-            name: 'davidhuModi'
+            name: username+'Modi'
         };
 
         before(function(done) {
@@ -202,7 +202,7 @@ describe('Testing user api:', function() {
             expect(result).to.have.property('gender').and.to.equal(0);
         });
         it('should get user modified name successfully', function() {
-            expect(result).to.have.property('name').and.to.equal('davidhuModi');
+            expect(result).to.have.property('name').and.to.equal(username+'Modi');
         });
 
     });

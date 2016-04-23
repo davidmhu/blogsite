@@ -3,12 +3,13 @@
 
 <div class="row">
 	<div class="col-md-8 col-md-offset-2 col-md-8 col-xs-12">
-			<p class="lead">User Table</p>
+			<div class="page-header"><h1>User Table</h1></div>
+			<!-- <p class="lead">User Table</p> -->
 			<div class="table-reponsive">
 			<div class="error ng-binding"></div>
 			<table class="table table-bordered table-striped table-hover">
 				<tbody>
-					<tr><td>Account</td><td>Name</td><td>Gender<td>Operation</td>
+					<tr><td>Account</td><td>Name</td><td>Gender<td style="min-width: 135px;">Operation</td>
 					<tr ng-repeat="user in vm.userlist"><td ng-bind="user.email"></td><td ng-bind="user.name"></td>
 					<td >{{user.gender===1?'Male':(user.gender===0?'Female':'Unknown')}}</td>
 					<td>
@@ -27,20 +28,24 @@
 		</div>
 		<nav>
 		  <ul class="pagination">
-		    <li ng-class="prevPageLink">
+		    <li ng-class="{disabled:vm.curpage==1}">
 		      <a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage-1)" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
 		      </a>
 		    </li>
-		    <li  ng-repeat="page in vm.pageArr"  >
+		    <li ng-class="{active:page==vm.curpage}"  ng-repeat="page in vm.pageArr"  >
 		    <a type="button" class="btn btn-default" ng-click="vm.topage(page)">{{page}}</a>
 		    </li>
 		    
-		    <li ng-class="nextPageLink">
+		    <li ng-class="{disabled:vm.curpage==vm.pagecnt}">
 		      <a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage+1)" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>
+		  
+		    <li>
+		      <a type="button" class="btn btn-default">共{{vm.pagecnt}}页</a>
+		    
 		  </ul>
 		</nav>
 	</div>

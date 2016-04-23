@@ -32,16 +32,6 @@
                     vm.curpage = curpage;
                     vm.pageArr = getPageArr(vm.pagecnt, vm.curpage);
                     $scope.vm=vm;//this is important
-                    if (curpage===1) {
-                        $scope.prevPageLink='disabled';
-                    }else{
-                        $scope.prevPageLink='';
-                    }
-                    if (curpage===vm.pagecnt) {
-                        $scope.nextPageLink='disabled';
-                    }else{
-                        $scope.nextPageLink='';
-                    }
                     //console.log(vm.pagecnt);console.log(vm.pageArr);
                 })
                 .error(function(e) {

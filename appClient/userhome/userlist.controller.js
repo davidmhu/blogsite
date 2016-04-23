@@ -12,16 +12,17 @@
             curpage: 1,
             pagesize: 8,
             queryCond: {},
+            orderCond:{},
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
             topage: function(curpage) {
+                vm.message='';
                 getListpage(curpage);
             }
         };
-        
-        var getListpage = function(curpage) {
 
+        var getListpage = function(curpage) {
             blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond)
                 .success(function(data) {
                     vm.userlist = data.userlist;
@@ -31,6 +32,16 @@
                     vm.curpage = curpage;
                     vm.pageArr = getPageArr(vm.pagecnt, vm.curpage);
                     $scope.vm=vm;//this is important
+                    if (curpage===1) {
+                        $scope.prevPageLink='disabled';
+                    }else{
+                        $scope.prevPageLink='';
+                    }
+                    if (curpage===vm.pagecnt) {
+                        $scope.nextPageLink='disabled';
+                    }else{
+                        $scope.nextPageLink='';
+                    }
                     //console.log(vm.pagecnt);console.log(vm.pageArr);
                 })
                 .error(function(e) {
@@ -38,8 +49,9 @@
                 });
         };
 
-        getListpage(1);
-        var getPageArr = function(pagecnt, curpage) {
+                getListpage(1);
+
+                var getPageArr = function(pagecnt, curpage) {
             var pages = [],
                 startno = 1,
                 endno = pagecnt;
@@ -56,7 +68,7 @@
                 }
 
             }
-            console.log(startno + ' ' + endno + ' ' + pagecnt + ' ' + curpage);
+            //console.log(startno + ' ' + endno + ' ' + pagecnt + ' ' + curpage);
             for (var i = startno; i <= endno; i++) {
 
                 pages.push(i);

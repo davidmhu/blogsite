@@ -5,6 +5,25 @@
 	<div class="col-md-8 col-md-offset-2 col-md-8 col-xs-12">
 			<div class="page-header"><h1>User Table</h1></div>
 			<!-- <p class="lead">User Table</p> -->
+			<div>
+				<form class="form-inline">
+				  <div class="form-group">
+				    <label class="sr-only" for="text"></label>
+				    <input type="text" class="form-control" ng-model=vm.querytxt placeholder="Email or Name">
+				  </div>
+				  
+				  <a type="button" class="btn btn-default" ng-click="vm.queryFilter()">
+				  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				  </a>
+				
+				  <button  class="btn btn-default" >
+				  	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" ng-click="showFilter= !showFilter"></span>
+				  </button>
+				</form>
+				<div uib-collapse={{showFilter}}>
+					<div class="well well-lg">Some content</div>
+				</div>
+			</div>
 			<div class="table-reponsive">
 			<div class="error ng-binding"></div>
 			<table class="table table-bordered table-striped table-hover">
@@ -15,10 +34,13 @@
 					<td>
 						<div class="btn-toolbar" role="toolbar">
 					      <div class="btn-group">
-					        <a class="btn btn-default" aria-label="edit" type="button" href="/">
-					        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-					        <button class="btn btn-default" aria-label="Center Align" type="button" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-					        <button class="btn btn-default" aria-label="Right Align" type="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+					        <a class="btn btn-default" aria-label="edit" tooltip-placement="top" uib-tooltip="Edit" tooltip-trigger="mouseenter" tooltip-class="customClass" type="button" href="/">
+					        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					        </a>
+					        <button class="btn btn-default" aria-label="Center Align" type="button"  tooltip-placement="top" uib-tooltip="Add" tooltip-trigger="mouseenter" tooltip-class="customClass">
+					        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+					        <button class="btn btn-default" aria-label="Right Align" type="button" tooltip-placement="top" uib-tooltip="Delete" tooltip-trigger="mouseenter" tooltip-class="customClass">
+					        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 					      </div>
 					    </div>
 					</td>

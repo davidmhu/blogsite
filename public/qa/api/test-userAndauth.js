@@ -367,7 +367,8 @@ describe('Testing get user list by page',function(){
 		page : 2,
 		pagesize : 2,
 		queryCond: {
-			gender:1
+			gender:1,
+			email:/^ou/
 		}
 	};
 

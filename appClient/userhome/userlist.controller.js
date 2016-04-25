@@ -4,21 +4,27 @@
         .module('blogsiteApp')
         .controller('userlistCtrl', userlistCtrl);
 
-    userlistCtrl.$inject = ['$scope','$location', 'blogsiteData', 'authentication'];
+    userlistCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
 
-    function userlistCtrl( $scope,$location, blogsiteData, authentication) {
+    function userlistCtrl($scope, $location, blogsiteData, authentication) {
         var vm = this;
+        $scope.showFilter = true;
         vm = {
             curpage: 1,
             pagesize: 8,
             queryCond: {},
-            orderCond:{},
+            orderCond: {},
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
+            querytxt:'123',
             topage: function(curpage) {
-                vm.message='';
+                vm.message = '';
                 getListpage(curpage);
+            },
+            queryFilter:function() {
+                vm.queryCond.email=eval('/^'+vm.querytxt+'/');getListpage(1);
+                console.log(vm.queryCond);
             }
         };
 
@@ -31,7 +37,7 @@
                     vm.pagecnt = Math.ceil(vm.rowcnt / vm.pagesize);
                     vm.curpage = curpage;
                     vm.pageArr = getPageArr(vm.pagecnt, vm.curpage);
-                    $scope.vm=vm;//this is important
+                    $scope.vm = vm; //this is important
                     //console.log(vm.pagecnt);console.log(vm.pageArr);
                 })
                 .error(function(e) {
@@ -39,9 +45,9 @@
                 });
         };
 
-                getListpage(1);
+        getListpage(1);
 
-                var getPageArr = function(pagecnt, curpage) {
+        var getPageArr = function(pagecnt, curpage) {
             var pages = [],
                 startno = 1,
                 endno = pagecnt;
@@ -60,11 +66,14 @@
             }
             //console.log(startno + ' ' + endno + ' ' + pagecnt + ' ' + curpage);
             for (var i = startno; i <= endno; i++) {
-
                 pages.push(i);
             }
             return pages;
 
+        };
+
+        var queryFilter1=function() {console.log(vm.querytxt);
+            //vm.queryCond.name=eval('/^'+vm.querytxt+'/');getListpage(1);
         };
 
     }

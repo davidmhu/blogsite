@@ -221,7 +221,9 @@ module.exports.changePortrait = function(req, res) {
             });
 };
 
-/*get /user/list/*/
+/*get /user/list/
+set fuzzyname or fuzzyemail to true, if want to inplement fuzzy search
+*/
 module.exports.getUserByPage = function(req, res) {
     var page, pagesize, rowcnt;
     if (req.body.page) {
@@ -243,8 +245,18 @@ module.exports.getUserByPage = function(req, res) {
     page = parseInt(req.body.page) || 1;
     pagesize = parseInt(req.body.pagesize) || 10;
 
-    var queryCond = req.body.queryCond || {};
-    //console.log(page);console.log(pagesize);console.log(queryCond);
+    var queryCond = req.body.queryCond || {};console.log(queryCond);
+    if (queryCond.fuzzyname && queryCond.name) {
+        queryCond.name=new RegExp(queryCond.name);
+        
+    }
+    if (queryCond.fuzzyemail && queryCond.email) {
+        queryCond.email=new RegExp(queryCond.email);
+        
+    }
+    queryCond.fuzzyname=undefined;
+    queryCond.fuzzyemail=undefined;
+    console.log(queryCond);//console.log(page);console.log(pagesize);
 
     User.count(queryCond)
         .exec(

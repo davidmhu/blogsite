@@ -9,6 +9,7 @@
     function userlistCtrl($scope, $location, blogsiteData, authentication) {
         var vm = this;
         $scope.showFilter = true;
+
         vm = {
             curpage: 1,
             pagesize: 8,
@@ -17,31 +18,53 @@
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
-            querytxt:'123',
+            querytxt: '',
+            message: '',
             topage: function(curpage) {
                 vm.message = '';
                 getListpage(curpage);
             },
-            queryFilter:function() {
-                vm.queryCond.email=eval('/^'+vm.querytxt+'/');getListpage(1);
+            queryFilter: function() {
+
+                if (vm.querytxt) {
+                    vm.queryCond.fuzzyname = true;
+                    vm.queryCond.name = vm.querytxt;
+                }else {
+                    vm.queryCond.fuzzyname = false;
+                    vm.queryCond.name=undefined;
+                }
                 console.log(vm.queryCond);
+                getListpage(1);
             }
         };
 
         var getListpage = function(curpage) {
             blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond)
                 .success(function(data) {
-                    vm.userlist = data.userlist;
-                    $scope.vm.userlist = vm.userlist;
-                    vm.rowcnt = data.rowcnt;
-                    vm.pagecnt = Math.ceil(vm.rowcnt / vm.pagesize);
-                    vm.curpage = curpage;
-                    vm.pageArr = getPageArr(vm.pagecnt, vm.curpage);
+                    if (data.rowcnt) {
+                        vm.userlist = data.userlist;
+                        vm.rowcnt = data.rowcnt;
+                        vm.pagecnt = Math.ceil(vm.rowcnt / vm.pagesize);
+                        vm.curpage = curpage;
+                        vm.pageArr = getPageArr(vm.pagecnt, vm.curpage);
+                        vm.message = '';
+                    } else {
+                        vm.message = "Sorry,no corespondent users found";
+                        vm.userlist = {};
+                        vm.rowcnt = vm.pagecnt = 0;
+                        vm.curpage = 1;
+                        vm.pageArr = [];
+                    }
                     $scope.vm = vm; //this is important
                     //console.log(vm.pagecnt);console.log(vm.pageArr);
                 })
                 .error(function(e) {
                     vm.message = "Sorry, something's gone wrong: " + e.message;
+                    vm.userlist = {};
+                    vm.rowcnt = vm.pagecnt = 0;
+                    vm.curpage = 1;
+                    vm.pageArr = [];
+                    $scope.vm = vm; //this is important
                 });
         };
 
@@ -70,10 +93,6 @@
             }
             return pages;
 
-        };
-
-        var queryFilter1=function() {console.log(vm.querytxt);
-            //vm.queryCond.name=eval('/^'+vm.querytxt+'/');getListpage(1);
         };
 
     }

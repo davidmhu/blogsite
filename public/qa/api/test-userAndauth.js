@@ -362,13 +362,14 @@ describe('Testing change user password back to '+password, function() {
 
 });
 
-describe('Testing get user list by page',function(){
+describe('Testing get user with surname 周 list by page',function(){
 	var postdata={
-		page : 2,
+		page : 1,
 		pagesize : 2,
 		queryCond: {
 			gender:1,
-			email:/^ou/
+			name:'周',
+			fuzzyname:true
 		}
 	};
 

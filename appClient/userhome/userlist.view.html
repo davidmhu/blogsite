@@ -29,6 +29,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<tbody>
 					<tr><td>Account</td><td>Name</td><td>Gender<td style="min-width: 135px;">Operation</td>
+					
 					<tr ng-repeat="user in vm.userlist"><td ng-bind="user.email"></td><td ng-bind="user.name"></td>
 					<td >{{user.gender===1?'Male':(user.gender===0?'Female':'Unknown')}}</td>
 					<td>
@@ -47,9 +48,10 @@
 					</tr>
 				</tbody>
 			</table>
+			<div class="alert alert-info" role="alert" ng-show="vm.message">{{vm.message}}</div>
 		</div>
 		<nav>
-		  <ul class="pagination">
+		  <ul class="pagination" ng-show="vm.rowcnt>0">
 		    <li ng-class="{disabled:vm.curpage==1}">
 		      <a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage-1)" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>

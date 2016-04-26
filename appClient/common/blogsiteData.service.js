@@ -45,11 +45,12 @@
             return $http.get('/api/user/emailcheck/' + email);
                 
         };
-        var getListpage = function (page,pagesize,queryCond) {
+        var getListpage = function (page,pagesize,queryCond,sortCond) {
             var postdata={
                 page : page,
                 pagesize : pagesize,
-                queryCond: queryCond
+                queryCond: queryCond,
+                sortCond:sortCond
             };
             return $http.post('/api/user/list/',postdata);
         };

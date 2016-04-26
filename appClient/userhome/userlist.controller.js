@@ -8,13 +8,13 @@
 
     function userlistCtrl($scope, $location, blogsiteData, authentication) {
         var vm = this;
-        $scope.showFilter = true;
+        $scope.showFilter = false;
 
         vm = {
             curpage: 1,
             pagesize: 8,
             queryCond: {},
-            orderCond: {},
+            sortCond: {name:-1},
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
@@ -39,7 +39,7 @@
         };
 
         var getListpage = function(curpage) {
-            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond)
+            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond,vm.sortCond)
                 .success(function(data) {
                     if (data.rowcnt) {
                         vm.userlist = data.userlist;

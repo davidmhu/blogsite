@@ -258,6 +258,9 @@ module.exports.getUserByPage = function(req, res) {
     queryCond.fuzzyemail=undefined;
     console.log(queryCond);//console.log(page);console.log(pagesize);
 
+    var sortCond=(req.body.sortCond==undefined)? {createdOn:-1}:req.body.sortCond;
+    console.log(sortCond);
+
     User.count(queryCond)
         .exec(
             function(err, data) {
@@ -276,7 +279,7 @@ module.exports.getUserByPage = function(req, res) {
                 console.log('rowcount=' + rowcnt);
 
                 if (rowcnt && rowcnt >= (page-1) * pagesize) {
-                    User.find(queryCond)
+                    User.find(queryCond).sort(sortCond)
                         .skip(pagesize * (page - 1)).limit(pagesize)
                         .select('-_id -salt -hash')
                         .exec(

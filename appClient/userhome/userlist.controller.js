@@ -11,14 +11,15 @@
         //$scope.showFilter = false;
 
         vm = {
-            curpage: 1,showFilter : false,
+            curpage: 1,showFilter : false,showSort:false,
             pagesize: 8,
             queryCond: {},
-            sortCond: {name:-1},
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
             querytxt: '',
+            orderby:'email',
+            isasc:1,
             message: '',
             topage: function(curpage) {
                 vm.message = '';
@@ -39,7 +40,23 @@
         };
 
         var getListpage = function(curpage) {
-            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond,vm.sortCond)
+            var sortCond={};
+
+            if (vm.orderby=='email') {
+                if (vm.isasc==1) {
+                    sortCond={email:1};
+                }else{
+                    sortCond={email:-1};
+                }
+            }
+            if (vm.orderby=='name')  {
+                if (vm.isasc==1) {
+                    sortCond={name:1};
+                }else{
+                    sortCond={name:-1};
+                }
+            }
+            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond,sortCond)
                 .success(function(data) {
                     if (data.rowcnt) {
                         vm.userlist = data.userlist;

@@ -1,104 +1,125 @@
 <navigation></navigation>
-
-
 <div class="row">
-	<div class="col-md-8 col-md-offset-2 col-md-8 col-xs-12">
-			<div class="page-header"><h1>User Table</h1></div>
-			<!-- <p class="lead">User Table</p> -->
-			<div>
-				<form class="form-inline">
-				  <div class="form-group">
-				    <label class="sr-only" for="text"></label>
-				    <input type="text" class="form-control" ng-model=vm.querytxt placeholder="Email or Name">
-				  </div>
-				  
-				  <a type="button" class="btn btn-default" ng-click="vm.queryFilter()">
-				  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				  </a>
-				
-				  <button  class="btn btn-default" ng-click="vm.showFilter= !vm.showFilter">
-				  	<span class="glyphicon" ng-class="vm.showFilter?'glyphicon-chevron-up':'glyphicon-chevron-down'" aria-hidden="true" ></span>
-				  </button>
-				
-				</form>
+<div class="col-md-8 col-md-offset-2 col-md-8 col-xs-12">
+	<div class="page-header"><h1>User Table</h1></div>
+	<!-- <p class="lead">User Table</p> -->
+	<div>
+		<form class="form-inline">
+			<div class="form-group">
+				<label class="sr-only" for="text"></label>
+				<input type="text" class="form-control" ng-model=vm.querytxt placeholder="Email or Name">
 			</div>
-			<div ng-show="vm.showFilter" class='in collapse'>
-					<div class="well well-lg">
-				<form class="form-inline">
-				 <div class="form-group">
-			        <label for="gender" class="control-label">Sort</label>
-			       
-			          <label class="radio-inline">
-			            <input id="gender1" type="radio" ng-model='vm.sortCond.orderby' name="gender" value="1" checked="checked"/>Email
-			          </label>
-			          <label class="radio-inline">
-			            <input id="gender0" type="radio" ng-model='vm.sortCond.orderby' name="gender" value="0"/> Name
-			          </label>
-			        
-			      </div>
-				   <div class="form-group">
-			        <label for="gender2" class="control-label">Sort2</label>
-			        
-			          <label class="radio-inline">
-			            <input id="gender1" type="radio" ng-model='vm.sortCond.asc' name="gender2" value="1" checked="checked"/> Asc
-			          </label>
-			          <label class="radio-inline">
-			            <input id="gender0" type="radio" ng-model='vm.sortCond.asc' name="gender2" value="0"/> Des
-			          </label>
-			        
-			      </div>
-				</form>
-					</div>
-			</div>
-	
-			<div class="table-reponsive">
-			<div class="error ng-binding"></div>
-			<table class="table table-bordered table-striped table-hover">
-				<tbody>
-					<tr><td>Account</td><td>Name</td><td>Gender<td style="min-width: 135px;">Operation</td>
+			
+			<a type="button" class="btn btn-default" ng-click="vm.queryFilter()">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+			</a>
+			
+			<button  class="btn btn-default" ng-click="vm.showFilter= !vm.showFilter">More Filter
+			<span class="glyphicon" ng-class="vm.showFilter?'glyphicon-chevron-up':'glyphicon-chevron-down'" aria-hidden="true" ></span>
+			</button>
+			
+			<button  class="btn btn-default" ng-click="vm.showSort= !vm.showSort">Sort By
+			<span class="glyphicon" ng-class="vm.showSort?'glyphicon-chevron-up':'glyphicon-chevron-down'" aria-hidden="true" ></span>
+			</button>
+
+		</form>
+	</div>
+
+	<div ng-show="vm.showFilter" class='in collapse'>
+		<div class="well well-lg">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="orderby" class="control-label">Filter field:</label>
 					
-					<tr ng-repeat="user in vm.userlist"><td ng-bind="user.email"></td><td ng-bind="user.name"></td>
-					<td >{{user.gender===1?'Male':(user.gender===0?'Female':'Unknown')}}</td>
-					<td>
-						<div class="btn-toolbar" role="toolbar">
-					      <div class="btn-group">
-					        <a class="btn btn-default" aria-label="edit" tooltip-placement="top" uib-tooltip="Edit" tooltip-trigger="mouseenter" tooltip-class="customClass" type="button" href="/">
-					        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-					        </a>
-					        <button class="btn btn-default" aria-label="Center Align" type="button"  tooltip-placement="top" uib-tooltip="Add" tooltip-trigger="mouseenter" tooltip-class="customClass">
-					        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-					        <button class="btn btn-default" aria-label="Right Align" type="button" tooltip-placement="top" uib-tooltip="Delete" tooltip-trigger="mouseenter" tooltip-class="customClass">
-					        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					      </div>
-					    </div>
-					</td>
-					</tr>
-				</tbody>
-			</table>
-			<div class="alert alert-info" role="alert" ng-show="vm.message">{{vm.message}}</div>
+					<label class="radio-inline">
+						<input id="gender1" type="radio" ng-model='vm.orderby' name="orderby" value="email" checked="checked"/>Email
+					</label>
+					<label class="radio-inline">
+						<input id="gender0" type="radio" ng-model='vm.orderby' name="orderby" value="name"/> Name
+					</label>
+					
+				</div>				
+			</form>
 		</div>
-		<nav>
-		  <ul class="pagination" ng-show="vm.rowcnt>0">
-		    <li ng-class="{disabled:vm.curpage==1}">
-		      <a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage-1)" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    <li ng-class="{active:page==vm.curpage}"  ng-repeat="page in vm.pageArr"  >
-		    <a type="button" class="btn btn-default" ng-click="vm.topage(page)">{{page}}</a>
-		    </li>
-		    
-		    <li ng-class="{disabled:vm.curpage==vm.pagecnt}">
-		      <a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage+1)" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-		  
-		    <li>
-		      <a type="button" class="btn btn-default">共{{vm.pagecnt}}页</a>
-		    
-		  </ul>
-		</nav>
+	</div>
+
+	<div ng-show="vm.showSort" class='in collapse'>
+		<div class="well well-lg">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="orderby" class="control-label">Sort field:</label>
+					
+					<label class="radio-inline">
+						<input id="gender1" type="radio" ng-model='vm.orderby' name="orderby" value="email" checked="checked"/>Email
+					</label>
+					<label class="radio-inline">
+						<input id="gender0" type="radio" ng-model='vm.orderby' name="orderby" value="name"/> Name
+					</label>
+					
+				</div>
+				<div class="form-group">
+					<label for="isasc" class="control-label">Order by:</label>
+					
+					<label class="radio-inline">
+						<input id="gender1" type="radio" ng-model='vm.isasc' name="isasc" value=1 checked="checked"/> Asc
+					</label>
+					<label class="radio-inline">
+						<input id="gender0" type="radio" ng-model='vm.isasc' name="isasc" value=-1/> Des
+					</label>
+					
+				</div>
+			</form>
 		</div>
-	<div class='col-md-2'></div>
+	</div>
+	
+	<div class="table-reponsive">
+		<div class="error ng-binding"></div>
+		<table class="table table-bordered table-striped table-hover">
+			<tbody>
+				<tr><td>Account</td><td>Name</td><td>Gender<td style="min-width: 135px;">Operation</td>
+				
+				<tr ng-repeat="user in vm.userlist"><td ng-bind="user.email"></td><td ng-bind="user.name"></td>
+				<td >{{user.gender===1?'Male':(user.gender===0?'Female':'Unknown')}}</td>
+				<td>
+					<div class="btn-toolbar" role="toolbar">
+						<div class="btn-group">
+							<a class="btn btn-default" aria-label="edit" tooltip-placement="top" uib-tooltip="Edit" tooltip-trigger="mouseenter" tooltip-class="customClass" type="button" href="/">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</a>
+							<button class="btn btn-default" aria-label="Center Align" type="button"  tooltip-placement="top" uib-tooltip="Add" tooltip-trigger="mouseenter" tooltip-class="customClass">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+							<button class="btn btn-default" aria-label="Right Align" type="button" tooltip-placement="top" uib-tooltip="Delete" tooltip-trigger="mouseenter" tooltip-class="customClass">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="alert alert-info" role="alert" ng-show="vm.message">{{vm.message}}</div>
+</div>
+<nav>
+	<ul class="pagination" ng-show="vm.rowcnt>0">
+		<li ng-class="{disabled:vm.curpage==1}">
+			<a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage-1)" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		<li ng-class="{active:page==vm.curpage}"  ng-repeat="page in vm.pageArr"  >
+			<a type="button" class="btn btn-default" ng-click="vm.topage(page)">{{page}}</a>
+		</li>
+		
+		<li ng-class="{disabled:vm.curpage==vm.pagecnt}">
+			<a type="button" class="btn btn-default" ng-click="vm.topage(vm.curpage+1)" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+		
+		<li>
+			<a type="button" class="btn btn-default">共{{vm.pagecnt}}页</a>
+			
+		</ul>
+	</nav>
+</div>
+<div class='col-md-2'></div>
 </div>

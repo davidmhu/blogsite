@@ -245,7 +245,7 @@ module.exports.getUserByPage = function(req, res) {
     page = parseInt(req.body.page) || 1;
     pagesize = parseInt(req.body.pagesize) || 10;
 
-    var queryCond = req.body.queryCond || {};console.log(queryCond);
+    var queryCond = req.body.queryCond || {};
     if (queryCond.fuzzyname && queryCond.name) {
         queryCond.name=new RegExp(queryCond.name);
         
@@ -254,11 +254,12 @@ module.exports.getUserByPage = function(req, res) {
         queryCond.email=new RegExp(queryCond.email);
         
     }
-    queryCond.fuzzyname=undefined;
-    queryCond.fuzzyemail=undefined;
+    delete queryCond.fuzzyname;
+    delete queryCond.fuzzyemail;
     console.log(queryCond);//console.log(page);console.log(pagesize);
 
-    var sortCond={createdOn:-1};
+    var sortCond=req.body.sortCond;//{createdOn:-1};
+    sortCond.createdOn=-1;
     console.log(sortCond);
 
     User.count(queryCond)

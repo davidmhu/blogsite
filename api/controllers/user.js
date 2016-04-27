@@ -258,7 +258,7 @@ module.exports.getUserByPage = function(req, res) {
     queryCond.fuzzyemail=undefined;
     console.log(queryCond);//console.log(page);console.log(pagesize);
 
-    var sortCond=(req.body.sortCond==undefined)? {createdOn:-1}:req.body.sortCond;
+    var sortCond={createdOn:-1};
     console.log(sortCond);
 
     User.count(queryCond)

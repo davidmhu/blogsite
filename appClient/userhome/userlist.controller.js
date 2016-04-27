@@ -8,10 +8,10 @@
 
     function userlistCtrl($scope, $location, blogsiteData, authentication) {
         var vm = this;
-        $scope.showFilter = false;
+        //$scope.showFilter = false;
 
         vm = {
-            curpage: 1,
+            curpage: 1,showFilter : false,
             pagesize: 8,
             queryCond: {},
             sortCond: {name:-1},

@@ -16,14 +16,41 @@
 				  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				  </a>
 				
-				  <button  class="btn btn-default" >
-				  	<span class="glyphicon glyphicon-chevron-down" aria-hidden="true" ng-click="showFilter= !showFilter"></span>
+				  <button  class="btn btn-default" ng-click="vm.showFilter= !vm.showFilter">
+				  	<span class="glyphicon" ng-class="vm.showFilter?'glyphicon-chevron-up':'glyphicon-chevron-down'" aria-hidden="true" ></span>
 				  </button>
+				
 				</form>
-				<div uib-collapse={{showFilter}}>
-					<div class="well well-lg">Some content</div>
-				</div>
 			</div>
+			<div ng-show="vm.showFilter" class='in collapse'>
+					<div class="well well-lg">
+				<form class="form-inline">
+				 <div class="form-group">
+			        <label for="gender" class="control-label">Sort</label>
+			       
+			          <label class="radio-inline">
+			            <input id="gender1" type="radio" ng-model='vm.sortCond.orderby' name="gender" value="1" checked="checked"/>Email
+			          </label>
+			          <label class="radio-inline">
+			            <input id="gender0" type="radio" ng-model='vm.sortCond.orderby' name="gender" value="0"/> Name
+			          </label>
+			        
+			      </div>
+				   <div class="form-group">
+			        <label for="gender2" class="control-label">Sort2</label>
+			        
+			          <label class="radio-inline">
+			            <input id="gender1" type="radio" ng-model='vm.sortCond.asc' name="gender2" value="1" checked="checked"/> Asc
+			          </label>
+			          <label class="radio-inline">
+			            <input id="gender0" type="radio" ng-model='vm.sortCond.asc' name="gender2" value="0"/> Des
+			          </label>
+			        
+			      </div>
+				</form>
+					</div>
+			</div>
+	
 			<div class="table-reponsive">
 			<div class="error ng-binding"></div>
 			<table class="table table-bordered table-striped table-hover">
@@ -72,6 +99,6 @@
 		    
 		  </ul>
 		</nav>
-	</div>
+		</div>
 	<div class='col-md-2'></div>
 </div>

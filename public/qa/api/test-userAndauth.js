@@ -7,21 +7,21 @@ var pinyinDict = require('../hanziDict');
 
 
 describe('Testing user api:', function() {
-    console.log(pinyinDict.hanzi[3]);
-    var token, uploadedName,randomInt;
-    for (var i = 0; i < 25; i++) {
+
+    var token, uploadedName, randomInt, username = '',
+        useremail = '',
+        d = new Date(),
+        password = 'eat-the-living';
+    for (var i = 0; i < 3; i++) {
         randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
-        console.log(i + ':' + randomInt);
-        testHanzi += pinyinDict.hanzi[randomInt];
-        testPinyin += pinyinDict.pinyin[randomInt];
+
+        username += pinyinDict.hanzi[randomInt];
+        useremail += pinyinDict.pinyin[randomInt];
     }
-    var d = new Date(),
-        nameArr = ['李明哲', '范文暄', '陈立得', '伍三湘', '顾江汉', '马芳', '欧阳明惠', '周秋云'],
+    useremail += d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com';
+    /*nameArr = ['李明哲', '范文暄', '陈立得', '伍三湘', '顾江汉', '马芳', '欧阳明惠', '周秋云'],
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
-        randomInt = Math.floor(Math.random() * nameArr.length),
-        username = nameArr[randomInt],
-        useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',
-        password = 'eat-the-living'; //'88888888'
+        useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',*/
 
     var existedEmail = useremail; //'davidhu@163.com'; used for test without register
 
@@ -379,7 +379,7 @@ describe('Testing get user with surname 周 list by page', function() {
         page: 1,
         pagesize: 2,
         queryCond: {
-            gender: 1,
+            gender: 0,
             name: '周',
             fuzzyname: true
         },
@@ -405,7 +405,7 @@ describe('Testing get user with surname 周 list by page', function() {
     });
 
     it('should get users\' list with conditions successfully', function() {
-        expect(result.userlist[1].gender).to.equal(1);
+        expect(result.userlist[1].gender).to.equal(0);
     });
 
 });

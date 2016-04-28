@@ -19,6 +19,7 @@
             pageArr: [],
             querytxt: '',
             orderby:'email',
+            filterby:'name',
             isasc:1,
             message: '',
             topage: function(curpage) {
@@ -26,15 +27,22 @@
                 getListpage(curpage);
             },
             queryFilter: function() {
-
+                vm.queryCond.fuzzyname = false;
+                delete vm.queryCond.name;
+                vm.queryCond.fuzzyemail = false;
+                delete vm.queryCond.email;
+ 
                 if (vm.querytxt) {
-                    vm.queryCond.fuzzyname = true;
-                    vm.queryCond.name = vm.querytxt;
-                }else {
-                    vm.queryCond.fuzzyname = false;
-                    vm.queryCond.name=undefined;
+                    if (vm.filterby=='name'){
+                        vm.queryCond.fuzzyname = true;
+                        vm.queryCond.name = vm.querytxt;
+                    }
+                    if (vm.filterby=='email'){
+                        vm.queryCond.fuzzyemail = true;
+                        vm.queryCond.email = vm.querytxt;
+                    }
                 }
-                console.log(vm.queryCond);
+                
                 getListpage(1);
             }
         };
@@ -54,6 +62,13 @@
                     sortCond={name:1};
                 }else{
                     sortCond={name:-1};
+                }
+            }
+            if (vm.orderby=='createDate')  {
+                if (vm.isasc==1) {
+                    sortCond={createOn:1};
+                }else{
+                    sortCond={createdOn:-1};
                 }
             }
             blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond,sortCond)

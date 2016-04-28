@@ -7,7 +7,7 @@
 		<form class="form-inline">
 			<div class="form-group">
 				<label class="sr-only" for="text"></label>
-				<input type="text" class="form-control" ng-model=vm.querytxt placeholder="Email or Name">
+				<input type="text" class="form-control" ng-model=vm.querytxt placeholder={{vm.filterby}}>
 			</div>
 			
 			<a type="button" class="btn btn-default" ng-click="vm.queryFilter()">
@@ -29,13 +29,13 @@
 		<div class="well well-lg">
 			<form class="form-inline">
 				<div class="form-group">
-					<label for="orderby" class="control-label">Filter field:</label>
+					<label for="filterby" class="control-label">Filter field:</label>
 					
 					<label class="radio-inline">
-						<input id="gender1" type="radio" ng-model='vm.orderby' name="orderby" value="email" checked="checked"/>Email
+						<input id="gender1" type="radio" ng-model='vm.filterby' name="filterby" value="email" />Email
 					</label>
 					<label class="radio-inline">
-						<input id="gender0" type="radio" ng-model='vm.orderby' name="orderby" value="name"/> Name
+						<input id="gender0" type="radio" ng-model='vm.filterby' name="filterby" value="name"/> Name
 					</label>
 					
 				</div>				
@@ -54,6 +54,9 @@
 					</label>
 					<label class="radio-inline">
 						<input id="gender0" type="radio" ng-model='vm.orderby' name="orderby" value="name"/> Name
+					</label>
+					<label class="radio-inline">
+						<input id="gender0" type="radio" ng-model='vm.orderby' name="orderby" value="createDate"/> Date
 					</label>
 					
 				</div>

@@ -3,46 +3,58 @@ var expect = chai.expect;
 var request = require('request');
 var port = process.env.PORT || 3100;
 require('dotenv').load();
+var pinyinDict = require('../hanziDict');
 
 
 describe('Testing user api:', function() {
-    
-    var token, uploadedName;
-
+    console.log(pinyinDict.hanzi[3]);
+    var token, uploadedName,randomInt;
+    for (var i = 0; i < 25; i++) {
+        randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
+        console.log(i + ':' + randomInt);
+        testHanzi += pinyinDict.hanzi[randomInt];
+        testPinyin += pinyinDict.pinyin[randomInt];
+    }
     var d = new Date(),
         nameArr = ['李明哲', '范文暄', '陈立得', '伍三湘', '顾江汉', '马芳', '欧阳明惠', '周秋云'],
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
         randomInt = Math.floor(Math.random() * nameArr.length),
-	    username = nameArr[randomInt],
+        username = nameArr[randomInt],
         useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',
         password = 'eat-the-living'; //'88888888'
-    
-	var existedEmail = useremail;//'davidhu@163.com'; used for test without register
+
+    var existedEmail = useremail; //'davidhu@163.com'; used for test without register
 
     console.log('the new account is ' + useremail + ' and name is ' + username);
 
-    describe('Testing user register',function(){
-    	var postdata={email:useremail,name:username,password:password,gender:1};
-    	var info,code;
-    	before(function(done) {
+    describe('Testing user register', function() {
+        var postdata = {
+            email: useremail,
+            name: username,
+            password: password,
+            gender: 1
+        };
+        var info, code;
+        before(function(done) {
             request.post('http://localhost:' + port + '/api/register/', {
                     json: postdata
                 },
                 function(error, response, body) {
-                    console.log(response.statusCode);code=response.statusCode;
+                    console.log(response.statusCode);
+                    code = response.statusCode;
                     if (!error && response.statusCode == 200) {
                         token = body.token;
-                        info=body.userInfo;
-                    }else{
-                    	console.log(error);
+                        info = body.userInfo;
+                    } else {
+                        console.log(error);
                     }
                     done();
                 });
 
         });
 
-        it('should register successfully',function(){
-        	expect(info.email).to.equal(useremail);
+        it('should register successfully', function() {
+            expect(info.email).to.equal(useremail);
         });
 
     });
@@ -124,7 +136,7 @@ describe('Testing user api:', function() {
 
     });
 
-    
+
     describe('Testing get user info 1', function() {
         var result, info, code;
         before(function(done) {
@@ -157,7 +169,7 @@ describe('Testing user api:', function() {
         var postdata = {
             email: existedEmail,
             gender: '0',
-            name: username+'Modi'
+            name: username + 'Modi'
         };
 
         before(function(done) {
@@ -202,7 +214,7 @@ describe('Testing user api:', function() {
             expect(result).to.have.property('gender').and.to.equal(0);
         });
         it('should get user modified name successfully', function() {
-            expect(result).to.have.property('name').and.to.equal(username+'Modi');
+            expect(result).to.have.property('name').and.to.equal(username + 'Modi');
         });
 
     });
@@ -327,7 +339,7 @@ describe('Testing user api:', function() {
 
     });
 
-describe('Testing change user password back to '+password, function() {
+    describe('Testing change user password back to ' + password, function() {
         var result, code;
         //the uploadedName value cannot be passed to this function!
 
@@ -362,37 +374,38 @@ describe('Testing change user password back to '+password, function() {
 
 });
 
-describe('Testing get user with surname 周 list by page',function(){
-	var postdata={
-		page : 1,
-		pagesize : 2,
-		queryCond: {
-			gender:1,
-			name:'周',
-			fuzzyname:true
-		}
-	};
+describe('Testing get user with surname 周 list by page', function() {
+    var postdata = {
+        page: 1,
+        pagesize: 2,
+        queryCond: {
+            gender: 1,
+            name: '周',
+            fuzzyname: true
+        },
+        sortCond: {}
+    };
 
-	before(function(done) {
-        request.post('http://localhost:' + port + '/api/user/list/' , {
-                json: postdata
-            }, function(error, response, body) {
-                //code = response.statusCode;
-                if (!error && response.statusCode == 200) {
-                    result = body; //console.log(result);//JSON.parse(body);
-                } else {
-                    console.log(error);
-                }
-                done();
-            });
+    before(function(done) {
+        request.post('http://localhost:' + port + '/api/user/list/', {
+            json: postdata
+        }, function(error, response, body) {
+            //code = response.statusCode;
+            if (!error && response.statusCode == 200) {
+                result = body; //console.log(result);//JSON.parse(body);
+            } else {
+                console.log(error);
+            }
+            done();
         });
+    });
 
-	it('should get '+postdata.pagesize+' users\' list successfully', function() {
-            expect(result.userlist.length).to.equal(2);
+    it('should get ' + postdata.pagesize + ' users\' list successfully', function() {
+        expect(result.userlist.length).to.equal(2);
     });
 
     it('should get users\' list with conditions successfully', function() {
-            expect(result.userlist[1].gender).to.equal(1);
+        expect(result.userlist[1].gender).to.equal(1);
     });
 
 });

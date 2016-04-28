@@ -24,7 +24,7 @@ gulp.task('lint', function(cb) {
     cb(err);
 });
 gulp.task('mocha', function() {
-    return gulp.src(['test/*.js'], { read: false })
+    return gulp.src(['./public/qa/tests-pinyin.js'], { read: false })
         .pipe(mocha({ reporter: 'list' }))
         .on('error', gutil.log);
 });

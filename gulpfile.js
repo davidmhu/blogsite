@@ -23,7 +23,7 @@ gulp.task('lint', function(cb) {
 
     cb(err);
 });
-gulp.task('mocha', function() {
+gulp.task('pinyin', function() {
     return gulp.src(['./public/qa/tests-pinyin.js'], { read: false })
         .pipe(mocha({ reporter: 'list' }))
         .on('error', gutil.log);

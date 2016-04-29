@@ -26,7 +26,6 @@
         }
         if (authentication.isLoggedIn()) {
             doViewUserInfo();
-            
 
         } else {
             $location.path('/');

@@ -33,6 +33,11 @@
                 controller: 'userlistCtrl',
                 controllerAs: 'vm'
             })
+            .when('/user/view', {
+                templateUrl: 'userhome/userhome.view.html',
+                controller: 'userhomeCtrl',
+                controllerAs: 'vm'
+            })
         .otherwise({
             redirectTo: '/'
         });

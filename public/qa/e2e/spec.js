@@ -7,7 +7,6 @@ describe('Protractor Test', function() {
     password = 'eat-the-living';
   for (var i = 0; i < 3; i++) {
     randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
-
     username += pinyinDict.hanzi[randomInt];
     useremail += pinyinDict.pinyin[randomInt];
   }
@@ -47,12 +46,17 @@ describe('Protractor Test', function() {
       expect(element(by.css('.gendername')).isPresent()).toBe(true);
     });
 
-    it('logout', function() {
-      
+    it('logout', function() {      
       expect(element(by.id('logout')).isPresent()).toBe(true);
       expect(element(by.binding('navvm.currentUser.name')).isPresent()).toBe(true);
       element(by.binding('navvm.currentUser.name')).click();
       element(by.id('logout')).click();
+    });
+
+    it('should have a email input and password input', function() {
+		var emailInput = element(by.model('vm.credentials.email'));
+    	browser.get('http://localhost:3100/');
+    	expect(emailInput.isPresent()).toBe(true);
     });
 
   });
@@ -61,14 +65,12 @@ describe('Protractor Test', function() {
     var emailInput = element(by.model('vm.credentials.email'));
     var passwordInput = element(by.id('password'));
     var submitBtn = element(by.id('submitbtn'));
+    //var useremail='admin@blogsite.com';
 
-    browser.get('http://localhost:3100/#/login');
-
-    it('homepage should have a title', function() {
-      expect(browser.getTitle()).toContain('Blogsite');
-    });
+    browser.get('http://localhost:3100/');
 
     it('should have a email input and password input', function() {
+      
       emailInput.sendKeys(useremail);
       passwordInput.sendKeys(password);
 

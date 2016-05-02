@@ -79,7 +79,7 @@
 		<div class="error ng-binding"></div>
 		<table class="table table-bordered table-striped table-hover">
 			<tbody>
-				<tr><td>Account</td><td>Name</td><td>Gender<td style="min-width: 135px;">Operation</td>
+				<tr><td>Account</td><td>Name</td><td>Gender</td><td style="min-width: 135px;">Operation</td>
 				
 				<tr ng-repeat="user in vm.userlist"><td ng-bind="user.email"></td><td ng-bind="user.name"></td>
 				<td >{{user.gender===1?'Male':(user.gender===0?'Female':'Unknown')}}</td>

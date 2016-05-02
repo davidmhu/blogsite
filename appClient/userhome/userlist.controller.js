@@ -11,67 +11,83 @@
         //$scope.showFilter = false;
 
         vm = {
-            curpage: 1,showFilter : false,showSort:false,
+            curpage: 1,
+            showFilter: false,
+            showSort: false,
             pagesize: 8,
             queryCond: {},
             rowcnt: 0,
             pagecnt: 1,
             pageArr: [],
             querytxt: '',
-            orderby:'email',
-            filterby:'name',
-            isasc:1,
+            orderby: 'email',
+            filterby: 'name',
+            isasc: 1,
             message: '',
             topage: function(curpage) {
                 vm.message = '';
-                getListpage(curpage);
+                if (curpage >= 1 && curpage <= vm.pagecnt) {
+                    getListpage(curpage);
+                }
+
             },
             queryFilter: function() {
                 vm.queryCond.fuzzyname = false;
                 delete vm.queryCond.name;
                 vm.queryCond.fuzzyemail = false;
                 delete vm.queryCond.email;
- 
+
                 if (vm.querytxt) {
-                    if (vm.filterby=='name'){
+                    if (vm.filterby == 'name') {
                         vm.queryCond.fuzzyname = true;
                         vm.queryCond.name = vm.querytxt;
                     }
-                    if (vm.filterby=='email'){
+                    if (vm.filterby == 'email') {
                         vm.queryCond.fuzzyemail = true;
                         vm.queryCond.email = vm.querytxt;
                     }
                 }
-                
+
                 getListpage(1);
             }
         };
 
         var getListpage = function(curpage) {
-            var sortCond={};
-
-            if (vm.orderby=='email') {
-                if (vm.isasc==1) {
-                    sortCond={email:1};
-                }else{
-                    sortCond={email:-1};
+            var sortCond = {};
+            if (vm.orderby == 'email') {
+                if (vm.isasc == 1) {
+                    sortCond = {
+                        email: 1
+                    };
+                } else {
+                    sortCond = {
+                        email: -1
+                    };
                 }
             }
-            if (vm.orderby=='name')  {
-                if (vm.isasc==1) {
-                    sortCond={name:1};
-                }else{
-                    sortCond={name:-1};
+            if (vm.orderby == 'name') {
+                if (vm.isasc == 1) {
+                    sortCond = {
+                        name: 1
+                    };
+                } else {
+                    sortCond = {
+                        name: -1
+                    };
                 }
             }
-            if (vm.orderby=='createDate')  {
-                if (vm.isasc==1) {
-                    sortCond={createOn:1};
-                }else{
-                    sortCond={createdOn:-1};
+            if (vm.orderby == 'createDate') {
+                if (vm.isasc == 1) {
+                    sortCond = {
+                        createOn: 1
+                    };
+                } else {
+                    sortCond = {
+                        createdOn: -1
+                    };
                 }
             }
-            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond,sortCond)
+            blogsiteData.getListpage(curpage, vm.pagesize, vm.queryCond, sortCond)
                 .success(function(data) {
                     if (data.rowcnt) {
                         vm.userlist = data.userlist;

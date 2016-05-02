@@ -11,7 +11,7 @@ describe('Protractor Test', function() {
     useremail += pinyinDict.pinyin[randomInt];
   }
   useremail += d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com';
-  console.log(useremail);
+  console.log(useremail+' '+username);
 
   describe('Register Test', function() {
     var register = element(by.id('registerlink'));
@@ -41,7 +41,7 @@ describe('Protractor Test', function() {
       expect(registerbtn.isPresent()).toBe(true);
     });
 
-    it('should see register page', function() {
+    it('should see user detail page after Register', function() {
       registerbtn.click();
       expect(element(by.css('.gendername')).isPresent()).toBe(true);
     });
@@ -61,7 +61,7 @@ describe('Protractor Test', function() {
 
   });
 
-  xdescribe('Login Test', function() {
+  describe('Login Test', function() {
     var emailInput = element(by.model('vm.credentials.email'));
     var passwordInput = element(by.id('password'));
     var submitBtn = element(by.id('submitbtn'));

@@ -12,7 +12,7 @@
             email: '',
             password: ''
         };
-        vm.returnPage = $location.search().page || '/';
+        vm.returnPage = $location.search().page || '/#';
         vm.submit = function() {
             vm.message = '';
             if ($scope.loginForm.$pristine) {

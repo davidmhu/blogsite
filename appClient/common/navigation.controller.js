@@ -13,7 +13,7 @@
     vm.logout = function() {
       authentication.logout();
       //$scope.$apply(function(){
-        $location.path('/');
+        $location.path('/#');
       //});
     };
     vm.currentPath = $location.path();

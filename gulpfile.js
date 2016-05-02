@@ -5,13 +5,22 @@ var jshint = require('gulp-jshint');
 var karma= require('karma').Server;
 var protractor = require("gulp-protractor").protractor;
 
-gulp.task('protractor',function(){
+gulp.task('e2e',function(){
   return gulp.src(["public/qa/e2e/spec.js"])
   .pipe(protractor({
     configFile: "public/qa/e2e/conf.js",
     args: ['--baseUrl', 'http://127.0.0.1:3100']
   }))
   .on('error', function(e) { throw e });
+});
+
+gulp.task('qa-api', ['lint'],function() {
+  return gulp.src(['public/qa/api/test-*.js'], { read: false })
+    .pipe(mocha({
+      reporter: 'spec',
+      globals: {
+      }
+    }));
 });
 
 gulp.task('lint', function(cb) {
@@ -33,15 +42,6 @@ gulp.task('watch-mocha', function() {
     gulp.watch(['lib/**', 'test/**'], ['mocha']);
 });
 
-
-gulp.task('qa-api', ['lint'],function() {
-  return gulp.src(['public/qa/api/test-*.js'], { read: false })
-    .pipe(mocha({
-      reporter: 'spec',
-      globals: {
-      }
-    }));
-});
 
 gulp.task('mocha-zombie-user',['lint'], function() {
   return gulp.src('./public/qa/tests-zombie-user.js', { read: false })
@@ -68,4 +68,4 @@ gulp.task('karma',function(done){
   },done).start();
 });
 
-gulp.task('default',['lint','qa-api','protractor']);
+gulp.task('default',['lint','qa-api','e2e']);

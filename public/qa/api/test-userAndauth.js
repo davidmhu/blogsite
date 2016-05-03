@@ -5,7 +5,6 @@ var port = process.env.PORT || 3100;
 require('dotenv').load();
 var pinyinDict = require('../hanziDict');
 
-
 describe('Testing user api:', function() {
 
   var token, uploadedName, randomInt, username = '',
@@ -23,11 +22,11 @@ describe('Testing user api:', function() {
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
         useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',*/
 
-  var existedEmail = 'admin@blogsite.com';//fanWenxuan16-03-30115158@blogsite.com';//useremail; //'davidhu@163.com'; used for test without register
-  username='admin';
+  var existedEmail = useremail; //'admin@blogsite.com';//fanWenxuan16-03-30115158@blogsite.com';//'davidhu@163.com'; used for test without register
+  //username='admin';
   console.log('the new account is ' + useremail + ' and name is ' + username);
 
-  xdescribe('Testing user register', function() {
+  describe('Testing user register', function() {
     var postdata = {
       email: useremail,
       name: username,
@@ -139,7 +138,7 @@ describe('Testing user api:', function() {
   describe('Testing get user info 1', function() {
     var result, info, code;
     before(function(done) {
-      request('http://localhost:' + port + '/api/user/' + 'chenLide16-03-30120221@blogsite.com', {
+      request('http://localhost:' + port + '/api/user/' + existedEmail, {
           headers: {
             Authorization: 'Bearer ' + token
           }
@@ -158,7 +157,7 @@ describe('Testing user api:', function() {
     });
 
     it('should get user email successfully', function() {
-      expect(result.email).to.equal('chenLide16-03-30120221@blogsite.com');
+      expect(result.email).to.equal(existedEmail);
     });
 
   });

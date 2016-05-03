@@ -38,15 +38,15 @@ module.exports.userReadOne = function(req, res) {
                     });
                     return;
                 } else if (err) {
-                    console.log(err);console.log('in err');
+                    console.log(err);
                     sendJSONresponse(res, 404, err);
                     return;
-                }console.log(user);
-                if (user.role!==['Admin']) {console.log('is not admin');
+                }
+                if (user.role[0]!=='Admin') {//need to modify role[0]
                     sendJSONresponse(res, 404, {"message":"logged user has no authorization"});
                     return;
                 }
-                User.findOne(req.params)
+                User.findOne(req.params) //need to modify , using promises to avoid this Pyramid of Doom
                     .select('-hash -salt -_id')
                     .exec(function(err, user) {
                         if (!user) {
@@ -62,6 +62,22 @@ module.exports.userReadOne = function(req, res) {
                         sendJSONresponse(res, 200, user);
                     });
             });
+    }else{
+        User.findOne(req.params)
+            .select('-hash -salt -_id')
+            .exec(function(err, user) {
+                if (!user) {
+                    sendJSONresponse(res, 404, {
+                        "message": "User not found"
+                    });
+                    return;
+                } else if (err) {
+                    console.log(err);
+                    sendJSONresponse(res, 404, err);
+                    return;
+                }
+                sendJSONresponse(res, 200, user);
+            });        
     }
     
 };

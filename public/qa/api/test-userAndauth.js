@@ -23,11 +23,11 @@ describe('Testing user api:', function() {
         emailArr = ['liMingzhe', 'fanWenxuan', 'chenLide', 'wuSanxiang', 'guJianghan', 'maFang', 'ouyangMinghui', 'zhouQiuyu'],
         useremail = emailArr[randomInt] + d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com',*/
 
-  var existedEmail = useremail; //'davidhu@163.com'; used for test without register
-
+  var existedEmail = 'admin@blogsite.com';//fanWenxuan16-03-30115158@blogsite.com';//useremail; //'davidhu@163.com'; used for test without register
+  username='admin';
   console.log('the new account is ' + useremail + ' and name is ' + username);
 
-  describe('Testing user register', function() {
+  xdescribe('Testing user register', function() {
     var postdata = {
       email: useremail,
       name: username,
@@ -59,7 +59,7 @@ describe('Testing user api:', function() {
 
   });
 
-  describe('Testing email check', function() {
+  xdescribe('Testing email check', function() {
     var result;
     before(function(done) {
       request('http://localhost:' + port + '/api/user/emailcheck/' + existedEmail,
@@ -78,7 +78,7 @@ describe('Testing user api:', function() {
 
   });
 
-  describe('Testing user login 1', function() {
+  xdescribe('Testing user login 1', function() {
 
     var postdata = {
       email: useremail,
@@ -103,7 +103,6 @@ describe('Testing user api:', function() {
       //console.log(code);
       expect(code).to.equal(401);
     });
-
 
   });
 
@@ -140,7 +139,7 @@ describe('Testing user api:', function() {
   describe('Testing get user info 1', function() {
     var result, info, code;
     before(function(done) {
-      request('http://localhost:' + port + '/api/user/' + existedEmail, {
+      request('http://localhost:' + port + '/api/user/' + 'chenLide16-03-30120221@blogsite.com', {
           headers: {
             Authorization: 'Bearer ' + token
           }
@@ -159,12 +158,12 @@ describe('Testing user api:', function() {
     });
 
     it('should get user email successfully', function() {
-      expect(result.email).to.equal(existedEmail);
+      expect(result.email).to.equal('chenLide16-03-30120221@blogsite.com');
     });
 
   });
 
-  describe('Testing edit user info', function() {
+  xdescribe('Testing edit user info', function() {
     var result, code;
     var postdata = {
       email: existedEmail,
@@ -219,7 +218,7 @@ describe('Testing user api:', function() {
 
   });
 
-  describe('Testing upload and change user portrait', function() {
+  xdescribe('Testing upload and change user portrait', function() {
     var result, code, mfile, filepath = __dirname + '/test.jpg';
     var fs = require('fs');
     if (!fs.existsSync(filepath)) {
@@ -273,7 +272,7 @@ describe('Testing user api:', function() {
   });
 
 
-  describe('Testing change user portrait with uploaded file', function() {
+  xdescribe('Testing change user portrait with uploaded file', function() {
     var result;
     //the uploadedName value cannot be passed to this function!
 
@@ -306,7 +305,7 @@ describe('Testing user api:', function() {
 
   });
 
-  describe('Testing change user password to 88888888', function() {
+  xdescribe('Testing change user password to 88888888', function() {
     var result, code;
     //the uploadedName value cannot be passed to this function!
 
@@ -339,7 +338,7 @@ describe('Testing user api:', function() {
 
   });
 
-  describe('Testing change user password back to ' + password, function() {
+  xdescribe('Testing change user password back to ' + password, function() {
     var result, code;
     //the uploadedName value cannot be passed to this function!
 
@@ -374,7 +373,7 @@ describe('Testing user api:', function() {
 
 });
 
-describe('Testing get user with surname 周 list by page', function() {
+xdescribe('Testing get user with surname 周 list by page', function() {
   var postdata = {
     page: 1,
     pagesize: 2,

@@ -12,7 +12,7 @@ describe('Protractor Test', function() {
   }
   useremail += d.toLocaleString().substr(2, 19).replace(/ |:/g, '') + '@blogsite.com';
   console.log(useremail+' '+username);
-
+  //username='admin';useremail='admin@blogsite.com';
   describe('Register Test', function() {
     var register = element(by.id('registerlink'));
     var password1 = element(by.id('password1'));

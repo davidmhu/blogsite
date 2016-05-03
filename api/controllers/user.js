@@ -7,24 +7,63 @@ var sendJSONresponse = function(res, status, content) {
     res.json(content);
 };
 
+var getAuthAccount=function(reqHeaders){
+    if (reqHeaders.hasOwnProperty('authorization') && reqHeaders.authorization) {
+        var token=reqHeaders.authorization.replace(/Bearer /,'');
+        var payloadstr=token.split('.')[1];
+        payloadstr=new Buffer(payloadstr, 'base64').toString('utf8');
+        var payload=JSON.parse(payloadstr);
+        return(payload.email);
+    }else {
+        return "";
+    }
+};
+
 /* GET a user */
 /* /api/user/xxx@xx.com */
 module.exports.userReadOne = function(req, res) {
-    User.findOne(req.params)
-        .select('-hash -salt -_id')
-        .exec(function(err, user) {
-            if (!user) {
-                sendJSONresponse(res, 404, {
-                    "message": "User not found"
+    var authAccount=getAuthAccount(req.headers);
+    if (!authAccount || !req.params.email ) {
+        sendJSONresponse(res, 400, {
+                    "message": "invalid user account"
                 });
-                return;
-            } else if (err) {
-                console.log(err);
-                sendJSONresponse(res, 404, err);
-                return;
-            }
-            sendJSONresponse(res, 200, user);
-        });
+    } 
+    if (authAccount!==req.params.email) {
+        User.findOne({'email':authAccount})
+            .select('-hash -salt -_id')
+            .exec(function(err, user) {
+                if (!user) {
+                    sendJSONresponse(res, 404, {
+                        "message": "logggin user  not found"
+                    });
+                    return;
+                } else if (err) {
+                    console.log(err);console.log('in err');
+                    sendJSONresponse(res, 404, err);
+                    return;
+                }console.log(user);
+                if (user.role!==['Admin']) {console.log('is not admin');
+                    sendJSONresponse(res, 404, {"message":"logged user has no authorization"});
+                    return;
+                }
+                User.findOne(req.params)
+                    .select('-hash -salt -_id')
+                    .exec(function(err, user) {
+                        if (!user) {
+                            sendJSONresponse(res, 404, {
+                                "message": "User not found"
+                            });
+                            return;
+                        } else if (err) {
+                            console.log(err);
+                            sendJSONresponse(res, 404, err);
+                            return;
+                        }
+                        sendJSONresponse(res, 200, user);
+                    });
+            });
+    }
+    
 };
 
 /* GET a user */

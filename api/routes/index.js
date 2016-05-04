@@ -20,7 +20,6 @@ router.get('/', function(req, res, next) {
     });
 });
 
-
 router.get('/user/emailcheck/:email',ctrlUser.checkEmail);
 router.get('/user/:email', auth,ctrlUser.userReadOne);
 router.get('/user', ctrlUser.userList);
@@ -30,7 +29,7 @@ router.put('/user/:email', auth, ctrlUser.userEdit);
 router.post('/user/changepwd/:email',auth,ctrlAuth.changePwd);
 router.post('/user/uploads', multipartyMiddleware,ctrlUser.portraitUpload);
 router.post('/user/portrait/:email',auth,ctrlUser.changePortrait);
-router.post('/user/list',ctrlUser.getUserByPage);
+router.post('/user/list',auth,ctrlUser.getUserByPage);
 
 router.get('/blog/:blogid', ctrlBlogitem.blogDetail);
 router.get('/blog', ctrlBlogitem.blogList);

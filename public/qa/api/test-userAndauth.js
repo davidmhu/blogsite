@@ -4,13 +4,14 @@ var request = require('request');
 var port = process.env.PORT || 3100;
 require('dotenv').load();
 var pinyinDict = require('../hanziDict');
+var password = 'eat-the-living';
 
 describe('Testing user api:', function() {
 
   var token, uploadedName, randomInt, username = '',
     useremail = '',
-    d = new Date(),
-    password = 'eat-the-living';
+    d = new Date();
+
   for (var i = 0; i < 3; i++) {
     randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
 
@@ -58,7 +59,7 @@ describe('Testing user api:', function() {
 
   });
 
-  xdescribe('Testing email check', function() {
+  describe('Testing email check', function() {
     var result;
     before(function(done) {
       request('http://localhost:' + port + '/api/user/emailcheck/' + existedEmail,
@@ -131,7 +132,6 @@ describe('Testing user api:', function() {
       expect(result).to.have.property('token');
     });
 
-
   });
 
 
@@ -162,7 +162,7 @@ describe('Testing user api:', function() {
 
   });
 
-  xdescribe('Testing edit user info', function() {
+  describe('Testing edit user info', function() {
     var result, code;
     var postdata = {
       email: existedEmail,
@@ -217,7 +217,7 @@ describe('Testing user api:', function() {
 
   });
 
-  xdescribe('Testing upload and change user portrait', function() {
+  describe('Testing upload and change user portrait', function() {
     var result, code, mfile, filepath = __dirname + '/test.jpg';
     var fs = require('fs');
     if (!fs.existsSync(filepath)) {
@@ -267,11 +267,10 @@ describe('Testing user api:', function() {
       expect(result).to.have.property('path');
     });
 
-
   });
 
 
-  xdescribe('Testing change user portrait with uploaded file', function() {
+  describe('Testing change user portrait with uploaded file', function() {
     var result;
     //the uploadedName value cannot be passed to this function!
 
@@ -304,7 +303,7 @@ describe('Testing user api:', function() {
 
   });
 
-  xdescribe('Testing change user password to 88888888', function() {
+  describe('Testing change user password to 88888888', function() {
     var result, code;
     //the uploadedName value cannot be passed to this function!
 
@@ -337,7 +336,7 @@ describe('Testing user api:', function() {
 
   });
 
-  xdescribe('Testing change user password back to ' + password, function() {
+  describe('Testing change user password back to ' + password, function() {
     var result, code;
     //the uploadedName value cannot be passed to this function!
 
@@ -372,38 +371,70 @@ describe('Testing user api:', function() {
 
 });
 
-xdescribe('Testing get user with surname 周 list by page', function() {
-  var postdata = {
-    page: 1,
-    pagesize: 2,
-    queryCond: {
-      gender: 0,
-      name: '周',
-      fuzzyname: true
-    },
-    sortCond: {}
-  };
+describe('Testing get user with surname 周 list by page', function() {
+  var result, code, token;
+  describe('Testing admin login ', function() {
 
-  before(function(done) {
-    request.post('http://localhost:' + port + '/api/user/list/', {
-      json: postdata
-    }, function(error, response, body) {
-      //code = response.statusCode;
-      if (!error && response.statusCode == 200) {
-        result = body; //console.log(result);//JSON.parse(body);
-      } else {
-        console.log(error);
-      }
-      done();
+  var  postdata = {
+      email: 'admin@blogsite.com',
+      password: 'eat-the-living'
+    };
+
+    before(function(done) {console.log(postdata);
+      request.post('http://localhost:' + port + '/api/login/', {
+          json: postdata
+        },
+        function(error, response, body) {
+          code = response.statusCode; //console.log(response.statusCode);
+          if (!error && response.statusCode == 200) {
+            result = body;
+            token = result.token;
+          }
+          done();
+        });
+    });
+    it('should login successfully', function() {
+      //console.log(result.token);
+      expect(result).to.have.property('token');
+    });
+
+  });
+
+  describe('Get one page list ', function() {
+    var postdata = {
+      page: 1,
+      pagesize: 2,
+      queryCond: {
+        gender: 0,
+        name: '周',
+        fuzzyname: true
+      },
+      sortCond: {}
+    };
+
+    before(function(done) {
+      request.post('http://localhost:' + port + '/api/user/list/', {
+        json: postdata,
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      }, function(error, response, body) {
+        //code = response.statusCode;
+        if (!error && response.statusCode == 200) {
+          result = body; //console.log(result);//JSON.parse(body);
+        } else {
+          console.log(error);
+        }
+        done();
+      });
+    });
+
+    it('should get ' + postdata.pagesize + ' users\' list successfully', function() {
+      expect(result.userlist.length).to.equal(2);
+    });
+
+    it('should get users\' list with conditions successfully', function() {
+      expect(result.userlist[1].gender).to.equal(0);
     });
   });
-
-  it('should get ' + postdata.pagesize + ' users\' list successfully', function() {
-    expect(result.userlist.length).to.equal(2);
-  });
-
-  it('should get users\' list with conditions successfully', function() {
-    expect(result.userlist[1].gender).to.equal(0);
-  });
-
 });

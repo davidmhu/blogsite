@@ -48,7 +48,8 @@
 
 
         function doViewUserInfo() {
-            blogsiteData.getUserinfo()
+            var email = authentication.currentUser().email;
+            blogsiteData.getUserinfo(email)
                 .success(function(data) {
                     vm.message = data ? "" : "No user found";
                     vm.user = data;

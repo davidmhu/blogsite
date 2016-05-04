@@ -7,9 +7,9 @@
     blogsiteData.$inject = ['$http', 'authentication'];
 
     function blogsiteData($http, authentication) {
-        var getUserinfo = function() {
-            var user = authentication.currentUser();
-            return $http.get('/api/user/' + user.email, {
+        var getUserinfo = function(email) {
+            //var user = authentication.currentUser();
+            return $http.get('/api/user/' + email, {
                 headers: {
                     Authorization: 'Bearer ' + authentication.getToken()
                 }
@@ -52,7 +52,11 @@
                 queryCond: queryCond,
                 sortCond:sortCond
             };
-            return $http.post('/api/user/list/',postdata);
+            return $http.post('/api/user/list/',postdata, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+                });
         };
         return {
             getUserinfo: getUserinfo,

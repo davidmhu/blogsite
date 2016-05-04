@@ -33,7 +33,7 @@
                 controller: 'userlistCtrl',
                 controllerAs: 'vm'
             })
-            .when('/user/view', {
+            .when('/user/view/:email', {
                 templateUrl: 'userhome/userhome.view.html',
                 controller: 'userhomeCtrl',
                 controllerAs: 'vm'

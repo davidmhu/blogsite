@@ -79,7 +79,7 @@
             if (vm.orderby == 'createDate') {
                 if (vm.isasc == 1) {
                     sortCond = {
-                        createOn: 1
+                        createdOn: 1
                     };
                 } else {
                     sortCond = {

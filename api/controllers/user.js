@@ -85,6 +85,14 @@ module.exports.userReadOne = function(req, res) {
 /* GET a user */
 /* /api/user?email=xxx@xx.com */
 module.exports.userList = function(req, res) {
+    var authAccount=getAuthAccount(req.headers);
+    if (!authAccount || !req.params.email || authAccount!==req.params.email) {
+        sendJSONresponse(res, 400, {
+                    "message": "invalid user account"
+                });
+        return;
+    } 
+
     User.findOne({
         email: req.query.email
     })
@@ -105,8 +113,8 @@ module.exports.userList = function(req, res) {
         });
 };
 
-/* modify a  user */
-/* /api/user/:email */
+/* modify a  user 
+ put /api/user/:email */
 module.exports.userEdit = function(req, res) {
     //need to add validation here
     //console.log(req.params.email);
@@ -116,6 +124,14 @@ module.exports.userEdit = function(req, res) {
         });
         return;
     }
+    var authAccount=getAuthAccount(req.headers);
+    if (!authAccount || !req.params.email || authAccount!==req.params.email) {
+        sendJSONresponse(res, 400, {
+                    "message": "invalid user account"
+                });
+        return;
+    } 
+    
     User.findOne(req.params)
         .exec(
             function(err, user) {
@@ -227,7 +243,13 @@ module.exports.changePortrait = function(req, res) {
         });
         return;
     }
-
+    var authAccount=getAuthAccount(req.headers);
+    if (!authAccount || !req.params.email || authAccount!==req.params.email) {
+        sendJSONresponse(res, 400, {
+                    "message": "invalid user account"
+                });
+        return;
+    } 
     console.log(process.env.UPLOAD_DIR + '/' + req.body.filename);
     try {
         isFile = fs.statSync(process.env.UPLOAD_DIR + '/' + req.body.filename).isFile();
@@ -279,7 +301,7 @@ module.exports.changePortrait = function(req, res) {
 /*get /user/list/
 set fuzzyname or fuzzyemail to true, if want to inplement fuzzy search
 */
-module.exports.getUserByPage = function(req, res) {
+module.exports.getUserByPage = function(req, res) {//need to validate access right
     var page, pagesize, rowcnt;
     if (req.body.page) {
         if (!/^[0-9]+$/.test(req.body.page)) {
@@ -314,7 +336,7 @@ module.exports.getUserByPage = function(req, res) {
     console.log(queryCond);//console.log(page);console.log(pagesize);
 
     var sortCond=req.body.sortCond;//{createdOn:-1};
-    sortCond.createdOn=-1;
+    //sortCond.createdOn=-1;
     console.log(sortCond);
 
     User.count(queryCond)

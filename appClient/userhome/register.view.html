@@ -1,54 +1,77 @@
 <navigation></navigation>
-
 <div class="container margin-top-40">
 <div class="row">
-            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 login-signup-page">
-                <form  ng-submit="vm.submit()" name='registerForm' class="form-horizontal">           
-                    
-                    <h2>Signup</h2>
-
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input id="name" name="name" ng-model="vm.user.name" required class="form-control" type="text" placeholder="Username">
-                    </div>
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        <input id="email" name="email" ng-model="vm.user.email" ng-change= "vm.emailChanged()" required class="form-control" type="text" placeholder="E-mail">
-                    </div>    
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input id="password1" name="password1" ng-model="vm.user.password1" required ng-minlength="8" class="form-control" type="password" placeholder="Password">
-                    </div>
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input id="password2" name="password2" ng-model="vm.user.password2" required ng-minlength="8" class="form-control" type="password" placeholder="Confirm password">
-                    </div>
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-intersex"></i></span>
-                        <label class="radio-inline" style="margin-left: 15px;">
-                        <input id="gender1" type="radio" ng-model="vm.user.gender" value="1" checked> <i class="fa fa-male fa-2x" ></i>
-                    </label>
-                    <label class="radio-inline">
-                        <input id="gender2" type="radio" ng-model="vm.user.gender" value="0"> <i class="fa fa-female fa-2x"></i>
-                    </label>
-                    <label class="radio-inline">
-                        <input id="gender3" type="radio" ng-model="vm.user.gender" value="2"> <i class="fa fa-question fa-2x" ></i>
-                    </label>
-                    </div>
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
-                        <input id="birthday" type="date" name="birthday" ng-model="vm.user.birthday" min="2000-01-01" max="2025-12-31" class="form-control">
-                        
-                    
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button id="registerbtn" class="btn theme-btn pull-right" type="submit">Register!</button>                        
-                        </div>
-                    </div>
-
-                    
-                </form>
+    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 login-signup-page">
+        <form  ng-submit="vm.submit()" name='registerForm' class="form-horizontal">
+            
+            <h2>Signup</h2>
+            <div role="alert" class="alert alert-danger" ng-show=vm.message>
+                <p style="color:rgb(255,0,0)">{{vm.message}}</p>
             </div>
-          </div>
-          </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input id="name" name="name" ng-model="vm.user.name" required class="form-control" type="text" placeholder="Username">
+                <span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">
+                        This is a required field
+                </span>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <input id="email" name="email" ng-model="vm.user.email" ng-change= "vm.emailChanged()" required class="form-control" type="text" placeholder="E-mail">
+                <span class="input-group-btn">
+                        <button type="button" class="btn" ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>Check</button>
+                    </span>
+                
+                <span class="emailcheck" ng-show="vm.check">{{vm.check}}</span>
+                <div ng-show="registerForm.email.$dirty && registerForm.email.$error.required">
+                        This is a required field
+                </div>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input id="password1" name="password1" ng-model="vm.user.password1" required ng-minlength="8" class="form-control" type="password" placeholder="Password">
+                <span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.required">
+                        This is a required field
+                    </span>
+                    <span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.minlength">
+                        Minimum length required is 8
+                    </span>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input id="password2" name="password2" ng-model="vm.user.password2" required ng-minlength="8" class="form-control" type="password" placeholder="Confirm password">
+                <span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.required">
+                        This is a required field
+                    </span>
+                    <span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.minlength">
+                        Minimum length required is 8
+                    </span>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-intersex"></i></span>
+                <label class="radio-inline" style="margin-left: 15px;">
+                    <input id="gender1" type="radio" ng-model="vm.user.gender" value="1" checked> <i class="fa fa-male fa-2x" ></i>
+                </label>
+                <label class="radio-inline" style="margin-left: 15px;">
+                    <input id="gender2" type="radio" ng-model="vm.user.gender" value="0"> <i class="fa fa-female fa-2x"></i>
+                </label>
+                <label class="radio-inline" style="margin-left: 15px;">
+                    <input id="gender3" type="radio" ng-model="vm.user.gender" value="2"> <i class="fa fa-question fa-2x" ></i>
+                </label>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
+                <input id="birthday" type="date" name="birthday" ng-model="vm.user.birthday" min="2000-01-01" max="2025-12-31" class="form-control" placeholder="Birthday">
+                
+                
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button id="registerbtn" value="Submit" class="btn theme-btn pull-right" type="submit">Register!</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+</div>

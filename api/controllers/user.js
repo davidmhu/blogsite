@@ -300,6 +300,7 @@ module.exports.changePortrait = function(req, res) {
 
 /*get /user/list/
 set fuzzyname or fuzzyemail to true, if want to inplement fuzzy search
+regex can be {'name' :{'$regex':'^name','$options':'i'}
 */
 module.exports.getUserByPage = function(req, res) {//need to validate access right
     var page, pagesize, rowcnt;

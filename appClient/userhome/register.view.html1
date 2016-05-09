@@ -1,0 +1,88 @@
+<navigation></navigation>
+
+<div class="row">
+	<div class="col-md-6 col-sm-12">
+		<p class="lead">Already a member? Please <a href="/login">log in</a> instead.</p>
+		
+		<form ng-submit="vm.submit()" name='registerForm' class="form-horizontal">
+			<div role="alert" class="alert alert-danger" ng-show=vm.message>
+				<p style="color:rgb(255,0,0)">{{vm.message}}</p>
+			</div>
+			<div class="form-group">
+				<label for="name" class="control-label col-sm-2">Full name</label>
+				<div class="col-sm-10">
+					<input id="name" type="text" name="name" ng-model="vm.user.name" required placeholder="Enter your name" class="form-control">
+					<span ng-show="registerForm.name.$dirty && registerForm.name.$error.required">
+						This is a required field
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="control-label col-sm-2">Email address</label>
+				<div class="col-sm-9  input-group" style="padding-left: 15px;">
+					<input id="email" type="email" name="email" ng-model="vm.user.email" ng-change= "vm.emailChanged()" required placeholder="Enter email" class="form-control">
+					<span class="input-group-btn">
+						<button type="button" class="btn" ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>Check</button>
+					</span>
+					<span ng-show="registerForm.email.$dirty && registerForm.email.$error.required">
+						This is a required field
+					</span>
+				</div>
+				<!-- <div class="col-sm-2">
+					<a class='btn btn-default' ng-disabled='registerForm.email.$invalid' ng-click='vm.checkEmail()'>check</a>
+				</div> -->
+				<div class="col-sm-1" style="padding-top: 10px;">{{vm.check}}</div>
+
+			</div>
+			<div class="form-group">
+				<label for="password" class="control-label col-sm-2">Password</label>
+				<div class="col-sm-10">
+					<input id="password1" type="password" name="password1" ng-model="vm.user.password1" required ng-minlength="8" class="form-control">
+					<span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.required">
+						This is a required field
+					</span>
+					<span ng-show="registerForm.password1.$dirty && registerForm.password1.$error.minlength">
+						Minimum length required is 8
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="control-label col-sm-2">Retype password</label>
+				<div class="col-sm-10">
+					<input id="password2" type="password" name="password2" ng-model="vm.user.password2" required ng-minlength="8" class="form-control">
+					<span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.required">
+						This is a required field
+					</span>
+					<span ng-show="registerForm.password2.$dirty && registerForm.password2.$error.minlength">
+						Minimum length required is 8
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="gender" class="control-label col-sm-2">Gender</label>
+				<div class="col-sm-10">
+					<label class="radio-inline">
+						<input id="gender1" type="radio" ng-model="vm.user.gender" value="1" checked> Male
+					</label>
+					<label class="radio-inline">
+						<input id="gender2" type="radio" ng-model="vm.user.gender" value="0"> Female
+					</label>
+					<label class="radio-inline">
+						<input id="gender3" type="radio" ng-model="vm.user.gender" value="2"> Other
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="birthday" class="control-label col-sm-2">Birthday</label>
+				<div class="col-sm-10">
+					<input id="birthday" type="date" name="birthday" ng-model="vm.user.birthday" min="2000-01-01" max="2025-12-31" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button id="registerbtn" type="submit" value="Submit"  class="btn btn-default">Register!</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

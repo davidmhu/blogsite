@@ -72,3 +72,44 @@ canvas {
  .tooltip.customClass .tooltip-arrow {
     display: none;
 }
+
+.login-signup-page {
+    padding: 50px auto 30px;
+}
+
+.login-signup-page form {
+    background: #FEFEFE;
+    border: 1px solid #E0DEDE;
+    box-shadow: 0px 0px 3px #e0dede;
+    padding: 10px 30px 30px;
+}
+
+.login-signup-page h2 {
+    margin-bottom: 15px;
+}
+
+.login-signup-page .input-group {
+    position: relative;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px !important;
+}
+
+.margin-bottom-40 {
+    margin-bottom: 40px !important;
+}
+
+.margin-top-40 {
+    margin-top: 40px !important;
+}
+
+.input-group-addon {
+    border-color: #e5e5e5;
+    background: #e5e5e5;
+    min-width: 39px;
+}
+
+.input-group-addon > i {
+    color: #999;
+}

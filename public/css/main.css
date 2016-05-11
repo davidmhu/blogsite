@@ -5,7 +5,9 @@
    ========================================================================== */
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
+    font-family: "Source Sans Pro", sans-serif;
+    color: #656565;
 }
 
 a {
@@ -40,16 +42,6 @@ canvas {
     border: 1px solid #c3c3c3;
     height: 100px;
     margin: 6px 0 0 6px;
-}
-
-.strike {
-  text-decoration: line-through;
-}
-.bold {
-    font-weight: bold;
-}
-.red {
-    color: red;
 }
 
 .base-class {
@@ -113,3 +105,12 @@ canvas {
 .input-group-addon > i {
     color: #999;
 }
+
+.navbar {
+    background-color:rgba(52, 146, 183, 1)
+}
+
+
+.navbar li a {
+	color: rgba(45, 45, 45, 1) !important;
+      }

@@ -5,7 +5,7 @@ var jshint = require('gulp-jshint');
 var karma= require('karma').Server;
 var protractor = require("gulp-protractor").protractor;
 
-gulp.task('e2e',function(){
+gulp.task('qa-e2e',function(){
   return gulp.src(["public/qa/e2e/spec.js"])
   .pipe(protractor({
     configFile: "public/qa/e2e/conf.js",
@@ -14,8 +14,17 @@ gulp.task('e2e',function(){
   .on('error', function(e) { throw e });
 });
 
-gulp.task('qa-api', ['lint'],function() {
+gulp.task('qa-apiblog', ['lint'],function() {
   return gulp.src(['public/qa/api/test-blog.js'], { read: false })
+    .pipe(mocha({
+      reporter: 'spec',
+      globals: {
+      }
+    }));
+});
+
+gulp.task('qa-api', ['lint'],function() {
+  return gulp.src(['public/qa/api/test-*.js'], { read: false })
     .pipe(mocha({
       reporter: 'spec',
       globals: {
@@ -32,6 +41,7 @@ gulp.task('lint', function(cb) {
 
     cb(err);
 });
+
 gulp.task('pinyin', function() {
     return gulp.src(['./public/qa/tests-pinyin.js'], { read: false })
         .pipe(mocha({ reporter: 'list' }))

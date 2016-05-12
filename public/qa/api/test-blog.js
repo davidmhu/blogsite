@@ -7,9 +7,9 @@ var pinyinDict = require('../hanziDict');
 var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
-
-  var token, uploadedName, randomInt, username = 'david',
-    useremail = 'davidhu@163.com',title='',content='',
+  var useremail = 'fanWenxuan@blogsite.com',//'davidhu@163.com' 'david',
+      username = '范文暄2016-03-28-20-45-11';//'陈立得2016-03-28-20-31-57@underworld.dead','陈立得2016-03-28-20-31-57'
+  var token, uploadedName, randomInt, title='',content='',
     d = new Date();
   var titlelen=Math.floor(Math.random() *47+3);
   var contentlen=Math.floor(Math.random() *240+10);
@@ -53,14 +53,15 @@ describe('Testing blog api:', function() {
 
 
   describe('post a new blog', function() {
-    
-    var result, code;
+    var cateArr=['Tech','Travel','Book','Movie','Auto','Politics','Female'];
+    var category=cateArr[Math.floor(Math.random() * cateArr.length)]+'|'+cateArr[Math.floor(Math.random() * cateArr.length)];
+    var result, code;console.log(category);
     var postdata = {
       userEmail: useremail,
       title: title,
       content:content,
       userName: username,
-      category: 'Tech|Movie'
+      category: category
     };
 
     before(function(done) {

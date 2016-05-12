@@ -4,8 +4,8 @@
     function config ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'userhome/userhome.view.html',
-                controller: 'userhomeCtrl',
+                templateUrl: 'home/home.view.html',
+                controller: 'homeCtrl',
                 controllerAs: 'vm'
             })
             .when('/blog', {

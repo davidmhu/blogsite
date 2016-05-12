@@ -17,10 +17,6 @@ var userSchema = new mongoose.Schema({
         type: Date,
         "default": Date.now
     },
-    /*password:{
-    	type:String,
-    	required:true,
-    },*/
     hash: String,
     salt: String,
     role: {

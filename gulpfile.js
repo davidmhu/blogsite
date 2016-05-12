@@ -15,7 +15,7 @@ gulp.task('e2e',function(){
 });
 
 gulp.task('qa-api', ['lint'],function() {
-  return gulp.src(['public/qa/api/test-*.js'], { read: false })
+  return gulp.src(['public/qa/api/test-blog.js'], { read: false })
     .pipe(mocha({
       reporter: 'spec',
       globals: {

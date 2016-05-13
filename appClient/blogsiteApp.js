@@ -8,6 +8,16 @@
                 controller: 'homeCtrl',
                 controllerAs: 'vm'
             })
+            .when('/blog/:blogid', {
+                templateUrl: 'home/blog.article.view.html',
+                controller: 'articleViewCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/blog/author/:email', {
+                templateUrl: 'home/home.view.html',
+                controller: 'homeCtrl',
+                controllerAs: 'vm'
+            })
             .when('/blog', {
                 templateUrl: 'blog/bloglist.view.html',
                 controller: 'bloglistCtrl',

@@ -13,7 +13,7 @@
                <div class="panel-body">
                   <p class="clearfix">
                      <span class="pull-left">
-                        <small class="mr-sm">By <a href="">{{blogitem.userName}}</a>
+                        <small class="mr-sm">By <a href="/blog/author/{{blogitem.userEmail}}">{{blogitem.userName}}</a>
                         </small>
                         <small class="mr-sm">{{blogitem.createdOn| date:'yyyy-MM-dd'}}</small>
                      </span>
@@ -24,7 +24,7 @@
                         </small>
                      </span>
                   </p>
-                  <h4> <a href="">{{blogitem.title}}</a>
+                  <h4> <a href="/blog/{{blogitem._id}}">{{blogitem.title}}</a>
                   </h4>
                   <p>{{blogitem.content.substr(0,50)}}<a href='/blog/{{blogitem._id}}'>全文</a></p>
                </div>

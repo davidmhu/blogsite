@@ -52,6 +52,10 @@ module.exports.blogList = function(req, res) {
   else
     console.log(queryCond);
 
+  if (!queryCond.hasOwnProperty('public')){
+    queryCond.public=1;
+  } 
+  
   BlogItem.find(queryCond)
     .sort('-createdOn')
     .exec(function(err, blogs) {

@@ -8,10 +8,10 @@ var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
   for (var j=0;j<3;j++){
-  var useremailArr=['laidinggan16-05-04113444@blogsite.com','jiaojianfu16-05-04105439@blogsite.com']//,'davidhu@163.com'];
-  //var useremailArr=['fanWenxuan@blogsite.com','davidhu@163.com'];
-  var usernameArr=['濑玎甘','娇箭腹']//,'david'];
-  //var usernameArr=['范文暄','david']
+  //var useremailArr=['laidinggan16-05-04113444@blogsite.com','jiaojianfu16-05-04105439@blogsite.com']//,'davidhu@163.com'];
+  var useremailArr=['shujieshu16-05-03215510@blogsite.com','ekongmei16-05-09185553@blogsite.com','fanWenxuan@blogsite.com','davidhu@163.com'];
+  //var usernameArr=['濑玎甘','娇箭腹']//,'david'];
+  var usernameArr=['树桔菽','厄箜每','范文暄','david'];
   var token, randomInt=Math.floor(Math.random() *useremailArr.length),
       useremail = useremailArr[randomInt],
       username = usernameArr[randomInt], 
@@ -52,7 +52,7 @@ describe('Testing blog api:', function() {
     describe('post a new blog', function() {
       
       var titlelen=Math.floor(Math.random() *27+3);
-      var contentlen=Math.floor(Math.random() *240+10);
+      var contentlen=Math.floor(Math.random() *440+10);
       title='';content='';
       for (var i = 0; i < titlelen; i++) {
         randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);

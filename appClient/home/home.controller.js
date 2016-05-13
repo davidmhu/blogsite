@@ -8,9 +8,13 @@
 
   function homeCtrl($scope, $location, $routeParams, blogsiteData) {
     
-    var vm = this;
+    var vm = this,queryStr='';
     vm.bloglist={};
-    blogsiteData.getBlogList()
+    
+    if ($routeParams.hasOwnProperty('email')) {
+      queryStr='?userEmail='+$routeParams.email;
+    }
+    blogsiteData.getBlogList(queryStr)
         .success(function(data) {
           vm.message = data ? "" : "No user found";
           vm.bloglist=data;

@@ -58,8 +58,8 @@
                 }
                 });
         };
-        var getBlogList=function(){
-            return $http.get('/api/blog/');
+        var getBlogList=function(queryStr){
+            return $http.get('/api/blog/'+queryStr);
         };
         var getBlogDetail=function(id){
             return $http.get('/api/blog/'+id);

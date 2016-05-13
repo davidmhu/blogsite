@@ -375,7 +375,7 @@ describe('Testing get user with surname 周 list by page', function() {
   var result, code, token;
   describe('Testing admin login ', function() {
 
-  var  postdata = {
+  var postdata = {
       email: 'admin@blogsite.com',
       password: 'eat-the-living'
     };

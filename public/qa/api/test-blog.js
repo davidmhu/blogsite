@@ -7,22 +7,18 @@ var pinyinDict = require('../hanziDict');
 var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
-  var useremail = 'fanWenxuan@blogsite.com',//'davidhu@163.com' 'david',
-      username = '范文暄2016-03-28-20-45-11';//'陈立得2016-03-28-20-31-57@underworld.dead','陈立得2016-03-28-20-31-57'
-  var token, uploadedName, randomInt, title='',content='',
-    d = new Date();
-  var titlelen=Math.floor(Math.random() *47+3);
-  var contentlen=Math.floor(Math.random() *240+10);
-  for (var i = 0; i < titlelen; i++) {
-    randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
-    title += pinyinDict.hanzi[randomInt];    
-  }
-  for ( i = 0; i < contentlen; i++) {
-    randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
-    content += pinyinDict.hanzi[randomInt];    
-  }
-
+  for (var j=0;j<3;j++){
+  var useremailArr=['laidinggan16-05-04113444@blogsite.com','jiaojianfu16-05-04105439@blogsite.com']//,'davidhu@163.com'];
+  //var useremailArr=['fanWenxuan@blogsite.com','davidhu@163.com'];
+  var usernameArr=['濑玎甘','娇箭腹']//,'david'];
+  //var usernameArr=['范文暄','david']
+  var token, randomInt=Math.floor(Math.random() *useremailArr.length),
+      useremail = useremailArr[randomInt],
+      username = usernameArr[randomInt], 
+      title='',content='',blogid;
   console.log('the new account is ' + useremail + ' and name is ' + username);
+
+  
 
   describe('User login ', function() {
 
@@ -51,62 +47,80 @@ describe('Testing blog api:', function() {
 
   });
 
+  
+    
+    describe('post a new blog', function() {
+      
+      var titlelen=Math.floor(Math.random() *27+3);
+      var contentlen=Math.floor(Math.random() *240+10);
+      title='';content='';
+      for (var i = 0; i < titlelen; i++) {
+        randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
+        title += pinyinDict.hanzi[randomInt];    
+      }
+      for ( i = 0; i < contentlen; i++) {
+        randomInt = Math.floor(Math.random() * pinyinDict.hanzi.length);
+        content += pinyinDict.hanzi[randomInt];    
+      }
 
-  describe('post a new blog', function() {
-    var cateArr=['Tech','Travel','Book','Movie','Auto','Politics','Female'];
-    var category=cateArr[Math.floor(Math.random() * cateArr.length)]+'|'+cateArr[Math.floor(Math.random() * cateArr.length)];
-    var result, code;console.log(category);
-    var postdata = {
-      userEmail: useremail,
-      title: title,
-      content:content,
-      userName: username,
-      category: category
-    };
+      var cateArr=['Tech','Travel','Book','Movie','Auto','Politics','Female'];
+      var category=cateArr[Math.floor(Math.random() * cateArr.length)]+'|'+cateArr[Math.floor(Math.random() * cateArr.length)];
+      var result, code;console.log(category);
+      var postdata = {
+        userEmail: useremail,
+        title: title,
+        content:content,
+        userName: username,
+        category: category
+      };
 
-    before(function(done) {
-      request.post('http://localhost:' + port + '/api/blog/' , {
-          json: postdata,
-          headers: {
-            Authorization: 'Bearer ' + token
-          }
-        },
-        function(error, response, body) {
-          code = response.statusCode; //console.log(response.statusCode);console.log(token);
-          if (!error && response.statusCode == 201) {
-            result = body; //console.log(result);
+      before(function(done) {
+        request.post('http://localhost:' + port + '/api/blog/' , {
+            json: postdata,
+            headers: {
+              Authorization: 'Bearer ' + token
+            }
+          },
+          function(error, response, body) {
+            code = response.statusCode; //console.log(response.statusCode);console.log(token);
+            if (!error && response.statusCode == 201) {
+              result = body; 
+              blogid=result._id;
+            } else {
+              console.log(error);
+            }
+            done();
+          });
+      });
 
-          } else {
-            console.log(error);
-          }
-          done();
-        });
+      it('should get code 201', function() {
+        expect(code).to.equal(201);
+      });
+
     });
 
-    /*before(function(done) {
-      request('http://localhost:' + port + '/api/blog/' + existedEmail, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          }
-        },
-        function(error, response, body) {
-          code = response.statusCode; //console.log(response.statusCode);
-          if (!error && response.statusCode == 200) {
-            result = JSON.parse(body); //console.log(result);
+    describe('query new blog ',function(){
+      var queryCond;console.log('userEmail='+useremail+'&title='+title);
+      before(function(done) {
+        request('http://localhost:' + port + '/api/blog/'+blogid ,{}, 
+          function(error, response, body) {
+            code = response.statusCode; 
+            if (!error && response.statusCode == 200) {
+              result = JSON.parse(body); console.log(result.title);
 
-          } else {
-            console.log(error);
-          }
-          done();
-        });
+            } else {
+              console.log(error);
+            }
+            done();
+          });
+      });
 
-    });*/
-
-    it('should get code 200', function() {
-      expect(code).to.equal(201);
+      it('should get code 200', function() {
+        expect(code).to.equal(200);
+      });
     });
 
-  });
+  }
 
- 
+
 });

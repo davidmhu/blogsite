@@ -53,7 +53,7 @@ module.exports.blogList = function(req, res) {
     console.log(queryCond);
 
   BlogItem.find(queryCond)
-    .sort('-modifiedOn')
+    .sort('-createdOn')
     .exec(function(err, blogs) {
       if (!blogs) {
         sendJSONresponse(res, 404, {
@@ -69,6 +69,7 @@ module.exports.blogList = function(req, res) {
       sendJSONresponse(res, 200, blogs);
     });
 };
+
 /* POST a new blog */
 /* /api/blog/ */
 module.exports.blogCreate = function(req, res) {

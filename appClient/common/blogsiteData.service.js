@@ -58,13 +58,21 @@
                 }
                 });
         };
+        var getBlogList=function(){
+            return $http.get('/api/blog/');
+        };
+        var getBlogDetail=function(id){
+            return $http.get('/api/blog/'+id);
+        };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo: updateUserinfo,
             changePwd: changePwd,
             changePortrait: changePortrait,
             checkEmail: checkEmail,
-            getListpage:getListpage
+            getListpage:getListpage,
+            getBlogList:getBlogList,
+            getBlogDetail:getBlogDetail
         };
 
 

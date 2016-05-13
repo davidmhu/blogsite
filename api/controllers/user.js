@@ -298,7 +298,7 @@ module.exports.changePortrait = function(req, res) {
             });
 };
 
-/*get /user/list/
+/*post /user/list/
 set fuzzyname or fuzzyemail to true, if want to inplement fuzzy search
 regex can be {'name' :{'$regex':'^name','$options':'i'}
 */

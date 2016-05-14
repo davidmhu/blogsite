@@ -13,6 +13,11 @@
                 controller: 'articleViewCtrl',
                 controllerAs: 'vm'
             })
+            .when('/blog/edit/:blogid', {
+                templateUrl: 'home/blog.article.edit.html',
+                controller: 'articleViewCtrl',
+                controllerAs: 'vm'
+            })
             .when('/blog/author/:email', {
                 templateUrl: 'home/home.view.html',
                 controller: 'homeCtrl',

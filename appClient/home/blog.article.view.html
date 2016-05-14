@@ -1,4 +1,5 @@
-<div class="row">
+<navigation></navigation>
+<div class="row margin-top-20">
    <!-- Blog Content-->
    <div class="col-lg-9">
       <div class="panel panel-default">
@@ -7,13 +8,9 @@
                <h2 class="text-lg">{{vm.article.title}}</h2>
                <p class="clearfix">
                   <span class="pull-left">
-                     <small class="mr-sm">By <a href="">{{vm.article.userName}}</a>
+                     <small class="mr-sm">By <a href="/blog/author/{{vm.article.userEmail}}">{{vm.article.userName}}</a>
                      </small>
                      <small class="mr-sm">{{vm.article.createdOn| date:'yyyy-MM-dd'}}</small>
-                     <small>
-                        <strong>56</strong>
-                        <span>Comments</span>
-                     </small>
                   </span>
                </p>
             </div>
@@ -62,10 +59,18 @@
                   <em class="fa fa-tumblr text-muted"></em>
                </button>
                <button type="button" class="btn btn-default">
-                  <em class="fa fa-pinterest text-muted"></em>
+                  <em class="fa fa-share-alt text-muted"></em>
+               </button>
+            </div>
+            <div role="group" aria-label="..." class="btn-group pull-right">
+               <a type="button" class="btn btn-default" href='/blog/edit/{{vm.article._id}}'>
+                  <em class="fa fa-edit text-muted"></em>
+               </a>
+               <button type="button" class="btn btn-default">
+                  <em class="fa fa-gear text-muted"></em>
                </button>
                <button type="button" class="btn btn-default">
-                  <em class="fa fa-share-alt text-muted"></em>
+                  <em class="fa fa-trash text-muted"></em>
                </button>
             </div>
          </div>
@@ -124,7 +129,7 @@
             </div>
          </div>
       </div>
-      <div class="panel">
+      <div class="panel" ng-show=>
          <div class="panel-heading">
             <em class="fa fa-pencil mr"></em>Add your Comment</div>
          <div class="panel-body">

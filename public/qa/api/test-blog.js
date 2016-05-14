@@ -7,11 +7,12 @@ var pinyinDict = require('../hanziDict');
 var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
-  for (var j=0;j<3;j++){
-  //var useremailArr=['laidinggan16-05-04113444@blogsite.com','jiaojianfu16-05-04105439@blogsite.com']//,'davidhu@163.com'];
-  var useremailArr=['shujieshu16-05-03215510@blogsite.com','ekongmei16-05-09185553@blogsite.com','fanWenxuan@blogsite.com','davidhu@163.com'];
-  //var usernameArr=['濑玎甘','娇箭腹']//,'david'];
-  var usernameArr=['树桔菽','厄箜每','范文暄','david'];
+  
+  var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
+      'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com']//,'davidhu@163.com'];
+  //var useremailArr=['shujieshu16-05-03215510@blogsite.com','ekongmei16-05-09185553@blogsite.com','fanWenxuan@blogsite.com','davidhu@163.com'];
+  var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴']//,'david'];
+  //var usernameArr=['树桔菽','厄箜每','范文暄','david'];
   var token, randomInt=Math.floor(Math.random() *useremailArr.length),
       useremail = useremailArr[randomInt],
       username = usernameArr[randomInt], 
@@ -120,7 +121,7 @@ describe('Testing blog api:', function() {
       });
     });
 
-  }
+  
 
 
 });

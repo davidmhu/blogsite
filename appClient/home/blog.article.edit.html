@@ -1,21 +1,23 @@
-<h3>New Article</h3>
-<div ng-controller="ArticleController as art" class="container-fluid">
+<navigation></navigation>
+<h3 ng-show="{{vm.article._id}}">New Article</h3>
+
    <alert ng-repeat="alert in art.alerts" type="{{alert.type}}" close="art.closeAlert($index)">
       <em class="fa fa-exclamation-circle fa-lg fa-fw"></em>
       <span ng-bind-html="alert.msg"></span>
    </alert>
-   <div class="row">
+   <div class="row margin-top-20">
       <!-- Article Content-->
       <div class="col-lg-9">
          <div class="panel panel-default">
             <div class="panel-body">
                <form action="">
-                  <input type="text" name="article-title" placeholder="Article title..." class="mb-lg form-control input-lg" />
+               <p>Title</p>
+                  <input type="text" name="article-title" placeholder="Article title..." class="mb-lg form-control input-lg" value="{{vm.article.title}}" />
                   <!-- Wysiswyg editor-->
                   <div text-angular="" ng-model="art.htmlContent" name="wysiswyg-editor" class="btn-group-small"></div>
                   <br/>
                   <p>Notes</p>
-                  <textarea cols="6" class="mb-lg form-control"></textarea>
+                  <textarea cols="6" class="mb-lg form-control" value="{{vm.article.content}}"></textarea>
                   <div class="clearfix">
                      <div class="pull-left">
                         <button type="button" class="btn btn-default m-r-10 m-t-10">
@@ -189,4 +191,3 @@
          </div>
       </div>
    </div>
-</div>

@@ -2,13 +2,19 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var commentSchema=new mongoose.Schema({
-    depth:Number,//top :0
+    depth:{
+        type:Number,
+        "default":0 //top :0
+    },
     path:{// dkdlf:dieiei:dkdkdie
         type:String,
         index:true
     },
-    userId:ObjectId,
-    username:{
+    userEmail:{
+        type:String,
+        required:true
+    },
+    userName:{
         type:String,
         required:true
     },

@@ -69,6 +69,9 @@
                <button type="button" class="btn btn-default">
                   <em class="fa fa-gear text-muted"></em>
                </button>
+               <a type="button" class="btn btn-default" href='/blog/edit/new'>
+                  <em class="fa fa-plus text-muted"></em>
+               </a>
                <button type="button" class="btn btn-default">
                   <em class="fa fa-trash text-muted"></em>
                </button>
@@ -129,22 +132,14 @@
             </div>
          </div>
       </div>
-      <div class="panel" ng-show=>
+      <div class="panel" ng-show="vm.isLoggedIn">
          <div class="panel-heading">
             <em class="fa fa-pencil mr"></em>Add your Comment</div>
          <div class="panel-body">
-            <form action="/" class="form-horizontal">
-               <div class="form-group">
-                  <div class="col-xs-6">
-                     <input id="post-firstname" type="text" name="post-firstname" placeholder="Your firstname" class="form-control" />
-                  </div>
-                  <div class="col-xs-6">
-                     <input id="post-lastname" type="text" name="post-lastname" placeholder="Your lastname" class="form-control" />
-                  </div>
-               </div>
+            <form ng-submit="vm.saveComment()"  class="form-horizontal">
                <div class="form-group">
                   <div class="col-xs-12">
-                     <textarea id="post-comment" name="post-comment" rows="4" placeholder="Comment here.." class="form-control"></textarea>
+                     <textarea id="post-comment" ng-model="vm.comment" name="post-comment" rows="4" placeholder="Comment here.." class="form-control"></textarea>
                   </div>
                </div>
                <div class="form-group">

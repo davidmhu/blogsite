@@ -13,6 +13,7 @@ var multipartyMiddleware = multiparty({uploadDir:process.env.UPLOAD_DIR});
 var ctrlBlogitem = require('../controllers/blogItem');
 var ctrlUser = require('../controllers/user');
 var ctrlAuth = require('../controllers/authentication');
+var ctrlComment = require('../controllers/comment');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', {
@@ -36,5 +37,12 @@ router.get('/blog', ctrlBlogitem.blogList);
 router.post('/blog', auth, ctrlBlogitem.blogCreate);
 router.put('/blog/:blogid', auth, ctrlBlogitem.blogEdit);
 router.delete('/blog/:blogid', auth, ctrlBlogitem.blogDelete);
+
+router.post('/comment/:blogid',auth,ctrlComment.create);
+router.delete('/comment/:id', auth, ctrlComment.delete);
+router.get('/comment/:id',ctrlComment.readById);
+router.get('/comment/blog/:blogid',ctrlComment.readByBlogId);
+router.get('/comment/user/:email',ctrlComment.readByUser);
+
 
 module.exports = router;

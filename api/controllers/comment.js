@@ -12,6 +12,7 @@ var getAuthAccount=function(reqHeaders){
         var payloadstr=token.split('.')[1];
         payloadstr=new Buffer(payloadstr, 'base64').toString('utf8');
         var payload=JSON.parse(payloadstr);
+        payload.name=new Buffer(payload.name, 'base64').toString('utf8');
         return(payload);
     }else {
         return "";
@@ -34,12 +35,13 @@ module.exports.create= function(req, res) {
     });
     return;
   }
+  var commentStr=req.body.comment.replace(/(^\s*)|(\s*$)/g, "");
   var comment={
-    userEmail:autthAccount.email,
+    userEmail:authAccount.email,
     userName:authAccount.name,
-    comment:req.body.comment.replace(/(^\s*)|(\s*$)/g, ""),
-    blogitem_id:blogid
-  };
+    comment:commentStr,
+    blogitem_id:req.params.blogid
+  };console.log('before create');
   Comment.create(comment, function(err, comment) {
     if (err) {
       console.log(err);

@@ -22,8 +22,15 @@ var getAuthAccount=function(reqHeaders){
 /* create a comment
 post '/comment/:blogid',auth */
 module.exports.create= function(req, res) {
+  var blogid=req.params.blogid;
+  if (!blogid){
+    sendJSONresponse(res, 400, {
+      "message": "invalid blog"
+    });
+    return;
+  }
   var authAccount = getAuthAccount(req.headers);
-  if (!authAccount.email || !req.body.userEmail || authAccount.email !== req.body.userEmail) {
+  if (!authAccount.email ) {
     sendJSONresponse(res, 400, {
       "message": "invalid user account"
     });
@@ -39,8 +46,8 @@ module.exports.create= function(req, res) {
   var comment={
     userEmail:authAccount.email,
     userName:authAccount.name,
-    comment:commentStr,
-    blogitem_id:req.params.blogid
+    content:commentStr,
+    blogitem_id:blogid
   };console.log('before create');
   Comment.create(comment, function(err, comment) {
     if (err) {
@@ -68,7 +75,28 @@ module.exports.readById= function(req, res) {
 /* get a comment by blogid
 get '/comment/blog/:blogid' */
 module.exports.readByBlogId= function(req, res) {
-
+  var blogid=req.params.blogid;
+  if (!blogid){
+    sendJSONresponse(res, 400, {
+      "message": "invalid blog"
+    });
+    return;
+  }
+  Comment.find({blogitem_id:blogid})
+    .exec(function(err, commentList) {
+      if (!commentList) {
+        sendJSONresponse(res, 404, {
+          "message": "comments not found"
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        sendJSONresponse(res, 404, err);
+        return;
+      }
+      //console.log(blog);
+      sendJSONresponse(res, 200, commentList);
+    });
 };
 
 /* get a comment by user email

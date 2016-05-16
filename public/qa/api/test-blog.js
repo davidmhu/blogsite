@@ -8,12 +8,12 @@ var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
 
-    var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
-        'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com']//;
-    //var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
-    //    'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
-    var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
-    //var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
+    //var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
+    //    'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com']//;
+    var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
+        'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
+    //var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
+    var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
     var token, randomInt = Math.floor(Math.random() * useremailArr.length),
         useremail = useremailArr[randomInt],
         username = usernameArr[randomInt],
@@ -130,8 +130,8 @@ describe('Testing blog api:', function() {
 
     describe('add a comment',function(){
       var comment={
-        userEmail:useremail,
-        userName:username,
+        //userEmail:useremail,
+        //userName:username,
         comment:'ddfkiekk dkdieiik cmjd,ciicwweiqp ',
       };
       before(function(done) {
@@ -159,5 +159,56 @@ describe('Testing blog api:', function() {
         });
     });
 
+    describe('add a second comment',function(){
+      var comment={
+        //userEmail:useremail,
+        //userName:username,
+        comment:'d,ciicwweiqp kdiieikcuqtrpri',
+      };
+      before(function(done) {
+            request.post('http://localhost:' + port + '/api/comment/' + blogid, {
+              json:comment,
+              headers: {
+                Authorization: 'Bearer ' + token
+              }
+            },
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 201) {
+                        result = body;
+                        console.log(result.depth);
+
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+      it('should get code 201', function() {
+            expect(code).to.equal(201);
+        });
+    });
+
+    describe('get comments by blogid',function(){
+      before(function(done) {
+            request('http://localhost:' + port + '/api/comment/blog/' + blogid,
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        result = body;
+                        console.log(result);
+
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+      it('should get code 200', function() {
+            expect(code).to.equal(200);
+        });
+    });
 
 });

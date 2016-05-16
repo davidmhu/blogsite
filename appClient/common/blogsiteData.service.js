@@ -64,6 +64,13 @@
         var getBlogDetail=function(id){
             return $http.get('/api/blog/'+id);
         };
+        var saveComment=function(blogid,postdata){
+            return $http.post('/api/comment/'+blogid,postdata, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+                });
+        }
         return {
             getUserinfo: getUserinfo,
             updateUserinfo: updateUserinfo,
@@ -72,7 +79,8 @@
             checkEmail: checkEmail,
             getListpage:getListpage,
             getBlogList:getBlogList,
-            getBlogDetail:getBlogDetail
+            getBlogDetail:getBlogDetail,
+            saveComment:saveComment
         };
 
 

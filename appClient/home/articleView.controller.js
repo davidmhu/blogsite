@@ -25,6 +25,15 @@
         alert('comment max length is 255');
         return;
       }
+      var postdata={comment:vm.comment};
+      blogsiteData.saveComment($routeParams.blogid,postdata)
+        .success(function(data){
+          vm.message='comment saved successfully';//need to add 
+          vm.comment="";
+        })
+        .error(function(e) {
+          vm.message = "Sorry, something's gone wrong,save comment failed, please try again later";
+        });
     };
     blogsiteData.getBlogDetail($routeParams.blogid)
         .success(function(data) {
@@ -33,7 +42,7 @@
           console.log(vm.article.length);
         })
         .error(function(e) {
-          vm.message = "Sorry, something's gone wrong, please try again later";
+          vm.message = "Sorry, something's gone wrong, get blog info failed,please try again later";
         });
     
   }

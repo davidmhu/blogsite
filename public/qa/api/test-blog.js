@@ -8,18 +8,18 @@ var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
 
-    //var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
-    //    'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com']//;
-    var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
-        'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
-    //var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
-    var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
+    var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
+        'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com'];//
+    //var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
+        //'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
+    var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
+    //var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
     var token, randomInt = Math.floor(Math.random() * useremailArr.length),
         useremail = useremailArr[randomInt],
         username = usernameArr[randomInt],
         title = '',
         content = '',
-        blogid;
+        blogid,commentid;
     
     //console.log('the new account is ' + useremail + ' and name is ' + username);
 
@@ -86,7 +86,7 @@ describe('Testing blog api:', function() {
                     }
                 },
                 function(error, response, body) {
-                    code = response.statusCode; //console.log(response.statusCode);console.log(token);
+                    code = response.statusCode; 
                     if (!error && response.statusCode == 201) {
                         result = body;
                         blogid = result._id;
@@ -132,7 +132,7 @@ describe('Testing blog api:', function() {
       var comment={
         //userEmail:useremail,
         //userName:username,
-        comment:'ddfkiekk dkdieiik cmjd,ciicwweiqp ',
+        comment:'ddfkie first comment iik cmjd,ciicwweiqp ',
       };
       before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
@@ -161,9 +161,36 @@ describe('Testing blog api:', function() {
 
     describe('add a second comment',function(){
       var comment={
-        //userEmail:useremail,
-        //userName:username,
-        comment:'d,ciicwweiqp kdiieikcuqtrpri',
+        comment:'d,ciicww second comment eiqp kdiieikcuqtrpri',
+      };
+      before(function(done) {
+            request.post('http://localhost:' + port + '/api/comment/' + blogid, {
+              json:comment,
+              headers: {
+                Authorization: 'Bearer ' + token
+              }
+            },
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 201) {
+                        result = body;commentid=result._id;
+                        console.log('comment id:'+result._id);
+
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+      it('should get code 201', function() {
+            expect(code).to.equal(201);
+        });
+    });
+
+    describe('add a third comment',function(){
+      var comment={
+        comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
       };
       before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
@@ -190,16 +217,21 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('get comments by blogid',function(){
+    describe('delete the  second comment',function(){
+      var comment={
+        comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
+      };
       before(function(done) {
-            request('http://localhost:' + port + '/api/comment/blog/' + blogid,
+            request.del('http://localhost:' + port + '/api/comment/' + commentid, {
+              headers: {
+                Authorization: 'Bearer ' + token
+              }
+            },
                 function(error, response, body) {
                     code = response.statusCode;
                     if (!error && response.statusCode == 200) {
                         result = body;
-                        console.log(result);
-
-                    } else {
+                     } else {
                         console.log(body.message);
                     }
                     done();
@@ -208,6 +240,50 @@ describe('Testing blog api:', function() {
 
       it('should get code 200', function() {
             expect(code).to.equal(200);
+        });
+    });
+
+    describe('get comments by blogid',function(){
+      before(function(done) {
+            request('http://localhost:' + port + '/api/comment/blog/' + blogid,
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        result = JSON.parse(body);
+                        console.log(result.length);
+
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+      it('should get 2 comments', function() {
+            expect(code).to.equal(200);
+            expect(result.length).to.equal(2);
+        });
+    });
+
+    describe('get comments by userEmail',function(){
+      before(function(done) {
+            request('http://localhost:' + port + '/api/comment/user/' + useremail,
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        result = JSON.parse(body);
+                        console.log(result.length);
+
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+      it('should get comments', function() {
+            expect(code).to.equal(200);
+            expect(result.length).to.above(0);
         });
     });
 

@@ -70,6 +70,9 @@
                     Authorization: 'Bearer ' + authentication.getToken()
                 }
                 });
+        };
+        var getCommentList=function(blogid){
+            return $http.get('/api/comment/blog/'+blogid);
         }
         return {
             getUserinfo: getUserinfo,
@@ -80,7 +83,8 @@
             getListpage:getListpage,
             getBlogList:getBlogList,
             getBlogDetail:getBlogDetail,
-            saveComment:saveComment
+            saveComment:saveComment,
+            getCommentList:getCommentList
         };
 
 

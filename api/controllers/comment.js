@@ -63,13 +63,57 @@ module.exports.create= function(req, res) {
 /* delete a comment
 delete '/comment/:id',auth */
 module.exports.delete= function(req, res) {
+//need to add authorization,only by comment user ,blog's owner and admin users.
+//need to delete all its child comments.
+  var id = req.params.id;
+  if (!id){
+    sendJSONresponse(res, 400, {
+      "message": "invalid comment id"
+    });
+    return;
+  }
+  Comment.remove({_id:id})
+    .exec(function(err, comment) {
+      if (!comment) {
+        sendJSONresponse(res, 404, {
+          "message": "comments not found"
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        sendJSONresponse(res, 404, err);
+        return;
+      }
+      //console.log(blog);
+      sendJSONresponse(res, 200, comment);
+    });
 
 };
 
 /* get a comment by id
 get '/comment/:id' */
 module.exports.readById= function(req, res) {
-
+	var id = req.params.id;
+	if (!id){
+    sendJSONresponse(res, 400, {
+      "message": "invalid comment id"
+    });
+    return;
+  }
+  Comment.findOne({_id:id})
+    .exec(function(err, comment) {
+      if (!comment) {
+        sendJSONresponse(res, 404, {
+          "message": "comments not found"
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        sendJSONresponse(res, 404, err);
+        return;
+      }
+      sendJSONresponse(res, 200, comment);
+    });
 };
 
 /* get a comment by blogid
@@ -84,7 +128,7 @@ module.exports.readByBlogId= function(req, res) {
   }
   Comment.find({blogitem_id:blogid})
     .exec(function(err, commentList) {
-      if (!commentList) {
+      if (!commentList && commentList.length) {
         sendJSONresponse(res, 404, {
           "message": "comments not found"
         });
@@ -102,6 +146,27 @@ module.exports.readByBlogId= function(req, res) {
 /* get a comment by user email
 get '/comment/user/:email' */
 module.exports.readByUser= function(req, res) {
-
+  var email=req.params.email;
+  if (!email){
+    sendJSONresponse(res, 400, {
+      "message": "invalid account"
+    });
+    return;
+  }
+  Comment.find({userEmail:email})
+    .exec(function(err, commentList) {
+      if (!commentList && commentList.length) {
+        sendJSONresponse(res, 404, {
+          "message": "comments not found"
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        sendJSONresponse(res, 404, err);
+        return;
+      }
+      //console.log(blog);
+      sendJSONresponse(res, 200, commentList);
+    });
 };
 

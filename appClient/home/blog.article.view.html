@@ -78,58 +78,26 @@
             </div>
          </div>
       </div>
-      <div class="panel">
-         <div class="panel-heading">3 Comments</div>
+      <div class="panel" ng-show="vm.commentList.length">
+         <div class="panel-heading">{{vm.commentList.length}} Comments</div>
          <div class="panel-body">
-            <div class="media">
+            <div class="media" ng-repeat="comment in vm.commentList">
                <div class="media-left">
                   <a href="#">
                      <img src="app/img/user/01.jpg" class="media-object img-circle thumb64" />
                   </a>
                </div>
                <div class="media-body">
-                  <h4 id="media-heading" class="media-heading"><a href="">Susan Grant</a>
+                  <h4 id="media-heading" class="media-heading"><a href="">{{comment.userName}}</a>
                      <small>10 min</small>
                      <a href="#media-heading" class="anchorjs-link">
                         <span class="anchorjs-icon"></span>
                      </a>
                   </h4>
-                  <p>Donec ac massa tortor. In hac habitasse platea dictumst. Nam blandit fringilla faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nisi eget metus semper congue.</p>
-                  <p>Fusce ullamcorper placerat tortor, placerat consequat diam cursus posuere.</p>
+                  <p>{{comment.content}}.</p>
                </div>
             </div>
             <hr/>
-            <div class="media">
-               <div class="media-left">
-                  <a href="#">
-                     <img src="app/img/user/03.jpg" class="media-object img-circle thumb64" />
-                  </a>
-               </div>
-               <div class="media-body mb-lg">
-                  <h4 id="media-heading" class="media-heading"><a href="">Dustin Dunn</a>
-                     <small>20 min</small>
-                     <a href="#media-heading" class="anchorjs-link">
-                        <span class="anchorjs-icon"></span>
-                     </a>
-                  </h4>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                  congue felis in faucibus.
-                  <hr/>
-                  <div class="media">
-                     <div class="media-left">
-                        <a href="#">
-                           <img src="app/img/user/06.jpg" class="media-object img-circle thumb64" />
-                        </a>
-                     </div>
-                     <div class="media-body">
-                        <h4 id="nested-media-heading" class="media-heading"><a href="">Marcus Gomez</a>
-                           <small>1 hour</small>
-                           <a href="#nested-media-heading" class="anchorjs-link">
-                              <span class="anchorjs-icon"></span>
-                           </a>
-                        </h4>Integer ac nisl et urna gravida malesuada. Vivamus fermentum libero vel felis aliquet interdum.</div>
-                  </div>
-               </div>
-            </div>
          </div>
       </div>
       <div class="panel" ng-show="vm.isLoggedIn">

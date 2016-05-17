@@ -15,7 +15,15 @@
     if (!$routeParams.hasOwnProperty('blogid') || $routeParams.blogid==='new') {
       return;
     }
+    vm.blogid=$routeParams.blogid;
     vm.comment='';
+    blogsiteData.getCommentList(vm.blogid)
+      .success(function(data){
+        vm.commentList=data;console.log(data);
+      })
+      .error(function(e){
+        vm.message="Sorry, something's gone wrong,get comment failed, please try again later";
+      }); 
     vm.saveComment=function(){
       if (!vm.comment.trim() ){
         alert('empty comment');//need to modify

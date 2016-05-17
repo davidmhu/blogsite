@@ -73,7 +73,7 @@
         };
         var getCommentList=function(blogid){
             return $http.get('/api/comment/blog/'+blogid);
-        }
+        };
         return {
             getUserinfo: getUserinfo,
             updateUserinfo: updateUserinfo,

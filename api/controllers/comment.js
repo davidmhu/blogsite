@@ -127,6 +127,7 @@ module.exports.readByBlogId= function(req, res) {
     return;
   }
   Comment.find({blogitem_id:blogid})
+  	.sort('-createdOn')
     .exec(function(err, commentList) {
       if (!commentList && commentList.length) {
         sendJSONresponse(res, 404, {

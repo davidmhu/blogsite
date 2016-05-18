@@ -94,7 +94,18 @@
                         <span class="anchorjs-icon"></span>
                      </a>
                   </h4>
+                  <div ng-show="vm.isLoggedIn" class="pull-right"><a type='button' ng-click="vm.showReply(comment._id)" href="">Reply</a></div>
                   <p>{{comment.content}}.</p>
+                  <form ng-show=" vm.replyForm[0]===comment._id" class="form-horizontal" style="max-width: 500px;">
+                     <div class="input-group">
+                        <input type="text" ng-model='vm.reply' placeholder="Quick reply ... 255 words" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="button" class="btn btn-default" ng-click="vm.saveReply(comment._id)">
+                              <em class="fa fa-send"></em>
+                           </button>
+                        </span>
+                     </div>
+                  </form>
                </div>
             </div>
             <hr/>

@@ -48,7 +48,27 @@ module.exports.create= function(req, res) {
     userName:authAccount.name,
     content:commentStr,
     blogitem_id:blogid
-  };console.log('before create');
+  };
+
+  if (req.body.parentId!==0){//this is a reply
+  	console.log('the reply');console.log(req.body.parentId);
+  	Comment.findOne({_id:parentId})
+  	.exec(function(err, parentComment) {
+		if (!parentComment) {
+	        sendJSONresponse(res, 404, {
+	          "message": "parent comment not found"
+	        });
+	        return;
+	      } else if (err) {
+	        console.log(err);
+	        sendJSONresponse(res, 404, err);
+	        return;
+	      }
+	      comment.depth=parentComment.depth+1;
+	      //comment.depth=
+	    });
+  }
+  
   Comment.create(comment, function(err, comment) {
     if (err) {
       console.log(err);

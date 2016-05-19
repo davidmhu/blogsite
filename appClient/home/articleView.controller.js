@@ -63,16 +63,41 @@
         });
     };
 
+    var assemble=function(comments,map){
+      var list=[],child_comments=[];
+      comments.forEach(function(comment){
+        list.push(comment);
+        child_comments=map[comment._id];
+        if (child_comments) {console.log('in assemble:');console.log(child_comments);
+          list.concat(assemble(child_comments,map));
+        }
+      });
+      return list;
+    };
+
     var getComments=function(blogid){
+      var list=[],child_map=[],matches=[],parent_id;
       blogsiteData.getCommentList(blogid)
       .success(function(data){
+        vm.commentList=data;
         data.forEach( function(comment) {
           if (comment.depth===0) {
-             vm.commentList.push(comment);
+             list.push(comment);
+          }else{
+            matches=comment.path.match(/([\d|\w]+)$/);
+            parent_id=matches[0];
+            if (parent_id) {
+              if (!child_map[parent_id]) {
+                child_map[parent_id]=[];
+              }
+              child_map[parent_id].push(comment);
+              //console.log(child_map[parent_id]);
+            }
           }
         }); 
 
-        console.log(vm.commentList);//vm.commentList=data;
+        var mlist=assemble(list,child_map);
+        console.log(mlist);
       })
       .error(function(e){
         vm.message="Sorry, something's gone wrong,get comment failed, please try again later";

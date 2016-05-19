@@ -66,7 +66,13 @@
     var getComments=function(blogid){
       blogsiteData.getCommentList(blogid)
       .success(function(data){
-        vm.commentList=data;//console.log(data);
+        data.forEach( function(comment) {
+          if (comment.depth===0) {
+             vm.commentList.push(comment);
+          }
+        }); 
+
+        console.log(vm.commentList);//vm.commentList=data;
       })
       .error(function(e){
         vm.message="Sorry, something's gone wrong,get comment failed, please try again later";

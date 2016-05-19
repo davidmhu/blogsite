@@ -50,9 +50,19 @@ module.exports.create= function(req, res) {
     blogitem_id:blogid
   };
 
-  if (req.body.parentId!==0){//this is a reply
+  if (req.body.parentId===0){
+  	Comment.create(comment, function(err, comment) {
+	    if (err) {
+	      console.log(err);
+	      sendJSONresponse(res, 400, err);
+	    } else {
+	      //console.log(blog);
+	      sendJSONresponse(res, 201, comment);
+	    }
+	  });
+  }else{//this is a reply
   	console.log('the reply');console.log(req.body.parentId);
-  	Comment.findOne({_id:parentId})
+  	Comment.findOne({_id:req.body.parentId})
   	.exec(function(err, parentComment) {
 		if (!parentComment) {
 	        sendJSONresponse(res, 404, {
@@ -65,19 +75,19 @@ module.exports.create= function(req, res) {
 	        return;
 	      }
 	      comment.depth=parentComment.depth+1;
-	      //comment.depth=
+	      comment.path=(parentComment.path?parentComment.path+':':'')+req.body.parentId;
+	      Comment.create(comment, function(err, comment) {
+		    if (err) {
+		      console.log(err);
+		      sendJSONresponse(res, 400, err);
+		    } else {
+		      console.log(comment);
+		      sendJSONresponse(res, 201, comment);
+		    }
+		  });
 	    });
   }
-  
-  Comment.create(comment, function(err, comment) {
-    if (err) {
-      console.log(err);
-      sendJSONresponse(res, 400, err);
-    } else {
-      //console.log(blog);
-      sendJSONresponse(res, 201, comment);
-    }
-  });
+   
 };
 
 /* delete a comment

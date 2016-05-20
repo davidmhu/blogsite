@@ -43,7 +43,7 @@
       blogsiteData.saveComment($routeParams.blogid,postdata)
         .success(function(data){
           vm.message='comment saved successfully';//need to add 
-          vm.comment="";vm.reply='';
+          vm.comment="";vm.reply='';vm.replyForm=[];
           getComments(vm.blogid);
         })
         .error(function(e) {
@@ -68,8 +68,8 @@
       comments.forEach(function(comment){
         list.push(comment);
         child_comments=map[comment._id];
-        if (child_comments) {console.log('in assemble:');console.log(child_comments);
-          list.concat(assemble(child_comments,map));
+        if (child_comments) {
+          list=list.concat(assemble(child_comments,map));
         }
       });
       return list;
@@ -79,7 +79,7 @@
       var list=[],child_map=[],matches=[],parent_id;
       blogsiteData.getCommentList(blogid)
       .success(function(data){
-        vm.commentList=data;
+        //vm.commentList=data;
         data.forEach( function(comment) {
           if (comment.depth===0) {
              list.push(comment);
@@ -96,8 +96,7 @@
           }
         }); 
 
-        var mlist=assemble(list,child_map);
-        console.log(mlist);
+        vm.commentList=assemble(list,child_map);
       })
       .error(function(e){
         vm.message="Sorry, something's gone wrong,get comment failed, please try again later";

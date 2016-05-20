@@ -81,7 +81,7 @@
       <div class="panel" ng-show="vm.commentList.length">
          <div class="panel-heading">{{vm.commentList.length}} Comments</div>
          <div class="panel-body">
-            <div class="media" ng-repeat="comment in vm.commentList">
+            <div class="media" ng-repeat="comment in vm.commentList" style= {{'margin-left:'+comment.depth*20+'px'}}>
                <div class="media-left">
                   <a href="#">
                      <img src="app/img/user/01.jpg" class="media-object img-circle thumb64" />

@@ -1,4 +1,5 @@
 <navigation></navigation>
+
 <div class="row margin-top-20">
    <!-- Blog Content-->
    <div class="col-lg-9">
@@ -62,7 +63,7 @@
                   <em class="fa fa-share-alt text-muted"></em>
                </button>
             </div>
-            <div role="group" aria-label="..." class="btn-group pull-right">
+            <div role="group" aria-label="..." class="btn-group pull-right" ng-show="vm.article.userEmail===vm.currentUser.email" >
                <a type="button" class="btn btn-default" href='/blog/edit/{{vm.article._id}}'>
                   <em class="fa fa-edit text-muted"></em>
                </a>
@@ -78,58 +79,9 @@
             </div>
          </div>
       </div>
-      <!-- <div class="panel" ng-show="vm.commentList.length">
-         <div class="panel-heading">{{vm.commentList.length}} Comments</div>
-         <div class="panel-body">
-            <div class="media" ng-repeat="comment in vm.commentList" style= {{'margin-left:'+comment.depth*20+'px'}}>
-               <div class="media-left">
-                  <a href="#">
-                     <img src="app/img/user/01.jpg" class="media-object img-circle thumb64" />
-                  </a>
-               </div>
-               <div class="media-body">
-                  <h4 id="media-heading" class="media-heading"><a href="">{{comment.userName}}</a>
-                     <small>10 min</small>
-                     <a href="#media-heading" class="anchorjs-link">
-                        <span class="anchorjs-icon"></span>
-                     </a>
-                  </h4>
-                  <div ng-show="vm.isLoggedIn" class="pull-right"><a type='button' ng-click="vm.showReply(comment._id)" href="">Reply</a></div>
-                  <p>{{comment.content}}.</p>
-                  <form ng-show=" vm.replyForm[0]===comment._id" class="form-horizontal" style="max-width: 500px;">
-                     <div class="input-group">
-                        <input type="text" ng-model='vm.reply' placeholder="Quick reply ... 255 words" class="form-control" />
-                        <span class="input-group-btn">
-                           <button type="button" class="btn btn-default" ng-click="vm.saveReply(comment._id)">
-                              <em class="fa fa-send"></em>
-                           </button>
-                        </span>
-                     </div>
-                  </form>
-               </div>
-            </div>
-            <hr/>
-         </div>
-      </div>
-      <div class="panel" ng-show="vm.isLoggedIn">
-         <div class="panel-heading">
-            <em class="fa fa-pencil mr"></em>Add your Comment</div>
-         <div class="panel-body">
-            <form ng-submit="vm.saveComment()"  class="form-horizontal">
-               <div class="form-group">
-                  <div class="col-xs-12">
-                     <textarea id="post-comment" ng-model="vm.comment" name="post-comment" rows="4" placeholder="Comment here.." class="form-control"></textarea>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <div class="col-xs-12">
-                     <button type="submit" class="btn btn-effect-ripple btn-primary">Send Comment</button>
-                  </div>
-               </div>
-            </form>
-         </div>
-      </div> -->
+
       <comment blog-id=vm.blogid></comment>
+
    </div>
    <!-- Blog Sidebar-->
    <div class="col-lg-3">

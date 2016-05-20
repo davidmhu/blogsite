@@ -78,7 +78,7 @@
             </div>
          </div>
       </div>
-      <div class="panel" ng-show="vm.commentList.length">
+      <!-- <div class="panel" ng-show="vm.commentList.length">
          <div class="panel-heading">{{vm.commentList.length}} Comments</div>
          <div class="panel-body">
             <div class="media" ng-repeat="comment in vm.commentList" style= {{'margin-left:'+comment.depth*20+'px'}}>
@@ -128,7 +128,8 @@
                </div>
             </form>
          </div>
-      </div>
+      </div> -->
+      <comment blog-id=vm.blogid></comment>
    </div>
    <!-- Blog Sidebar-->
    <div class="col-lg-3">

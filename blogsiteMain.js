@@ -42,9 +42,11 @@ var appClientFiles = [
     'appClient/common/authentication.service.js',
     'appClient/common/blogsiteData.service.js',
     'appClient/common/navigation.directive.js',
+    'appClient/common/comment.directive.js',
     'appClient/common/ngThumb.directive.js',
     //'appClient/common/footerGeneric.directive.js',
-    'appClient/common/navigation.controller.js'
+    'appClient/common/navigation.controller.js',
+    'appClient/common/comment.controller.js'
     ];
 var uglified = uglifyJs.minify(appClientFiles, { compress : false });
 fs.writeFile('public/js/blogsite.min.js', uglified.code, function (err){

@@ -1,0 +1,52 @@
+
+<div class="panel" ng-show="cmtVm.commentList.length" ng-class=cmtVm.blogid>
+         <div class="panel-heading">{{cmtVm.commentList.length}} Comments</div>
+         <div class="panel-body">
+            <div class="media" ng-repeat="comment in cmtVm.commentList" style= {{'margin-left:'+comment.depth*20+'px'}}>
+               <div class="media-left">
+                  <a href="#">
+                     <img src="app/img/user/01.jpg" class="media-object img-circle thumb64" />
+                  </a>
+               </div>
+               <div class="media-body">
+                  <h4 id="media-heading" class="media-heading"><a href="">{{comment.userName}}</a>
+                     <small>10 min</small>
+                     <a href="#media-heading" class="anchorjs-link">
+                        <span class="anchorjs-icon"></span>
+                     </a>
+                  </h4>
+                  <div ng-show="cmtVm.isLoggedIn" class="pull-right"><a type='button' ng-click="cmtVm.showReply(comment._id)" href="">Reply</a></div>
+                  <p>{{comment.content}}.</p>
+                  <form ng-show=" cmtVm.replyForm[0]===comment._id" class="form-horizontal" style="max-width: 500px;">
+                     <div class="input-group">
+                        <input type="text" ng-model='cmtVm.reply' placeholder="Quick reply ... 255 words" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="button" class="btn btn-default" ng-click="cmtVm.saveReply(comment._id)">
+                              <em class="fa fa-send"></em>
+                           </button>
+                        </span>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <hr/>
+         </div>
+      </div>
+      <div class="panel" ng-show="cmtVm.isLoggedIn">
+         <div class="panel-heading">
+            <em class="fa fa-pencil mr"></em>Add your Comment</div>
+         <div class="panel-body">
+            <form ng-submit="cmtVm.saveComment()"  class="form-horizontal">
+               <div class="form-group">
+                  <div class="col-xs-12">
+                     <textarea id="post-comment" ng-model="cmtVm.comment" name="post-comment" rows="4" placeholder="Comment here.." class="form-control"></textarea>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="col-xs-12">
+                     <button type="submit" class="btn btn-effect-ripple btn-primary">Send Comment</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+         </div>

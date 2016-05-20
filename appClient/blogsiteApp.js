@@ -59,7 +59,7 @@
         $locationProvider.html5Mode(true);
     }
 
-    var indexCtrl = function() {
+/*    var indexCtrl = function() {
         var self = this;
         self.linkname = 'angular test';
     };
@@ -76,10 +76,10 @@
         self.modifiedOn = new Date();
     };
 
-    angular.module('blogsiteApp')
+*/    angular.module('blogsiteApp')
         .config(['$routeProvider', '$locationProvider', config])
-        .controller('navibarCtrl', navibarCtrl)
-        .controller('bloglistCtrl', bloglistCtrl)
+        /*.controller('navibarCtrl', navibarCtrl)
+        .controller('bloglistCtrl', bloglistCtrl)*/
         ;
 
 })();

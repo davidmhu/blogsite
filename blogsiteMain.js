@@ -46,7 +46,8 @@ var appClientFiles = [
     'appClient/common/ngThumb.directive.js',
     //'appClient/common/footerGeneric.directive.js',
     'appClient/common/navigation.controller.js',
-    'appClient/common/comment.controller.js'
+    'appClient/common/comment.controller.js',
+    'appClient/common/formatTime.filter.js',
     ];
 var uglified = uglifyJs.minify(appClientFiles, { compress : false });
 fs.writeFile('public/js/blogsite.min.js', uglified.code, function (err){

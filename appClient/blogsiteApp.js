@@ -8,6 +8,11 @@
                 controller: 'homeCtrl',
                 controllerAs: 'vm'
             })
+            .when('/blog/new', {
+                templateUrl: 'home/blog.article.edit.html',
+                controller: 'articleEditCtrl',
+                controllerAs: 'vm'
+            })
             .when('/blog/:blogid', {
                 templateUrl: 'home/blog.article.view.html',
                 controller: 'articleViewCtrl',

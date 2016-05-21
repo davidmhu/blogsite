@@ -7,7 +7,6 @@
   articleViewCtrl.$inject = ['$scope', 'authentication', '$routeParams', 'blogsiteData'];
 
   function articleViewCtrl($scope, authentication, $routeParams, blogsiteData) {
-    
     var vm = this,queryStr='';
     vm.article={};
     vm.isLoggedIn = authentication.isLoggedIn();

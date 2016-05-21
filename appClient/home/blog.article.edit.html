@@ -22,7 +22,7 @@
                      <div class="pull-left">
                         <button type="button" class="btn btn-default m-r-10 m-t-10">
                            <em class="fa fa-edit fa-fw"></em>Draft</button>
-                        <button type="button" class="btn btn-primary m-t-10">
+                        <button type="button" class="btn btn-primary m-t-10" ng-click="vm.saveBlog()">
                            <em class="fa fa-check fa-fw"></em>Save</button>
                      </div>
                      <div class="pull-right">
@@ -33,8 +33,8 @@
                </form>
             </div>
          </div>
-         <p class="lead">List of Comments</p>
-         <div class="panel">
+         <p ng-show=vm.blogid class="lead">List of Comments</p>
+         <div ng-show=vm.blogid class="panel">
             <div class="table-responsive">
                <table class="table table-hover">
                   <thead>

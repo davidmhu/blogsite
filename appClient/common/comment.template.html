@@ -9,7 +9,7 @@
                   </a>
                </div>
                <div class="media-body">
-                  <h4 id="media-heading" class="media-heading"><a href="">{{comment.userName}}</a>
+                  <h4 id="media-heading" class="media-heading"><a href="">{{cmtVm.currentUser.email==comment.userEmail?'Me':comment.userName}}</a>
                      <small>{{comment.createdOn | formatTime}}</small>
                      <a href="#media-heading" class="anchorjs-link">
                         <span class="anchorjs-icon"></span>

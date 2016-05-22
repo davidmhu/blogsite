@@ -12,9 +12,9 @@
       if (time && thisTime<time+60*1000) {
       	return '1 min ago';
       }else if (time && thisTime<time+60*10*1000){
-      	return 'in 10m';
+      	return '10 min ago';
       }else if (time && thisTime<time+60*30*1000){
-      	return 'in half hour';
+      	return 'half an hour ago';
       }else if (time && thisTime<time+60*60*1000){
       	return '1 hour ago';
       }else if (time && thisTime<time+60*60*12*1000){
@@ -22,9 +22,9 @@
       }else if (time && thisTime<time+60*60*24*1000){
       	return '1 day ago';
       }else if (time && thisTime<time+60*60*24*2*1000){
-      	return '2 day ago';
+      	return '2 days ago';
       }else if (time && thisTime<time+60*60*24*3*1000){
-      	return '3 day ago';
+      	return '3 days ago';
       }else if (time){
       	return new Date(time).toLocaleDateString();
       }

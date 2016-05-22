@@ -11,7 +11,6 @@
     vm.article={};
     vm.isLoggedIn = authentication.isLoggedIn();
     vm.currentUser = authentication.currentUser();
-
     
     vm.saveBlog=function(){
       alert('new blog save');

@@ -17,8 +17,6 @@
     }
     vm.blogid=$routeParams.blogid;
 
-    
-
     var getBlogDetail=function(blogid){
       blogsiteData.getBlogDetail(blogid)
         .success(function(data) {

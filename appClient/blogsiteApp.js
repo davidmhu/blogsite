@@ -9,17 +9,17 @@
                 controllerAs: 'vm'
             })
             .when('/blog/new', {
-                templateUrl: 'home/blog.article.edit.html',
+                templateUrl: 'blog/blog.article.edit.html',
                 controller: 'articleEditCtrl',
                 controllerAs: 'vm'
             })
             .when('/blog/:blogid', {
-                templateUrl: 'home/blog.article.view.html',
+                templateUrl: 'blog/blog.article.view.html',
                 controller: 'articleViewCtrl',
                 controllerAs: 'vm'
             })
             .when('/blog/edit/:blogid', {
-                templateUrl: 'home/blog.article.edit.html',
+                templateUrl: 'blog/blog.article.edit.html',
                 controller: 'articleViewCtrl',
                 controllerAs: 'vm'
             })

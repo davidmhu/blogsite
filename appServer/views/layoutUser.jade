@@ -10,8 +10,6 @@ html(ng-app='blogsiteApp')
     if showTests
       link(rel='stylesheet',href='/css/vendor/mocha.css')
 
-    script(src="/js/vendor/ueditor/ueditor.config.js")
-    script(src="/js/vendor/ueditor/ueditor.all.min.js")
   body
     .navbar.navbar-default.navbar-fixed-top
       .container
@@ -48,7 +46,8 @@ html(ng-app='blogsiteApp')
         .col-xs-12.col-md-12.text-center
           small &copy; David Parker 2016
 
-    
+
+    script(src='/js/vendor/jquery-1.11.2.min.js')    
     script(src='/js/vendor/angular.js')
     script(src='/js/vendor/angular/angular-route.min.js')
     script(src='/js/vendor/angular/angular-sanitize.min.js')
@@ -56,9 +55,11 @@ html(ng-app='blogsiteApp')
     script(src='/js/vendor/base64.js')
     script(src='/js/vendor/angular-file-upload.min.js')
     script(src='/js/blogsite.min.js')
-    script(src='/js/vendor/jquery-1.11.2.min.js')
     script(src='/js/vendor/bootstrap.min.js')
     
+    script(src="/js/vendor/ueditor/ueditor.config.js")
+    script(src="/js/vendor/ueditor/ueditor.all.min.js")
+
     if showTests
       #mocha
       script(src='/js/vendor/mocha.js')

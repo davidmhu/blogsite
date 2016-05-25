@@ -4,9 +4,9 @@
         .module('blogsiteApp')
         .controller('userlistCtrl', userlistCtrl);
 
-    userlistCtrl.$inject = ['$scope', '$location', 'blogsiteData', 'authentication'];
+    userlistCtrl.$inject = ['$scope',  'blogsiteData', 'authentication'];
 
-    function userlistCtrl($scope, $location, blogsiteData, authentication) {
+    function userlistCtrl($scope, blogsiteData, authentication) {
         var vm = this;
         //$scope.showFilter = false;
 

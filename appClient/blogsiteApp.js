@@ -1,5 +1,5 @@
 (function() {
-    angular.module('blogsiteApp', ['ngRoute', 'ui.bootstrap','angularFileUpload']);
+    angular.module('blogsiteApp', ['ngRoute', 'ui.bootstrap','angularFileUpload','ng.ueditor','ngSanitize']);
 
     function config ($routeProvider, $locationProvider) {
         $routeProvider

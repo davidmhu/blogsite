@@ -17,10 +17,10 @@
                   <div text-angular=""  name="wysiswyg-editor" class="btn-group-small">
                   <br/>
                   <p>Notes</p>
-
-                  <script id="editor" type="text/plain" style="height:500px;"></script>
                   
-                  <!-- <textarea cols="6" style="min-height: 350px;" class="mb-lg form-control margin-bottom-20" ng-model="vm.article.content"></textarea> -->
+                  <div class="ueditor  margin-bottom-20" config="vm.config" ng-model="vm.article.content"></div>
+                  <!-- <script id="editor" type="text/plain" style="height:500px;"></script> <textarea cols="6" style="min-height: 350px;" class="mb-lg form-control margin-bottom-20" ng-model="vm.article.content"></textarea> -->
+
                   </div>
                   <div class="clearfix">
                      <div class="pull-left">
@@ -153,11 +153,7 @@
             </div>
          </div>
       </div>
-<script type="text/javascript" >
-    
-         var ue = UE.getEditor('editor');
-    
-</script>
+      <script type="text/javascript" src="/js/vendor/ueditor/angular-ueditor.min.js"></script>
    </div>
 
    <!-- <script type="text/javascript" src="/js/vendor/ueditor/ueditor.config.js"></script>

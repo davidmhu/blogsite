@@ -42,7 +42,9 @@
       };
       blogsiteData.saveBlog(postdata)
         .success(function(data) {
-          $location.path = '/#/blog' + data._id;
+          console.log('_id='+data._id);
+          $location.path('/#/blog/'+data._id);
+
         })
         .error(function(e) {
           alert('save blog failed'); //need to modify

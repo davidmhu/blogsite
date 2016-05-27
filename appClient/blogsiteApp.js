@@ -20,7 +20,7 @@
             })
             .when('/blog/edit/:blogid', {
                 templateUrl: 'blog/blog.article.edit.html',
-                controller: 'articleViewCtrl',
+                controller: 'articleEditCtrl',
                 controllerAs: 'vm'
             })
             .when('/blog/author/:email', {

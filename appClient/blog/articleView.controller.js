@@ -15,6 +15,7 @@
     if (!$routeParams.hasOwnProperty('blogid') || $routeParams.blogid==='new') {
       return;
     }
+    
     vm.blogid=$routeParams.blogid;
 
     var getBlogDetail=function(blogid){

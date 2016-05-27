@@ -26,7 +26,8 @@
                   </p>
                   <h4> <a href="/blog/{{blogitem._id}}">{{blogitem.title}}</a>
                   </h4>
-                  <p>{{blogitem.content.substr(0,50)}}<a href='/blog/{{blogitem._id}}'>全文</a></p>
+                  <p ng-show='blogitem.brief'>{{blogitem.brief}}<a href='/blog/{{blogitem._id}}'>全文</a></p>
+                  <p ng-hide='blogitem.brief'>{{blogitem.content.substr(0,50)}}<a href='/blog/{{blogitem._id}}'>全文</a></p>
                </div>
             </div>
          </div>

@@ -94,6 +94,7 @@ module.exports.blogCreate = function(req, res) {
     userName: req.body.userName,
     title: req.body.title,
     content: req.body.content,
+    brief:req.body.brief,
     modifiedOn: createDate,
     category: category
   }, function(err, blog) {

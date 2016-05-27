@@ -7,7 +7,7 @@
   articleEditCtrl.$inject = ['$scope', '$location', 'authentication', 'blogsiteData'];
 
   function articleEditCtrl($scope, $location, authentication, blogsiteData) {
-    var vm = this,
+    var vm = this,ueditor,
       queryStr = '';
     vm.article = {};
     vm.isLoggedIn = authentication.isLoggedIn();
@@ -31,18 +31,29 @@
       autoHeightEnabled: true
 
     };
+
+    vm.ready=function(editor){
+      ueditor=editor; 
+    };
+
     vm.saveBlog = function() {
-      alert(vm.article.content);
+      var plaintxt=ueditor.getPlainTxt();alert(plaintxt);
+      if (!vm.article.title || !vm.article.content){
+        alert('title and content should not be empty');
+        return;//need to modify
+      }
+      //alert(vm.article.content);return;
       var postdata = {
         userEmail: vm.currentUser.email,
         userName: vm.currentUser.name,
         title: vm.article.title,
         content: vm.article.content,
-        category: 'Movie|Tech'
+        category: 'Movie|Tech' //need to modify
       };
+
+      postdata.brief=plaintxt?plaintxt.substr(0,50):vm.article.content.substr(0,50);
       blogsiteData.saveBlog(postdata)
         .success(function(data) {
-          console.log('_id='+data._id);
           $location.path('/#/blog/'+data._id);
 
         })

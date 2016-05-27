@@ -80,8 +80,8 @@
         var self = this;
         self.modifiedOn = new Date();
     };
-
-*/    angular.module('blogsiteApp')
+*/
+    angular.module('blogsiteApp')
         .config(['$routeProvider', '$locationProvider', config])
         /*.controller('navibarCtrl', navibarCtrl)
         .controller('bloglistCtrl', bloglistCtrl)*/

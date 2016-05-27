@@ -15,6 +15,7 @@ var blogItemSchema=new mongoose.Schema({
         index:true
     },
     content:String,
+    brief:String,
     readCnt:{
         type:Number,
         index:true,

@@ -71,8 +71,29 @@
                 }
                 });
         };
+        var updateBlog=function(blogid,postdata){
+            return $http.put('/api/blog/'+blogid,postdata, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+                });
+        };
+        var deleteBlog=function(blogid){
+            return $http.delete('/api/blog/'+blogid, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+                });
+        };
         var saveComment=function(blogid,postdata){
             return $http.post('/api/comment/'+blogid,postdata, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+                });
+        };
+        var deleteComment=function(commentid){
+            return $http.delete('/api/comment/'+commentid, {
                 headers: {
                     Authorization: 'Bearer ' + authentication.getToken()
                 }
@@ -91,7 +112,10 @@
             getBlogList:getBlogList,
             getBlogDetail:getBlogDetail,
             saveBlog:saveBlog,
+            updateBlog:updateBlog,
+            deleteBlog:deleteBlog,
             saveComment:saveComment,
+            deleteComment:deleteComment,
             getCommentList:getCommentList
         };
 

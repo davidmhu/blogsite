@@ -54,7 +54,7 @@ describe('Testing blog api:', function() {
     describe('post a new blog', function() {
 
         var titlelen = Math.floor(Math.random() * 27 + 3);
-        var contentlen = Math.floor(Math.random() * 440 + 10);
+        var contentlen = Math.floor(Math.random() * 420 + 80);
         title = '';
         content = '';
         for (var i = 0; i < titlelen; i++) {
@@ -73,7 +73,8 @@ describe('Testing blog api:', function() {
         var postdata = {
             userEmail: useremail,
             title: title,
-            content: content,
+            content: '<p>'+content+'</p>',
+            brief:content.substr(0,50),
             userName: username,
             category: category
         };
@@ -103,6 +104,36 @@ describe('Testing blog api:', function() {
 
     });
 
+    describe('modify the blog ', function() {
+        var queryCond;
+        console.log('userEmail=' + useremail + '&title=' + title);
+        var modifiedContent='<p>modified: '+content+'</p>';
+
+        before(function(done) {
+            request.put('http://localhost:' + port + '/api/blog/' + blogid, {
+                json:{content:modifiedContent},
+                headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
+                function(error, response, body) {
+                    code = response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        console.log(body._id);
+
+                    } else {
+                        console.log(error);
+                    }
+                    done();
+                });
+        });
+
+        it('should get code 200', function() {
+            expect(code).to.equal(200);
+        });
+    
+    });
+
     describe('query new blog ', function() {
         var queryCond;
         console.log('userEmail=' + useremail + '&title=' + title);
@@ -128,7 +159,7 @@ describe('Testing blog api:', function() {
     
     });
 
-    describe('add a comment',function(){
+    xdescribe('add a comment',function(){
       var comment={
         //userEmail:useremail,
         //userName:username,
@@ -159,7 +190,7 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('add a second comment',function(){
+    xdescribe('add a second comment',function(){
       var comment={
         comment:'d,ciicww second comment eiqp kdiieikcuqtrpri',
       };
@@ -188,7 +219,7 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('add a third comment',function(){
+    xdescribe('add a third comment',function(){
       var comment={
         comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
       };
@@ -217,7 +248,7 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('delete the  second comment',function(){
+    xdescribe('delete the  second comment',function(){
       var comment={
         comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
       };
@@ -243,7 +274,7 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('get comments by blogid',function(){
+    xdescribe('get comments by blogid',function(){
       before(function(done) {
             request('http://localhost:' + port + '/api/comment/blog/' + blogid,
                 function(error, response, body) {
@@ -265,7 +296,7 @@ describe('Testing blog api:', function() {
         });
     });
 
-    describe('get comments by userEmail',function(){
+    xdescribe('get comments by userEmail',function(){
       before(function(done) {
             request('http://localhost:' + port + '/api/comment/user/' + useremail,
                 function(error, response, body) {

@@ -52,10 +52,10 @@ module.exports.blogList = function(req, res) {
   else
     console.log(queryCond);
 
-  if (!queryCond.hasOwnProperty('public')){
-    queryCond.public=1;
-  } 
-  
+  if (!queryCond.hasOwnProperty('public')) {
+    queryCond.public = 1;
+  }
+
   BlogItem.find(queryCond)
     .sort('-createdOn')
     .exec(function(err, blogs) {
@@ -94,7 +94,7 @@ module.exports.blogCreate = function(req, res) {
     userName: req.body.userName,
     title: req.body.title,
     content: req.body.content,
-    brief:req.body.brief,
+    brief: req.body.brief,
     modifiedOn: createDate,
     category: category
   }, function(err, blog) {
@@ -118,36 +118,29 @@ module.exports.blogEdit = function(req, res) {
     });
     return;
   }
-  BlogItem.findById(req.params.blogid)
+
+  var blogUpdate = req.body;
+  if (req.body.hasOwnProperty('category')) {
+    var category = req.body.category.split('|');
+    if (category.length) {
+      blogUpdate.category = category;
+    }
+  }
+  BlogItem.findByIdAndUpdate(req.params.blogid, {
+    $set: blogUpdate
+  })
     .exec(
       function(err, blog) {
         if (err) {
-          sendJsonResponse(res, 404, {
-            "message": "this blog is not existed"
+          console.log(err);
+          sendJSONresponse(res, 404, {
+            "message": "update this blog is failed by db"
           });
-          return;
+        } else {
+          //console.log(blog);
+          sendJSONresponse(res, 200, blog);
         }
-        blog.title = req.body.title;
-        blog.content = req.body.content;
-        blog.allowReview = req.body.allowReview;
-        blog.modifiedOn = new Date();
-        if (req.body.category) {
-          var category = req.body.category.split('|');
-          if (category.length) blog.category = category;
-        }
-        blog.save(function(err, blog) {
-          if (err) {
-            console.log(err);
-            sendJSONresponse(res, 404, {
-              "message": "update this blog is failed by db"
-            });
-          } else {
-            //console.log(blog);
-            sendJSONresponse(res, 200, blog);
-          }
-        });
-      }
-  );
+      });
 };
 
 /* DELETE a existed blog

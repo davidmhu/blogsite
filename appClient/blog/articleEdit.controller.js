@@ -4,10 +4,11 @@
     .module('blogsiteApp')
     .controller('articleEditCtrl', articleEditCtrl);
 
-  articleEditCtrl.$inject = ['$scope', '$location', 'authentication', '$routeParams','blogsiteData'];
+  articleEditCtrl.$inject = ['$scope', '$location', 'authentication', '$routeParams', 'blogsiteData'];
 
-  function articleEditCtrl($scope, $location, authentication, $routeParams,blogsiteData) {
-    var vm = this,ueditor,
+  function articleEditCtrl($scope, $location, authentication, $routeParams, blogsiteData) {
+    var vm = this,
+      ueditor,
       queryStr = '';
     vm.article = {};
     vm.isLoggedIn = authentication.isLoggedIn();
@@ -32,15 +33,16 @@
 
     };
 
-    vm.ready=function(editor){
-      ueditor=editor; 
+    vm.ready = function(editor) {
+      ueditor = editor;
     };
 
     vm.saveBlog = function() {
-      var plaintxt=ueditor.getContentTxt();alert(plaintxt);
-      if (!vm.article.title || !vm.article.content){
+      var plaintxt = ueditor.getContentTxt();
+      alert(plaintxt);
+      if (!vm.article.title || !vm.article.content) {
         alert('title and content should not be empty');
-        return;//need to modify
+        return; //need to modify
       }
       //alert(vm.article.content);return;
       var postdata = {
@@ -51,22 +53,32 @@
         category: 'Movie|Tech' //need to modify
       };
 
-      postdata.brief=plaintxt?plaintxt.substr(0,50):vm.article.content.substr(0,50);
-      blogsiteData.saveBlog(postdata)
-        .success(function(data) {
-          $location.path('/#/blog/'+data._id);
+      postdata.brief = plaintxt ? plaintxt.substr(0, 50) : vm.article.content.substr(0, 50);
+      if (vm.blogid) {
+        blogsiteData.updateBlog(vm.blogid, postdata)
+          .success(function(data) {
+            $location.path('/blog/' + data._id);
+          })
+          .error(function(e) {
+            alert('save blog failed'); //need to modify
+          });
+      } else {
+        blogsiteData.saveBlog(postdata)
+          .success(function(data) {
+            $location.path('/blog/' + data._id);
 
-        })
-        .error(function(e) {
-          alert('save blog failed'); //need to modify
-        });
+          })
+          .error(function(e) {
+            alert('save blog failed'); //need to modify
+          });
+      }
     };
 
-    var getBlogDetail=function(blogid){
+    var getBlogDetail = function(blogid) {
       blogsiteData.getBlogDetail(blogid)
         .success(function(data) {
           vm.message = data ? "" : "No user found";
-          vm.article=data;
+          vm.article = data;
           //console.log(vm.article.length);
         })
         .error(function(e) {
@@ -74,11 +86,11 @@
         });
     };
 
-    vm.blogid=$routeParams.hasOwnProperty('blogid')?$routeParams.blogid:'';
+    vm.blogid = $routeParams.hasOwnProperty('blogid') ? $routeParams.blogid : '';
 
     if (vm.blogid) {
       getBlogDetail(vm.blogid);
     }
-  }
 
+  }
 })();

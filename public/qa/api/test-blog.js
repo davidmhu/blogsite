@@ -8,19 +8,20 @@ var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
 
-    var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
-        'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com'];//
-    //var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
-        //'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
-    var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
-    //var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
+    //var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
+    //'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com'];//
+    var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
+        'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'
+    ];
+    //var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
+    var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
     var token, randomInt = Math.floor(Math.random() * useremailArr.length),
         useremail = useremailArr[randomInt],
         username = usernameArr[randomInt],
         title = '',
         content = '',
-        blogid,commentid;
-    
+        blogid, commentid;
+
     //console.log('the new account is ' + useremail + ' and name is ' + username);
 
     describe('User login ', function() {
@@ -73,8 +74,8 @@ describe('Testing blog api:', function() {
         var postdata = {
             userEmail: useremail,
             title: title,
-            content: '<p>'+content+'</p>',
-            brief:content.substr(0,50),
+            content: '<p>' + content + '</p>',
+            brief: content.substr(0, 50),
             userName: username,
             category: category
         };
@@ -87,7 +88,7 @@ describe('Testing blog api:', function() {
                     }
                 },
                 function(error, response, body) {
-                    code = response.statusCode; 
+                    code = response.statusCode;
                     if (!error && response.statusCode == 201) {
                         result = body;
                         blogid = result._id;
@@ -107,12 +108,14 @@ describe('Testing blog api:', function() {
     describe('modify the blog ', function() {
         var queryCond;
         console.log('userEmail=' + useremail + '&title=' + title);
-        var modifiedContent='<p>modified: '+content+'</p>';
+        var modifiedContent = '<p>modified: ' + content + '</p>';
 
         before(function(done) {
             request.put('http://localhost:' + port + '/api/blog/' + blogid, {
-                json:{content:modifiedContent},
-                headers: {
+                    json: {
+                        content: modifiedContent
+                    },
+                    headers: {
                         Authorization: 'Bearer ' + token
                     }
                 },
@@ -131,7 +134,7 @@ describe('Testing blog api:', function() {
         it('should get code 200', function() {
             expect(code).to.equal(200);
         });
-    
+
     });
 
     describe('query new blog ', function() {
@@ -143,7 +146,7 @@ describe('Testing blog api:', function() {
                     code = response.statusCode;
                     if (!error && response.statusCode == 200) {
                         result = JSON.parse(body);
-                        blogid=result._id;
+                        blogid = result._id;
                         console.log(result._id);
 
                     } else {
@@ -156,27 +159,27 @@ describe('Testing blog api:', function() {
         it('should get code 200', function() {
             expect(code).to.equal(200);
         });
-    
+
     });
 
-    xdescribe('add a comment',function(){
-      var comment={
-        //userEmail:useremail,
-        //userName:username,
-        comment:'ddfkie first comment iik cmjd,ciicwweiqp ',
-      };
-      before(function(done) {
+    describe('add a comment', function() {
+        var comment = {
+            parentId: 0,
+            comment: 'ddfkie first comment iik cmjd,ciicwweiqp '
+        };
+        before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
-              json:comment,
-              headers: {
-                Authorization: 'Bearer ' + token
-              }
-            },
+                    json: comment,
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
                 function(error, response, body) {
                     code = response.statusCode;
                     if (!error && response.statusCode == 201) {
                         result = body;
-                        console.log(result.depth);
+                        commentid = result._id;
+                        console.log('commentid:' + commentid);
 
                     } else {
                         console.log(body.message);
@@ -185,27 +188,29 @@ describe('Testing blog api:', function() {
                 });
         });
 
-      it('should get code 201', function() {
+        it('should get code 201', function() {
             expect(code).to.equal(201);
         });
     });
 
-    xdescribe('add a second comment',function(){
-      var comment={
-        comment:'d,ciicww second comment eiqp kdiieikcuqtrpri',
-      };
-      before(function(done) {
+    describe('add the second comment and add a reply to it ', function() {
+        var comment = {
+            parentId: 0,
+            comment: 'ddfkie second comment iik cmjd,ciicwweiqp '
+        },code1=0,code2=0;
+        before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
-              json:comment,
-              headers: {
-                Authorization: 'Bearer ' + token
-              }
-            },
+                    json: comment,
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
                 function(error, response, body) {
-                    code = response.statusCode;
+                    code1 = response.statusCode;
                     if (!error && response.statusCode == 201) {
-                        result = body;commentid=result._id;
-                        console.log('comment id:'+result._id);
+                        result = body;
+                        commentid = result._id;
+                        console.log('commentid:' + commentid);
 
                     } else {
                         console.log(body.message);
@@ -214,27 +219,55 @@ describe('Testing blog api:', function() {
                 });
         });
 
-      it('should get code 201', function() {
-            expect(code).to.equal(201);
+
+        before(function(done) {
+            comment = {
+                comment: 'd,ciicww  the reply to second comment eiqp kdiieikcuqtrpri',
+                parentId: commentid
+            };
+            console.log(comment);
+
+            request.post('http://localhost:' + port + '/api/comment/' + blogid, {
+                    json: comment,
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
+                function(error, response, body) {
+                    code2 = response.statusCode;
+                    if (!error && response.statusCode == 201) {
+                        result = body;
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
+
+        it('should get code 201', function() {
+            expect(code1).to.equal(201);
+            expect(code2).to.equal(201);
         });
     });
 
-    xdescribe('add a third comment',function(){
-      var comment={
-        comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
-      };
-      before(function(done) {
+    describe('add a third comment', function() {
+        var comment = {
+            comment: 'd,ciicwweiqp kd a third comment ikcuqtrpri',
+            parentId: 0
+        };
+        before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
-              json:comment,
-              headers: {
-                Authorization: 'Bearer ' + token
-              }
-            },
+                    json: comment,
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
                 function(error, response, body) {
                     code = response.statusCode;
                     if (!error && response.statusCode == 201) {
                         result = body;
-                        console.log(result.depth);
+                        commentid = result._id;
+
 
                     } else {
                         console.log(body.message);
@@ -243,39 +276,36 @@ describe('Testing blog api:', function() {
                 });
         });
 
-      it('should get code 201', function() {
+        it('should get code 201', function() {
             expect(code).to.equal(201);
         });
     });
 
-    xdescribe('delete the  second comment',function(){
-      var comment={
-        comment:'d,ciicwweiqp kd a third comment ikcuqtrpri',
-      };
-      before(function(done) {
+    describe('delete the  third comment', function() {
+        before(function(done) {
             request.del('http://localhost:' + port + '/api/comment/' + commentid, {
-              headers: {
-                Authorization: 'Bearer ' + token
-              }
-            },
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
                 function(error, response, body) {
                     code = response.statusCode;
                     if (!error && response.statusCode == 200) {
                         result = body;
-                     } else {
+                    } else {
                         console.log(body.message);
                     }
                     done();
                 });
         });
 
-      it('should get code 200', function() {
+        it('should get code 200', function() {
             expect(code).to.equal(200);
         });
     });
 
-    xdescribe('get comments by blogid',function(){
-      before(function(done) {
+    describe('get comments by blogid', function() {
+        before(function(done) {
             request('http://localhost:' + port + '/api/comment/blog/' + blogid,
                 function(error, response, body) {
                     code = response.statusCode;
@@ -290,14 +320,14 @@ describe('Testing blog api:', function() {
                 });
         });
 
-      it('should get 2 comments', function() {
+        it('should get 2 comments', function() {
             expect(code).to.equal(200);
-            expect(result.length).to.equal(2);
+            expect(result.length).to.equal(3);
         });
     });
 
-    xdescribe('get comments by userEmail',function(){
-      before(function(done) {
+    describe('get comments by userEmail', function() {
+        before(function(done) {
             request('http://localhost:' + port + '/api/comment/user/' + useremail,
                 function(error, response, body) {
                     code = response.statusCode;
@@ -312,7 +342,7 @@ describe('Testing blog api:', function() {
                 });
         });
 
-      it('should get comments', function() {
+        it('should get comments', function() {
             expect(code).to.equal(200);
             expect(result.length).to.above(0);
         });

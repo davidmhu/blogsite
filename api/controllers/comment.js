@@ -61,7 +61,7 @@ module.exports.create= function(req, res) {
 	    }
 	  });
   }else{//this is a reply
-  	console.log('the reply');console.log(req.body.parentId);
+  	console.log(req.body.parentId);
   	Comment.findOne({_id:req.body.parentId})
   	.exec(function(err, parentComment) {
 		if (!parentComment) {
@@ -159,7 +159,7 @@ module.exports.readByBlogId= function(req, res) {
   Comment.find({blogitem_id:blogid})
   	.sort('-createdOn')
     .exec(function(err, commentList) {
-      if (!commentList && commentList.length) {
+      if (!commentList && commentList.hasOwnProperty('length')) {
         sendJSONresponse(res, 404, {
           "message": "comments not found"
         });

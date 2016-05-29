@@ -16,8 +16,7 @@
     console.log(cmtVm);
 
     var assemble = function(comments, map) {
-      var list = [],
-        child_comments = [];
+      var list = [],child_comments = [];
       comments.forEach(function(comment) {
         list.push(comment);
         child_comments = map[comment._id];

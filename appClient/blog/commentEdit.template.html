@@ -1,0 +1,25 @@
+
+      <div class="panel" ng-show="cmteditVm.commentList.length" ng-class=cmteditVm.blogid>
+         <div class="panel-heading">{{cmteditVm.commentList.length}} Comments</div>
+         <div class="panel-body">
+            <div class="media" ng-repeat="comment in cmteditVm.commentList" style= {{'margin-left:'+comment.depth*20+'px'}}>
+               <div class="media-left">
+                  <a href="#">
+                     <img src="app/img/user/01.jpg" class="media-object img-circle thumb64" />
+                  </a>
+               </div>
+               <div class="media-body">
+                  <h4 id="media-heading" class="media-heading"><a href="">{{cmteditVm.currentUser.email==comment.userEmail?'Me':comment.userName}}</a>
+                     <small>{{comment.createdOn | formatTime}}</small>
+                     <a href="#media-heading" class="anchorjs-link">
+                        <span class="anchorjs-icon"></span>
+                     </a>
+                  </h4>
+                  <div ng-show="cmteditVm.isLoggedIn" class="pull-right"><a type='button' ng-click="cmteditVm.deleteCommentOrReply(comment._id)" href="">Delete</a></div>
+                  <p>{{comment.content}}.</p>
+               </div>
+            </div>
+            <hr/>
+         </div>
+      </div>
+      

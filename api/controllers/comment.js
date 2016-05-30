@@ -159,7 +159,7 @@ module.exports.readByBlogId= function(req, res) {
   Comment.find({blogitem_id:blogid})
   	.sort('-createdOn')
     .exec(function(err, commentList) {
-      if (!commentList && commentList.hasOwnProperty('length')) {
+      if (!commentList || commentList.length<1) {
         sendJSONresponse(res, 404, {
           "message": "comments not found"
         });

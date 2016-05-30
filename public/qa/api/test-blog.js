@@ -8,13 +8,13 @@ var password = 'eat-the-living';
 
 describe('Testing blog api:', function() {
 
-    var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
-    'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com'];//
-    //var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
-       // 'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
+    //var useremailArr=['yuaizhang16-05-03153040@blogsite.com','laidinggan16-05-04113444@blogsite.com',
+    //  'yuzhaochang16-05-03111715@blogsite.com','jiaojianfu16-05-04105439@blogsite.com','yunweimao16-05-03114127@blogsite.com','davidhu@163.com'];//
+    var useremailArr = ['shujieshu16-05-03215510@blogsite.com', 'ekongmei16-05-09185553@blogsite.com',
+        'fanWenxuan@blogsite.com', 'jianyingshan16-05-09205518@blogsite.com', 'davidhu@163.com'];
     
-    var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
-    //var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
+    //var usernameArr=['毓哀漳','濑玎甘','于找鲳','娇箭腹','郓威昴','david'];
+    var usernameArr = ['树桔菽', '厄箜每', '范文暄', '锏颖鳝', 'david'];
     var token, randomInt = Math.floor(Math.random() * useremailArr.length),
         useremail = useremailArr[randomInt],
         username = usernameArr[randomInt],
@@ -254,7 +254,7 @@ describe('Testing blog api:', function() {
         var comment = {
             comment: 'd,ciicwweiqp kd a third comment ikcuqtrpri',
             parentId: 0
-        };
+        },thirdid,code1=0,code2=0;
         before(function(done) {
             request.post('http://localhost:' + port + '/api/comment/' + blogid, {
                     json: comment,
@@ -263,10 +263,10 @@ describe('Testing blog api:', function() {
                     }
                 },
                 function(error, response, body) {
-                    code = response.statusCode;
+                    code1 = response.statusCode;
                     if (!error && response.statusCode == 201) {
                         result = body;
-                        commentid = result._id;
+                        thirdid = result._id;
 
 
                     } else {
@@ -276,12 +276,36 @@ describe('Testing blog api:', function() {
                 });
         });
 
+        before(function(done) {
+            comment = {
+                comment: 'd,ciicww  the reply to third comment eiqp kdiieikcuqtrpri',
+                parentId: thirdid
+            };
+            console.log(comment);
+
+            request.post('http://localhost:' + port + '/api/comment/' + blogid, {
+                    json: comment,
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                },
+                function(error, response, body) {
+                    code2 = response.statusCode;
+                    if (!error && response.statusCode == 201) {
+                        result = body;
+                    } else {
+                        console.log(body.message);
+                    }
+                    done();
+                });
+        });
         it('should get code 201', function() {
-            expect(code).to.equal(201);
+            expect(code1).to.equal(201);
+            expect(code2).to.equal(201);
         });
     });
 
-    describe('delete the  third comment', function() {
+    describe('delete the  second comment and its reply', function() {
         before(function(done) {
             request.del('http://localhost:' + port + '/api/comment/' + commentid, {
                     headers: {

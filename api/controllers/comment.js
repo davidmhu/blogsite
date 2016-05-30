@@ -102,7 +102,10 @@ module.exports.delete= function(req, res) {
     });
     return;
   }
-  Comment.remove({_id:id})
+  Comment.find({
+    '$or':[{_id:id},{path:{'$regex':'^'+id}}]
+  }).
+    remove()
     .exec(function(err, comment) {
       if (!comment) {
         sendJSONresponse(res, 404, {

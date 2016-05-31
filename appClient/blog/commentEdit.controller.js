@@ -48,6 +48,7 @@
         child_map = [],
         matches = [],
         parent_id;
+      cmteditVm.commentList=[];
       blogsiteData.getCommentList(blogid)
         .success(function(data) {
           //cmteditVm.commentList=data;
@@ -73,6 +74,7 @@
           cmteditVm.message = "Sorry, something's gone wrong,get comment failed, please try again later";
         });
     };
-     getComments(blogid);
+
+    getComments(blogid);
   }
 })();

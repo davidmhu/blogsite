@@ -14,6 +14,8 @@
         vm.isLoggedIn = authentication.isLoggedIn();
         vm.currentUser = authentication.currentUser();
         vm.config = {
+            autoHeightEnabled: true,
+            serverUrl:'http://localhost:3100/ueditor/ue',//need to modify
             toolbars: [
                 [
                     'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -28,9 +30,7 @@
                     'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
                     'searchreplace', 'help', 'drafts'
                 ]
-            ],
-            autoHeightEnabled: true
-
+            ]
         };
 
         vm.ready = function(editor) {
@@ -110,10 +110,8 @@
                 });
         };
 
-
         if (vm.blogid) {
             getBlogDetail(vm.blogid);
-
         }
 
     }

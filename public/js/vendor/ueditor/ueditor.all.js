@@ -8059,7 +8059,7 @@ UE.Editor.defaultOptions = function(editor){
 
                 /* 发出ajax请求 */
                 me._serverConfigLoaded = false;
-
+                
                 configUrl && UE.ajax.request(configUrl,{
                     'method': 'GET',
                     'dataType': isJsonp ? 'jsonp':'',
